@@ -2,7 +2,7 @@
 using System.Net.Mail;
 using System.Text.RegularExpressions;
 
-namespace Softmax.Utilities
+namespace Dtat.Utilities
 {
 	public class Validation
 	{

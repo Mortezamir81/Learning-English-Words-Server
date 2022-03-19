@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
-namespace Softmax.Data.EntityFrameworkCore
+namespace Dtat.Data.EntityFrameworkCore
 {
 	public abstract class UnitOfWork<TDbContext> :
 		IUnitOfWork where TDbContext : Microsoft.EntityFrameworkCore.DbContext

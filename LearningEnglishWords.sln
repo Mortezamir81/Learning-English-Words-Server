@@ -19,15 +19,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Resources", "Resources\Resources.csproj", "{828DF776-608D-43BF-8133-6045CE922910}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Softmax.Data", "Softmax Libraries\Softmax.Data\Softmax.Data.csproj", "{B3B48669-FDB0-40D6-8190-E6C92A183344}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dtat.Data", "Softmax Libraries\Softmax.Data\Dtat.Data.csproj", "{B3B48669-FDB0-40D6-8190-E6C92A183344}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Softmax.Data.EntityFrameworkCore", "Softmax Libraries\Softmax.Data.EntityFrameworkCore\Softmax.Data.EntityFrameworkCore.csproj", "{FF998A4E-6AF8-4A8B-B005-6BA12ED6FE77}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dtat.Data.EntityFrameworkCore", "Softmax Libraries\Softmax.Data.EntityFrameworkCore\Dtat.Data.EntityFrameworkCore.csproj", "{FF998A4E-6AF8-4A8B-B005-6BA12ED6FE77}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Softmax.Logging", "Softmax Libraries\Softmax.Logging\Softmax.Logging.csproj", "{76EF36AE-5F11-4699-8ADE-74C4DBE33DF6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dtat.Logging", "Softmax Libraries\Softmax.Logging\Dtat.Logging.csproj", "{76EF36AE-5F11-4699-8ADE-74C4DBE33DF6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Softmax.Logging.NLog", "Softmax Libraries\Softmax.Logging.NLog\Softmax.Logging.NLog.csproj", "{582ED0FE-1D88-422A-9BCA-EAC44B6BEE5F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dtat.Logging.NLog", "Softmax Libraries\Softmax.Logging.NLog\Dtat.Logging.NLog.csproj", "{582ED0FE-1D88-422A-9BCA-EAC44B6BEE5F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Softmax.Result", "Softmax Libraries\Softmax.Result\Softmax.Result.csproj", "{70330AAD-0B3F-4D48-87DD-B21FFB0F03CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dtat.Result", "Softmax Libraries\Softmax.Result\Dtat.Result.csproj", "{70330AAD-0B3F-4D48-87DD-B21FFB0F03CD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Softmax.Utilities.Log", "Softmax Libraries\Softmax.Utilities.Log\Softmax.Utilities.Log.csproj", "{79960C75-23B8-480B-8EBC-D3023830C33C}"
 EndProject

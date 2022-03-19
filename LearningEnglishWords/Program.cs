@@ -59,8 +59,8 @@ builder.Services.AddCors(options =>
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped
-	(serviceType: typeof(Softmax.Logging.ILogger<>),
-		implementationType: typeof(Softmax.Logging.NLog.NLogAdapter<>));
+	(serviceType: typeof(Dtat.Logging.ILogger<>),
+		implementationType: typeof(Dtat.Logging.NLog.NLogAdapter<>));
 
 builder.Services.AddScoped<Persistence.IUnitOfWork, Persistence.UnitOfWork>();
 

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ViewModels.Requests;
 using ViewModels.Responses;
-using Softmax.Logging;
+using Dtat.Logging;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
@@ -46,13 +46,13 @@ namespace Services
 		#endregion /Properties
 
 		#region Methods
-		public async Task<Softmax.Results.Result
+		public async Task<Dtat.Results.Result
 			<List<GetAllNotificationResponseViewModel>>> GetAllNotificationsAsync()
 		{
 			try
 			{
 				var result =
-					new Softmax.Results.Result<List<GetAllNotificationResponseViewModel>>();
+					new Dtat.Results.Result<List<GetAllNotificationResponseViewModel>>();
 
 				UserInformationInToken user = null;
 
@@ -108,7 +108,7 @@ namespace Services
 				await Logger.LogCritical(exception: ex, message: ex.Message);
 
 				var result =
-					new Softmax.Results.Result<List<GetAllNotificationResponseViewModel>>();
+					new Dtat.Results.Result<List<GetAllNotificationResponseViewModel>>();
 
 				result.AddErrorMessage(errorMessage);
 
@@ -117,7 +117,7 @@ namespace Services
 
 		}
 
-		public async Task<Softmax.Results.Result> SendNotificationForAllUserAsync
+		public async Task<Dtat.Results.Result> SendNotificationForAllUserAsync
 			(SendNotificationForAllUserRequestViewModel sendNotificationForAllUserRequestViewModel)
 		{
 			try
@@ -176,7 +176,7 @@ namespace Services
 				await Logger.LogCritical(exception: ex, message: ex.Message);
 
 				var result =
-					new Softmax.Results.Result<List<GetAllNotificationResponseViewModel>>();
+					new Dtat.Results.Result<List<GetAllNotificationResponseViewModel>>();
 
 				result.AddErrorMessage(errorMessage);
 
@@ -185,7 +185,7 @@ namespace Services
 
 		}
 
-		public async Task<Softmax.Results.Result> SendNotificationForSpeceficUserAsync
+		public async Task<Dtat.Results.Result> SendNotificationForSpeceficUserAsync
 			(SendNotificationForSpeceficUserRequestViewModel sendNotificationForSpeceficUserRequestViewModel)
 		{
 			try
@@ -240,7 +240,7 @@ namespace Services
 				await Logger.LogCritical(exception: ex, message: ex.Message);
 
 				var result =
-					new Softmax.Results.Result<List<GetAllNotificationResponseViewModel>>();
+					new Dtat.Results.Result<List<GetAllNotificationResponseViewModel>>();
 
 				result.AddErrorMessage(errorMessage);
 
@@ -249,12 +249,12 @@ namespace Services
 
 		}
 
-		public async Task<Softmax.Results.Result> RemoveNotificationAsync(Guid notificationId)
+		public async Task<Dtat.Results.Result> RemoveNotificationAsync(Guid notificationId)
 		{
 			try
 			{
 				var result =
-					new Softmax.Results.Result();
+					new Dtat.Results.Result();
 
 				UserInformationInToken user = null;
 
@@ -307,7 +307,7 @@ namespace Services
 				await Logger.LogCritical(exception: ex, message: ex.Message);
 
 				var result =
-					new Softmax.Results.Result();
+					new Dtat.Results.Result();
 
 				result.AddErrorMessage(errorMessage);
 
@@ -316,7 +316,7 @@ namespace Services
 
 		}
 
-		public async Task<Softmax.Results.Result> AddTicketAsync(AddTicketRequestViewModel addTicketRequestViewModel)
+		public async Task<Dtat.Results.Result> AddTicketAsync(AddTicketRequestViewModel addTicketRequestViewModel)
 		{
 			try
 			{
@@ -370,7 +370,7 @@ namespace Services
 				await Logger.LogCritical(exception: ex, message: ex.Message);
 
 				var result =
-					new Softmax.Results.Result();
+					new Dtat.Results.Result();
 
 				result.AddErrorMessage(errorMessage);
 
@@ -379,12 +379,12 @@ namespace Services
 
 		}
 
-		public async Task<Softmax.Results.Result<ApplicationVersions>> GetLastVersionOfWPFAsync()
+		public async Task<Dtat.Results.Result<ApplicationVersions>> GetLastVersionOfWPFAsync()
 		{
 			try
 			{
 				var result =
-					new Softmax.Results.Result<ApplicationVersions>();
+					new Dtat.Results.Result<ApplicationVersions>();
 
 				var response =
 				await DatabaseContext.ApplicationVersions
@@ -410,7 +410,7 @@ namespace Services
 				await Logger.LogCritical(exception: ex, message: ex.Message);
 
 				var result =
-					new Softmax.Results.Result<ApplicationVersions>();
+					new Dtat.Results.Result<ApplicationVersions>();
 
 				result.AddErrorMessage(errorMessage);
 

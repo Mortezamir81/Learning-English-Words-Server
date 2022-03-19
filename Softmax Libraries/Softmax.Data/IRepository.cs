@@ -1,4 +1,4 @@
-﻿namespace Softmax.Data
+﻿namespace Dtat.Data
 {
 	public interface IRepository<T> where T : class
 	{

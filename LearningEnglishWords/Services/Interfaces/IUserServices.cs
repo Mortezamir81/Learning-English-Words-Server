@@ -10,25 +10,25 @@ namespace Services
 	{
 		Task<Users> GetByUsernameAsync(string username);
 
-		Task<Softmax.Results.Result> LogoutAsync(string token);
+		Task<Dtat.Results.Result> LogoutAsync(string token);
 
-		Task<Softmax.Results.Result> RegisterAsync
+		Task<Dtat.Results.Result> RegisterAsync
 			(RegisterRequestViewModel registerRequestViewModel);
 
-		Task<Softmax.Results.Result> DeleteUsersAsync
+		Task<Dtat.Results.Result> DeleteUsersAsync
 			(DeleteUserRequestViewModel deleteUserRequestViewModel);
 
-		Task<Softmax.Results.Result> UpdateUserAsync
+		Task<Dtat.Results.Result> UpdateUserAsync
 			(UpdateUserRequestViewModel updateUserRequestViewModel);
 
-		Task<Softmax.Results.Result<List<Users>>> GetAllUsersAsync();
+		Task<Dtat.Results.Result<List<Users>>> GetAllUsersAsync();
 
-		Task<Softmax.Results.Result>
+		Task<Dtat.Results.Result>
 			ChangeUserRoleAsync(ChangeUserRoleRequestViewModel changeUserRoleRequestViewModel);
 
-		Task<Softmax.Results.Result<LoginResponseViewModel>>
+		Task<Dtat.Results.Result<LoginResponseViewModel>>
 			LoginAsync(LoginRequestViewModel loginRequestViewModel, string ipAddress);
 
-		Task<Softmax.Results.Result<LoginResponseViewModel>> RefreshTokenAsync(string token, string ipAddress);
+		Task<Dtat.Results.Result<LoginResponseViewModel>> RefreshTokenAsync(string token, string ipAddress);
 	}
 }

@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Softmax.Data\Softmax.Data.csproj" />
+    <ProjectReference Include="..\Softmax.Data\Dtat.Data.csproj" />
   </ItemGroup>
 
 </Project>

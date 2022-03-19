@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Persistence.Repositories
 {
-	public interface INotificationsRepository : Softmax.Data.IRepository<Notifications>
+	public interface INotificationsRepository : Dtat.Data.IRepository<Notifications>
 	{
 		Task<List<Notifications>> GetAllNotification(Guid userId);
 

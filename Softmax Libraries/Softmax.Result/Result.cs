@@ -1,6 +1,6 @@
 ﻿using Dtat;
 
-namespace Softmax.Results
+namespace Dtat.Results
 {
 	public class Result : object
 	{

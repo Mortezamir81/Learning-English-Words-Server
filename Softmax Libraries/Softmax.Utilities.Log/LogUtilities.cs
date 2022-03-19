@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Softmax.Logging;
+using Dtat.Logging;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace Softmax.Utilities
+namespace Dtat.Utilities
 {
 	public class LogUtilities
 	{

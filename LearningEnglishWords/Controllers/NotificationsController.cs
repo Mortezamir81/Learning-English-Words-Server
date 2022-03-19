@@ -5,11 +5,11 @@ using Infrustructrue.Enums;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Services;
-using Softmax.Logging;
+using Dtat.Logging;
 using System;
 using System.Threading.Tasks;
 using ViewModels.Requests;
-using Softmax.Results;
+using Dtat.Results;
 using Domain.Entities;
 
 namespace Server.Controllers

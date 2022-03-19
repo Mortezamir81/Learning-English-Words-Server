@@ -7,7 +7,7 @@ using Infrustructrue;
 using Services;
 using ViewModels.Requests;
 using ViewModels.Responses;
-using Softmax.Logging;
+using Dtat.Logging;
 using Infrustructrue.Attributes;
 using Infrustructrue.Enums;
 
@@ -34,7 +34,7 @@ namespace Server.Controllers
 		#region HttpGet
 		[Authorize(UserRoles.Admin)]
 		[HttpGet("GetAllUsers")]
-		public async Task<ActionResult<Softmax.Results.Result<List<Users>>>> GetAllUsers()
+		public async Task<ActionResult<Dtat.Results.Result<List<Users>>>> GetAllUsers()
 		{
 			var result =
 				await UserServices.GetAllUsersAsync();
@@ -48,7 +48,7 @@ namespace Server.Controllers
 
 		#region HttpPost
 		[HttpPost("Login")]
-		public async Task<ActionResult<Softmax.Results.Result<LoginResponseViewModel>>>
+		public async Task<ActionResult<Dtat.Results.Result<LoginResponseViewModel>>>
 			LoginAsync([FromBody] LoginRequestViewModel viewModel)
 		{
 			var response = 
@@ -62,7 +62,7 @@ namespace Server.Controllers
 
 
 		[HttpPost("Register")]
-		public async Task<ActionResult<Softmax.Results.Result>>
+		public async Task<ActionResult<Dtat.Results.Result>>
 			RegisterAccount([FromBody] RegisterRequestViewModel registerRequestViewModel)
 		{
 			var result =
@@ -77,7 +77,7 @@ namespace Server.Controllers
 
 		[Authorize(UserRoles.Admin)]
 		[HttpPost("UpdateUser")]
-		public async Task<ActionResult<Softmax.Results.Result>>
+		public async Task<ActionResult<Dtat.Results.Result>>
 			UpdateUserAsync([FromBody] UpdateUserRequestViewModel updateUserRequestViewModel)
 		{
 			var result =
@@ -91,7 +91,7 @@ namespace Server.Controllers
 
 
 		[HttpDelete("Logout/{refreshToken}")]
-		public async Task<ActionResult<Softmax.Results.Result>> LogoutToken(string refreshToken)
+		public async Task<ActionResult<Dtat.Results.Result>> LogoutToken(string refreshToken)
 		{
 			var response = await
 				UserServices.LogoutAsync(refreshToken);
@@ -105,7 +105,7 @@ namespace Server.Controllers
 
 		[Authorize(UserRoles.Admin)]
 		[HttpPost("ChangeUserRole")]
-		public async Task<ActionResult<Softmax.Results.Result>>
+		public async Task<ActionResult<Dtat.Results.Result>>
 			ChangeUserRoleAsync([FromBody] ChangeUserRoleRequestViewModel changeUserRoleRequestViewModel)
 		{
 			var result =
@@ -119,7 +119,7 @@ namespace Server.Controllers
 
 
 		[HttpPost("RefreshToken/{refreshToken?}")]
-		public async Task<ActionResult<Softmax.Results.Result<LoginResponseViewModel>>> RefreshToken(string refreshToken)
+		public async Task<ActionResult<Dtat.Results.Result<LoginResponseViewModel>>> RefreshToken(string refreshToken)
 		{
 			var response =
 				await UserServices.RefreshTokenAsync(token: refreshToken, ipAddress: GetIPAddress());

@@ -7,7 +7,7 @@ using Domain.Entities;
 namespace Persistence.Repositories
 {
 	public class UsersRepository :
-		Softmax.Data.EntityFrameworkCore.Repository<Users>, IUsersRepository
+		Dtat.Data.EntityFrameworkCore.Repository<Users>, IUsersRepository
 	{
 		public UsersRepository(DatabaseContext databaseContext) : base(databaseContext: databaseContext)
 		{

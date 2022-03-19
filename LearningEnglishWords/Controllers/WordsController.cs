@@ -5,7 +5,7 @@ using Infrustructrue.Enums;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Services;
-using Softmax.Logging;
+using Dtat.Logging;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ViewModels.Requests;

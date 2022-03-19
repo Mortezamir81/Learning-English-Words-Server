@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using NLog;
 
-namespace Softmax.Logging.NLog
+namespace Dtat.Logging.NLog
 {
 	public class NLogAdapter<T> : Logger<T> where T : class
 	{

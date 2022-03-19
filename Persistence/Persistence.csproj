@@ -19,8 +19,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
-    <ProjectReference Include="..\Softmax Libraries\Softmax.Data.EntityFrameworkCore\Softmax.Data.EntityFrameworkCore.csproj" />
-    <ProjectReference Include="..\Softmax Libraries\Softmax.Data\Softmax.Data.csproj" />
+    <ProjectReference Include="..\Softmax Libraries\Softmax.Data.EntityFrameworkCore\Dtat.Data.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\Softmax Libraries\Softmax.Data\Dtat.Data.csproj" />
     <ProjectReference Include="..\ViewModels\ViewModels.csproj" />
   </ItemGroup>
 

@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Softmax.Logging\Softmax.Logging.csproj" />
+    <ProjectReference Include="..\Softmax.Logging\Dtat.Logging.csproj" />
   </ItemGroup>
 
 </Project>

@@ -10,10 +10,10 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using ViewModels.Requests;
 using ViewModels.Responses;
-using Softmax.Logging;
+using Dtat.Logging;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
-using Softmax.Utilities;
+using Dtat.Utilities;
 using System.Collections;
 using Microsoft.EntityFrameworkCore;
 
@@ -49,7 +49,7 @@ namespace Services
 
 		#region Methods
 		//LoginAsync
-		public async Task<Softmax.Results.Result<LoginResponseViewModel>>
+		public async Task<Dtat.Results.Result<LoginResponseViewModel>>
 			LoginAsync(LoginRequestViewModel loginRequestViewModel, string ipAddress)
 		{
 			Hashtable properties = null;
@@ -68,7 +68,7 @@ namespace Services
 					return result;
 
 				var hashedPassword =
-					Softmax.Utilities.Security.HashDataBySHA1(loginRequestViewModel.Password);
+					Dtat.Utilities.Security.HashDataBySHA1(loginRequestViewModel.Password);
 
 				Users foundedUser =
 					await UnitOfWork.UserRepository.LoginAsync
@@ -144,7 +144,7 @@ namespace Services
 					(Resources.Messages.ErrorMessages.UnkonwnError);
 
 				var result =
-					new Softmax.Results.Result<LoginResponseViewModel>();
+					new Dtat.Results.Result<LoginResponseViewModel>();
 
 				result.AddErrorMessage(errorMessage);
 
@@ -155,7 +155,7 @@ namespace Services
 
 
 		//RefreshTokenAsync
-		public async Task<Softmax.Results.Result<LoginResponseViewModel>>
+		public async Task<Dtat.Results.Result<LoginResponseViewModel>>
 			RefreshTokenAsync(string refreshToken, string ipAddress)
 		{
 			var result =
@@ -241,7 +241,7 @@ namespace Services
 
 
 		//LogoutAsync
-		public async Task<Softmax.Results.Result> LogoutAsync(string token)
+		public async Task<Dtat.Results.Result> LogoutAsync(string token)
 		{
 			var result =
 				 LogoutValidation(token);
@@ -288,7 +288,7 @@ namespace Services
 
 
 		//RegisterAsync
-		public async Task<Softmax.Results.Result>
+		public async Task<Dtat.Results.Result>
 			RegisterAsync(RegisterRequestViewModel registerRequestViewModel)
 		{
 			Hashtable properties = null;
@@ -332,7 +332,7 @@ namespace Services
 					(Resources.Messages.ErrorMessages.UnkonwnError);
 
 				var result =
-					new Softmax.Results.Result();
+					new Dtat.Results.Result();
 
 				result.AddErrorMessage(errorMessage);
 
@@ -342,7 +342,7 @@ namespace Services
 
 
 		//ChangeUserRoleAsync
-		public async Task<Softmax.Results.Result>
+		public async Task<Dtat.Results.Result>
 			ChangeUserRoleAsync(ChangeUserRoleRequestViewModel changeUserRoleRequestViewModel)
 		{
 			Hashtable properties = null;
@@ -393,7 +393,7 @@ namespace Services
 			catch (Exception ex)
 			{
 				var result =
-					new Softmax.Results.Result();
+					new Dtat.Results.Result();
 
 				if (ex.InnerException != null && ex.InnerException.Message.Contains("The conflict occurred"))
 				{
@@ -432,7 +432,7 @@ namespace Services
 
 
 		//UpdateUser
-		public async Task<Softmax.Results.Result> UpdateUserAsync
+		public async Task<Dtat.Results.Result> UpdateUserAsync
 			(UpdateUserRequestViewModel updateUserRequestViewModel)
 		{
 			Hashtable properties = null;
@@ -486,7 +486,7 @@ namespace Services
 
 				if (isEmailUpdate == true)
 				{
-					if (Softmax.Utilities.Validation.CheckEmailValid(updateUserRequestViewModel.Email) == false)
+					if (Dtat.Utilities.Validation.CheckEmailValid(updateUserRequestViewModel.Email) == false)
 					{
 						string errorMessage = string.Format
 							(Resources.Messages.ErrorMessages.InvalidEmailStructure);
@@ -549,7 +549,7 @@ namespace Services
 						(exception: ex, ex.Message, parameters: properties);
 
 				var response =
-					new Softmax.Results.Result();
+					new Dtat.Results.Result();
 
 				string errorMessage = string.Format
 					(Resources.Messages.ErrorMessages.UnkonwnError);
@@ -562,7 +562,7 @@ namespace Services
 
 
 		//DeleteUsersAsync
-		public async Task<Softmax.Results.Result> DeleteUsersAsync
+		public async Task<Dtat.Results.Result> DeleteUsersAsync
 			(DeleteUserRequestViewModel deleteUserRequestViewModel)
 		{
 			Hashtable properties = null;
@@ -613,7 +613,7 @@ namespace Services
 						(exception: ex, ex.Message, parameters: properties);
 
 				var response =
-					new Softmax.Results.Result();
+					new Dtat.Results.Result();
 
 				string errorMessage = string.Format
 					(Resources.Messages.ErrorMessages.UnkonwnError);
@@ -626,7 +626,7 @@ namespace Services
 
 
 		//GetAllUsersAsync
-		public async Task<Softmax.Results.Result<List<Users>>> GetAllUsersAsync()
+		public async Task<Dtat.Results.Result<List<Users>>> GetAllUsersAsync()
 		{
 			try
 			{
@@ -641,7 +641,7 @@ namespace Services
 					;
 
 				var response =
-					new Softmax.Results.Result<List<Users>>();
+					new Dtat.Results.Result<List<Users>>();
 
 				if (result != null)
 				{
@@ -679,7 +679,7 @@ namespace Services
 				await Logger.LogCritical(exception: ex, ex.Message);
 
 				var response =
-					new Softmax.Results.Result<List<Users>>();
+					new Dtat.Results.Result<List<Users>>();
 
 				string errorMessage = string.Format
 					(Resources.Messages.ErrorMessages.UnkonwnError);

@@ -5,11 +5,11 @@ namespace Services
 	public partial class NotificationServices
 	{
 		#region Check Validation Methods
-		public Softmax.Results.Result AddTicketValidation
+		public Dtat.Results.Result AddTicketValidation
 			(AddTicketRequestViewModel addTicketRequestViewModel)
 		{
 			var result =
-				new Softmax.Results.Result();
+				new Dtat.Results.Result();
 
 			if (string.IsNullOrWhiteSpace(addTicketRequestViewModel.Message))
 			{
@@ -31,11 +31,11 @@ namespace Services
 
 			return result;
 		}
-		public Softmax.Results.Result SendNotificationForAllUserValidation
+		public Dtat.Results.Result SendNotificationForAllUserValidation
 			(SendNotificationForAllUserRequestViewModel sendNotificationForAllUserRequestViewModel)
 		{
 			var result =
-				new Softmax.Results.Result();
+				new Dtat.Results.Result();
 
 			if (sendNotificationForAllUserRequestViewModel == null)
 			{
@@ -93,11 +93,11 @@ namespace Services
 			return result;
 		}
 
-		public Softmax.Results.Result SendNotificationForSpeceficUserValidation
+		public Dtat.Results.Result SendNotificationForSpeceficUserValidation
 			(SendNotificationForSpeceficUserRequestViewModel sendNotificationForSpeceficUserRequestViewModel)
 		{
 			var result =
-				new Softmax.Results.Result();
+				new Dtat.Results.Result();
 
 			if (sendNotificationForSpeceficUserRequestViewModel == null)
 			{

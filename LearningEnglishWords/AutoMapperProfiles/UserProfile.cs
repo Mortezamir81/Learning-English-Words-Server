@@ -11,7 +11,7 @@ namespace Infrustructrue.AutoMapperProfiles
 
 			CreateMap<RegisterRequestViewModel, Domain.Entities.Users>()
 				.ForMember(dest => dest.Password, opt => opt.MapFrom
-					(src => Softmax.Utilities.Security.HashDataBySHA1(src.Password)));
+					(src => Dtat.Utilities.Security.HashDataBySHA1(src.Password)));
 
 			CreateMap<Domain.Entities.Users, UpdateUserRequestViewModel>();
 

@@ -1,4 +1,4 @@
-﻿namespace Softmax.Results
+﻿namespace Dtat.Results
 {
 	public static class ResultExtensions
 	{

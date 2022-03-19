@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Softmax.Results
+namespace Dtat.Results
 {
 	public class ResponseResult
 	{

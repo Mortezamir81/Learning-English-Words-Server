@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 namespace Persistence
 {
 	public class UnitOfWork :
-		Softmax.Data.EntityFrameworkCore.UnitOfWork<DatabaseContext>, IUnitOfWork
+		Dtat.Data.EntityFrameworkCore.UnitOfWork<DatabaseContext>, IUnitOfWork
 	{
 		public UnitOfWork(DatabaseContext databaseContext) : base(databaseContext)
 		{

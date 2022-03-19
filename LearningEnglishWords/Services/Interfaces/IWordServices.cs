@@ -8,24 +8,24 @@ namespace Services
 {
 	public interface IWordServices
 	{
-		Task<Softmax.Results.Result> RemoveWord(string word);
+		Task<Dtat.Results.Result> RemoveWord(string word);
 
-		Task<Softmax.Results.Result> AddNewWord
+		Task<Dtat.Results.Result> AddNewWord
 			(AddWordRequestViewModel addWordRequestViewModel);
 
-		Task<Softmax.Results.Result<List<GetExamResponseViewModel>>>
+		Task<Dtat.Results.Result<List<GetExamResponseViewModel>>>
 			GetExam(GetExamRequestViewModel getExamRequestViewModel);
 
-		Task<Softmax.Results.Result> UpdateWord(AddWordRequestViewModel word);
+		Task<Dtat.Results.Result> UpdateWord(AddWordRequestViewModel word);
 
-		Task<Softmax.Results.Result<List<GetWordResponseViewModel>>>
+		Task<Dtat.Results.Result<List<GetWordResponseViewModel>>>
 			GetAllWords(GetAllWordsRequestViewModel getAllWordsRequestViewModel);
 
-		Task<Softmax.Results.Result<GetWordResponseViewModel>> GetWord(string word);
+		Task<Dtat.Results.Result<GetWordResponseViewModel>> GetWord(string word);
 
-		Task<Softmax.Results.Result<RecentLearnedResponseViewModel>> GetRecentLearningWords();
+		Task<Dtat.Results.Result<RecentLearnedResponseViewModel>> GetRecentLearningWords();
 
-		Task<Softmax.Results.Result<ExamProcessingResponseViewModel>>
+		Task<Dtat.Results.Result<ExamProcessingResponseViewModel>>
 			ExamProcessing(List<ExamProcessingRequestViewModel> examProcessingRequestViewModels);
 	}
 }

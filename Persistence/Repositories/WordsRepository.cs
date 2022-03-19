@@ -9,7 +9,7 @@ using ViewModels.Responses;
 
 namespace Persistence.Repositories
 {
-	public class WordsRepository : Softmax.Data.EntityFrameworkCore.Repository<Words>, IWordsRepository
+	public class WordsRepository : Dtat.Data.EntityFrameworkCore.Repository<Words>, IWordsRepository
 	{
 		public WordsRepository(DatabaseContext databaseContext) : base(databaseContext)
 		{

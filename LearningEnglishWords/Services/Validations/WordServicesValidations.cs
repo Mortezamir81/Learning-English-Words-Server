@@ -1,4 +1,4 @@
-﻿using Softmax.Results;
+﻿using Dtat.Results;
 using System.Collections.Generic;
 using ViewModels.Requests;
 using ViewModels.Responses;
@@ -13,7 +13,7 @@ namespace Services
 			(AddWordRequestViewModel addWordRequestViewModel)
 		{
 			var result =
-				new Softmax.Results.Result();
+				new Dtat.Results.Result();
 
 			if (addWordRequestViewModel == null)
 			{
@@ -76,7 +76,7 @@ namespace Services
 		public Result UpdateWordValidation(AddWordRequestViewModel word)
 		{
 			var result =
-				new Softmax.Results.Result();
+				new Dtat.Results.Result();
 
 			if (word == null)
 			{
@@ -139,7 +139,7 @@ namespace Services
 		public Result<GetWordResponseViewModel> GetWordValidation(string word)
 		{
 			var result =
-				new Softmax.Results.Result<GetWordResponseViewModel>();
+				new Dtat.Results.Result<GetWordResponseViewModel>();
 
 			if (string.IsNullOrWhiteSpace(word))
 			{
@@ -156,7 +156,7 @@ namespace Services
 			GetExamValidation(GetExamRequestViewModel getExamRequestViewModel)
 		{
 			var result =
-				new Softmax.Results.Result<List<GetExamResponseViewModel>>();
+				new Dtat.Results.Result<List<GetExamResponseViewModel>>();
 
 			if (getExamRequestViewModel.QuestionsCount < 1 || getExamRequestViewModel.QuestionsCount > 100)
 			{
@@ -173,7 +173,7 @@ namespace Services
 			ExamProcessingValidation(List<ExamProcessingRequestViewModel> examProcessingRequestViewModels)
 		{
 			var result =
-				new Softmax.Results.Result<ExamProcessingResponseViewModel>();
+				new Dtat.Results.Result<ExamProcessingResponseViewModel>();
 
 			if (examProcessingRequestViewModels == null || examProcessingRequestViewModels.Count == 0)
 			{

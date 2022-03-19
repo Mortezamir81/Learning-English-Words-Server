@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Persistence.Repositories
 {
 	public class NotificationsRepository :
-		Softmax.Data.EntityFrameworkCore.Repository<Notifications>, INotificationsRepository
+		Dtat.Data.EntityFrameworkCore.Repository<Notifications>, INotificationsRepository
 	{
 		public NotificationsRepository(DatabaseContext databaseContext) : base(databaseContext)
 		{

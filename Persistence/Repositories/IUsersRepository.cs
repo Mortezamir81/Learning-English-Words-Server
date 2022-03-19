@@ -4,7 +4,7 @@ using Domain.Entities;
 
 namespace Persistence.Repositories
 {
-	public interface IUsersRepository : Softmax.Data.IRepository<Users>
+	public interface IUsersRepository : Dtat.Data.IRepository<Users>
 	{
 		Task UpdateUserAsync(Users users);
 

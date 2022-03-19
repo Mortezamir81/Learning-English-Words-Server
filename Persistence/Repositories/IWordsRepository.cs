@@ -7,7 +7,7 @@ using ViewModels.Responses;
 
 namespace Persistence.Repositories
 {
-	public interface IWordsRepository : Softmax.Data.IRepository<Words>
+	public interface IWordsRepository : Dtat.Data.IRepository<Words>
 	{
 		Task UpdateWordAsync(Words word);
 

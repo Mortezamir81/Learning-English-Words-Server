@@ -3,9 +3,9 @@ using Persistence;
 using Infrustructrue.Utilities;
 using Microsoft.AspNetCore.Http;
 using Domain.Entities;
-using Softmax.Logging;
-using Softmax.Results;
-using Softmax.Utilities;
+using Dtat.Logging;
+using Dtat.Results;
+using Dtat.Utilities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -144,7 +144,7 @@ namespace Services
 						(exception: ex, ex.Message, parameters: properties);
 
 				var response =
-					new Softmax.Results.Result();
+					new Dtat.Results.Result();
 
 				string errorMessage = string.Format
 					(Resources.Messages.ErrorMessages.UnkonwnError);
@@ -223,7 +223,7 @@ namespace Services
 						(exception: ex, ex.Message, parameters: properties);
 
 				var response =
-					new Softmax.Results.Result<GetWordResponseViewModel>();
+					new Dtat.Results.Result<GetWordResponseViewModel>();
 
 				string errorMessage = string.Format
 					(Resources.Messages.ErrorMessages.UnkonwnError);
@@ -289,7 +289,7 @@ namespace Services
 				await Logger.LogCritical(exception: ex, ex.Message);
 
 				var response =
-					new Softmax.Results.Result<List<GetWordResponseViewModel>>();
+					new Dtat.Results.Result<List<GetWordResponseViewModel>>();
 
 				string errorMessage = string.Format
 					(Resources.Messages.ErrorMessages.UnkonwnError);
@@ -364,7 +364,7 @@ namespace Services
 				await Logger.LogCritical(exception: ex, ex.Message);
 
 				var response =
-					new Softmax.Results.Result<List<GetExamResponseViewModel>>();
+					new Dtat.Results.Result<List<GetExamResponseViewModel>>();
 
 				string errorMessage = string.Format
 					(Resources.Messages.ErrorMessages.UnkonwnError);
@@ -507,7 +507,7 @@ namespace Services
 				await Logger.LogCritical(exception: ex, ex.Message);
 
 				var response =
-					new Softmax.Results.Result<ExamProcessingResponseViewModel>();
+					new Dtat.Results.Result<ExamProcessingResponseViewModel>();
 
 				string errorMessage = string.Format
 					(Resources.Messages.ErrorMessages.UnkonwnError);
@@ -576,7 +576,7 @@ namespace Services
 				await Logger.LogCritical(exception: ex, ex.Message);
 
 				var response =
-					new Softmax.Results.Result<RecentLearnedResponseViewModel>();
+					new Dtat.Results.Result<RecentLearnedResponseViewModel>();
 
 				string errorMessage = string.Format
 					(Resources.Messages.ErrorMessages.UnkonwnError);
@@ -641,7 +641,7 @@ namespace Services
 				await Logger.LogCritical(exception: ex, ex.Message);
 
 				var result =
-					new Softmax.Results.Result<RecentLearnedResponseViewModel>();
+					new Dtat.Results.Result<RecentLearnedResponseViewModel>();
 
 				string errorMessage = string.Format
 					(Resources.Messages.ErrorMessages.UnkonwnError);
@@ -754,7 +754,7 @@ namespace Services
 						(exception: ex, ex.Message, parameters: properties);
 
 				var response =
-					new Softmax.Results.Result();
+					new Dtat.Results.Result();
 
 				string errorMessage = string.Format
 					(Resources.Messages.ErrorMessages.UnkonwnError);

@@ -1,7 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
-namespace Softmax.Logging
+namespace Dtat.Logging
 {
 	public interface ILogger<T> where T : class
 	{

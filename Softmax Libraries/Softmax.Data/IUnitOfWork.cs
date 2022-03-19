@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Softmax.Data
+﻿namespace Dtat.Data
 {
 	public interface IUnitOfWork : System.IDisposable
 	{

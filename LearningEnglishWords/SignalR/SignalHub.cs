@@ -4,14 +4,14 @@ using Domain.Entities;
 using Persistence;
 using System;
 using System.Threading.Tasks;
-using Softmax.Results;
+using Dtat.Results;
 using System.Collections.Generic;
 using ViewModels.Responses;
 using ViewModels.General;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
-using Softmax.Logging;
+using Dtat.Logging;
 using Infrustructrue.Attributes;
 using Infrustructrue.Enums;
 

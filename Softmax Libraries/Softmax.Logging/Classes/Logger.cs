@@ -9,7 +9,7 @@ using System.Globalization;
 using System.Threading;
 using System.Runtime.CompilerServices;
 
-namespace Softmax.Logging
+namespace Dtat.Logging
 {
 	public abstract class Logger<T> : object, ILogger<T> where T : class
 	{

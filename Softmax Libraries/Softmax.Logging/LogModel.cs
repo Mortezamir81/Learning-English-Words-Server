@@ -1,4 +1,4 @@
-﻿namespace Softmax.Logging
+﻿namespace Dtat.Logging
 {
 	public class LogModel : object
 	{

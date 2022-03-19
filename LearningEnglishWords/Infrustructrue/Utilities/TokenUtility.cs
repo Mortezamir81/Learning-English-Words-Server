@@ -1,4 +1,4 @@
-﻿using Softmax.Logging;
+﻿using Dtat.Logging;
 using Infrustructrue.ApplicationSettings;
 using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;

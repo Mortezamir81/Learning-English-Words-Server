@@ -5,7 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Softmax.Utilities
+namespace Dtat.Utilities
 {
 	public class Security
 	{

@@ -8,11 +8,11 @@ namespace Services
 	{
 		#region Check Validation Methods
 		//ForLoginValidation
-		public Softmax.Results.Result<LoginResponseViewModel>
+		public Dtat.Results.Result<LoginResponseViewModel>
 			LoginValidation(LoginRequestViewModel loginRequestViewModel)
 		{
 			var result =
-				new Softmax.Results.Result<LoginResponseViewModel>();
+				new Dtat.Results.Result<LoginResponseViewModel>();
 
 			if (loginRequestViewModel == null)
 			{
@@ -47,11 +47,11 @@ namespace Services
 		}
 
 		//ForRevokeTokenValidation
-		public Softmax.Results.Result<LoginResponseViewModel>
+		public Dtat.Results.Result<LoginResponseViewModel>
 			RefreshTokenValidation(string token, string ipAddress)
 		{
 			var result =
-				new Softmax.Results.Result<LoginResponseViewModel>();
+				new Dtat.Results.Result<LoginResponseViewModel>();
 
 			if (string.IsNullOrWhiteSpace(token))
 			{
@@ -73,11 +73,11 @@ namespace Services
 		}
 
 		//ForRefreshTokenValidation
-		public Softmax.Results.Result
+		public Dtat.Results.Result
 			LogoutValidation(string token)
 		{
 			var result =
-				new Softmax.Results.Result<LoginResponseViewModel>();
+				new Dtat.Results.Result<LoginResponseViewModel>();
 
 			if (string.IsNullOrWhiteSpace(token))
 			{
@@ -91,11 +91,11 @@ namespace Services
 		}
 
 		//ChangeUserRoleValidation
-		public Softmax.Results.Result
+		public Dtat.Results.Result
 			ChangeUserRoleValidation(ChangeUserRoleRequestViewModel changeUserRoleRequestViewModel)
 		{
 			var result =
-				new Softmax.Results.Result<LoginResponseViewModel>();
+				new Dtat.Results.Result<LoginResponseViewModel>();
 
 			if (changeUserRoleRequestViewModel == null)
 			{
@@ -128,11 +128,11 @@ namespace Services
 		}
 
 		//ForRegisterValidation
-		public async Task<Softmax.Results.Result>
+		public async Task<Dtat.Results.Result>
 			RegisterValidation(RegisterRequestViewModel registerRequestViewModel)
 		{
 			var result =
-				new Softmax.Results.Result();
+				new Dtat.Results.Result();
 
 			if (registerRequestViewModel == null)
 			{
@@ -172,7 +172,7 @@ namespace Services
 			}
 			else
 			{
-				if (Softmax.Utilities.Validation.CheckEmailValid(registerRequestViewModel.Email) == false)
+				if (Dtat.Utilities.Validation.CheckEmailValid(registerRequestViewModel.Email) == false)
 				{
 					string errorMessage = string.Format
 						(Resources.Messages.ErrorMessages.InvalidEmailStructure);
@@ -210,11 +210,11 @@ namespace Services
 		}
 
 		//ForUpdateUserValidation
-		public Softmax.Results.Result UpdateUserValidation
+		public Dtat.Results.Result UpdateUserValidation
 			(UpdateUserRequestViewModel updateUserRequestViewModel)
 		{
 			var result =
-				new Softmax.Results.Result();
+				new Dtat.Results.Result();
 
 			if (updateUserRequestViewModel == null)
 			{
@@ -257,11 +257,11 @@ namespace Services
 		}
 
 		//ForDeleteUserValidation
-		public Softmax.Results.Result DeleteUserValidation
+		public Dtat.Results.Result DeleteUserValidation
 			(DeleteUserRequestViewModel deleteUserRequestViewModel)
 		{
 			var result =
-				new Softmax.Results.Result();
+				new Dtat.Results.Result();
 
 			if (deleteUserRequestViewModel.Id == null)
 			{

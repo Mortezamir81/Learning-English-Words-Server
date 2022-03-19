@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Persistence
 {
-	public interface IUnitOfWork : Softmax.Data.IUnitOfWork
+	public interface IUnitOfWork : Dtat.Data.IUnitOfWork
 	{
 		IUsersRepository UserRepository { get; }
 		IWordsRepository WordsRepository { get; }
