@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="NLog.Extensions.Logging" Version="1.7.4" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Data\Persistence.csproj" />
+    <ProjectReference Include="..\Models\Domain.csproj" />
+    <ProjectReference Include="..\Resources\Resources.csproj" />
+    <ProjectReference Include="..\Softmax Libraries\Softmax.Data.EntityFrameworkCore\Softmax.Data.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\Softmax Libraries\Softmax.Data\Softmax.Data.csproj" />
+    <ProjectReference Include="..\Softmax Libraries\Softmax.Logging.NLog\Softmax.Logging.NLog.csproj" />
+    <ProjectReference Include="..\Softmax Libraries\Softmax.Logging\Softmax.Logging.csproj" />
+    <ProjectReference Include="..\Softmax Libraries\Softmax.Result\Softmax.Result.csproj" />
+    <ProjectReference Include="..\Softmax Libraries\Softmax.Utilities.Log\Softmax.Utilities.Log.csproj" />
+    <ProjectReference Include="..\Softmax Libraries\Softmax.Utilities.Security\Softmax.Utilities.Security.csproj" />
+    <ProjectReference Include="..\Softmax Libraries\Softmax.Utilities.Validation\Softmax.Utilities.Validation.csproj" />
+    <ProjectReference Include="..\ViewModels\ViewModels.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="nlog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>

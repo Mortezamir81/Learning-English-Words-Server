@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
+    <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="coverlet.collector" Version="3.1.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Data\Persistence.csproj" />
+    <ProjectReference Include="..\LearningEnglishWords\Server.csproj" />
+    <ProjectReference Include="..\Models\Domain.csproj" />
+    <ProjectReference Include="..\Resources\Resources.csproj" />
+    <ProjectReference Include="..\Softmax Libraries\Softmax.Data.EntityFrameworkCore\Softmax.Data.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\Softmax Libraries\Softmax.Data\Softmax.Data.csproj" />
+    <ProjectReference Include="..\Softmax Libraries\Softmax.Logging.NLog\Softmax.Logging.NLog.csproj" />
+    <ProjectReference Include="..\Softmax Libraries\Softmax.Logging\Softmax.Logging.csproj" />
+    <ProjectReference Include="..\Softmax Libraries\Softmax.Result\Softmax.Result.csproj" />
+    <ProjectReference Include="..\Softmax Libraries\Softmax.Utilities.Log\Softmax.Utilities.Log.csproj" />
+    <ProjectReference Include="..\Softmax Libraries\Softmax.Utilities.Security\Softmax.Utilities.Security.csproj" />
+    <ProjectReference Include="..\Softmax Libraries\Softmax.Utilities.Validation\Softmax.Utilities.Validation.csproj" />
+    <ProjectReference Include="..\ViewModels\ViewModels.csproj" />
+  </ItemGroup>
+
+</Project>
