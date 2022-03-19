@@ -20,9 +20,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Data\Persistence.csproj" />
+    <ProjectReference Include="..\Domain\Domain.csproj" />
     <ProjectReference Include="..\LearningEnglishWords\Server.csproj" />
-    <ProjectReference Include="..\Models\Domain.csproj" />
+    <ProjectReference Include="..\Persistence\Persistence.csproj" />
     <ProjectReference Include="..\Resources\Resources.csproj" />
     <ProjectReference Include="..\Softmax Libraries\Softmax.Data.EntityFrameworkCore\Softmax.Data.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\Softmax Libraries\Softmax.Data\Softmax.Data.csproj" />
