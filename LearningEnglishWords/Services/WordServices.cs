@@ -44,42 +44,182 @@ namespace Services
 		#endregion /Properties
 
 		#region Methods
-		public async Task<Result> AddNewWord(AddWordRequestViewModel addWordRequestViewModel)
+		public async Task<Result> RemoveWord(string word)
 		{
-			Hashtable properties = null;
 			try
 			{
-				properties =
-					LogUtilities.GetProperties(instance: addWordRequestViewModel);
+				var result = new Result();
 
-				await Logger.LogInformation
-					(message: Resources.Resource.InputPropertiesInfo, parameters: properties);
+				UserInformationInToken user = null;
 
-				var result =
-					AddNewWordValidation(addWordRequestViewModel: addWordRequestViewModel);
-
-				if (result.IsFailed == true)
-					return result;
-
-				Words wordModel =
-					Mapper.Map<Words>(source: addWordRequestViewModel);
-
-				if (wordModel.WordTypeId == 5)
+				if (HttpContextAccessor != null &&
+					HttpContextAccessor.HttpContext != null &&
+					HttpContextAccessor.HttpContext.Items["User"] != null)
 				{
-					wordModel.IsVerb = true;
+					user =
+						HttpContextAccessor.HttpContext.Items["User"] as UserInformationInToken;
 				}
-
-				if (wordModel.VerbTenseId < 1 || wordModel.VerbTenseId > 17)
+				else
 				{
 					string errorMessage = string.Format
-					(Resources.Messages.ErrorMessages.InvalidVerbTenseValue);
+						(Resources.Messages.ErrorMessages.UserNotFound);
 
 					result.AddErrorMessage(errorMessage);
 
 					return result;
 				}
 
-				if ((wordModel.VerbTenseId != 1) && wordModel.WordTypeId != 5)
+				var foundedWord =
+					await UnitOfWork.WordsRepository.GetWordInformationAsync(word: word, userId: user.Id);
+
+				if (foundedWord == null)
+				{
+					string wordNotFoundErrorMessage = string.Format
+						(Resources.Messages.ErrorMessages.WordNotFound);
+
+					result.AddErrorMessage(wordNotFoundErrorMessage);
+
+					return result;
+				}
+
+				await UnitOfWork.WordsRepository.RemoveAsync(foundedWord);
+				await UnitOfWork.SaveAsync();
+
+				string successMessage = string.Format
+					(Resources.Messages.SuccessMessages.DeleteWordSuccessful);
+
+				result.AddSuccessMessage(successMessage);
+
+				return result;
+			}
+			catch (Exception ex)
+			{
+				await Logger.LogCritical(exception: ex, ex.Message);
+
+				var result =
+					new Dtat.Results.Result<RecentLearnedResponseViewModel>();
+
+				string errorMessage = string.Format
+					(Resources.Messages.ErrorMessages.UnkonwnError);
+
+				result.AddErrorMessage(errorMessage);
+
+				return result;
+			}
+		}
+
+
+		public async Task<Result<List<GetExamResponseViewModel>>>
+			GetExam(GetExamRequestViewModel getExamRequestViewModel)
+		{
+			Hashtable properties = null;
+			try
+			{
+				properties =
+					LogUtilities.GetProperties(instance: getExamRequestViewModel);
+
+				await Logger.LogInformation
+					(message: Resources.Resource.InputPropertiesInfo, parameters: properties);
+
+				var result = GetExamValidation(getExamRequestViewModel: getExamRequestViewModel);
+
+				if (result.IsFailed)
+					return result;
+
+				UserInformationInToken user = null;
+
+				if (HttpContextAccessor != null &&
+					HttpContextAccessor.HttpContext != null &&
+					HttpContextAccessor.HttpContext.Items["User"] != null)
+				{
+					user =
+						HttpContextAccessor.HttpContext.Items["User"] as UserInformationInToken;
+				}
+				else
+				{
+					string errorMessage = string.Format
+						(Resources.Messages.ErrorMessages.UserNotFound);
+
+					result.AddErrorMessage(errorMessage);
+
+					return result;
+				}
+
+				var respone =
+					await UnitOfWork.WordsRepository.CreateExamAsync(getExamRequestViewModel: getExamRequestViewModel, userId: user.Id);
+
+				if (respone == null || respone.Count == 0)
+				{
+					string errorMessage = string.Format
+							(Resources.Messages.ErrorMessages.NotEnoughAnswers);
+
+					result.AddErrorMessage(errorMessage);
+
+					return result;
+				}
+
+				result.Value = respone;
+
+				string successMessage = string.Format
+					(Resources.Messages.SuccessMessages.LoadExamSuccessfull);
+
+				result.AddSuccessMessage(message: successMessage);
+
+				return result;
+			}
+			catch (Exception ex)
+			{
+				await Logger.LogCritical(exception: ex, ex.Message);
+
+				var response =
+					new Dtat.Results.Result<List<GetExamResponseViewModel>>();
+
+				string errorMessage = string.Format
+					(Resources.Messages.ErrorMessages.UnkonwnError);
+
+				response.AddErrorMessage(errorMessage);
+
+				return response;
+			}
+		}
+
+
+		public async Task<Result> UpdateWord(AddWordRequestViewModel word)
+		{
+			Hashtable properties = null;
+			try
+			{
+				properties =
+					LogUtilities.GetProperties(instance: word);
+
+				await Logger.LogInformation
+					(message: Resources.Resource.InputPropertiesInfo, parameters: properties);
+
+				var result =
+					UpdateWordValidation(word: word);
+
+				Words responseWord =
+					Mapper.Map<Words>(source: word);
+
+				if (result.IsFailed == true)
+					return result;
+
+				if (responseWord.WordTypeId == 5)
+				{
+					responseWord.IsVerb = true;
+				}
+
+				if (responseWord.VerbTenseId < 1 || responseWord.VerbTenseId > 17)
+				{
+					string errorMessage = string.Format
+						(Resources.Messages.ErrorMessages.InvalidVerbTenseValue);
+
+					result.AddErrorMessage(errorMessage);
+
+					return result;
+				}
+
+				if ((responseWord.VerbTenseId != 1) && responseWord.WordTypeId != 5)
 				{
 					string errorMessage = string.Format
 						(Resources.Messages.ErrorMessages.InvalidWordTypeStructure);
@@ -89,9 +229,9 @@ namespace Services
 					return result;
 				}
 
-				if (wordModel.VerbTenseId == 1)
+				if (responseWord.VerbTenseId == 1)
 				{
-					wordModel.IsVerb = false;
+					responseWord.IsVerb = false;
 				}
 
 				UserInformationInToken user = null;
@@ -113,26 +253,27 @@ namespace Services
 					return result;
 				}
 
-				wordModel.UserId = user.Id;
+				var wordId =
+					await UnitOfWork.WordsRepository.GetWordIdAsync(word: responseWord.Word, userId: user.Id);
 
-				var isWordExist =
-					await UnitOfWork.WordsRepository.CheckWordExistAsync(word: wordModel.Word, userId: user.Id);
-
-				if (isWordExist == true)
+				if (wordId == null)
 				{
 					string duplicateErrorMessage = string.Format
-						(Resources.Messages.ErrorMessages.DuplicateKey);
+						(Resources.Messages.ErrorMessages.WordNotFound);
 
 					result.AddErrorMessage(duplicateErrorMessage);
 
 					return result;
 				}
 
-				await UnitOfWork.WordsRepository.AddAsync(wordModel);
+				responseWord.Id = wordId;
+				responseWord.EditDate = DateTime.UtcNow;
+
+				await UnitOfWork.WordsRepository.UpdateWordAsync(responseWord);
 				await UnitOfWork.SaveAsync();
 
 				string successMessage = string.Format
-					(Resources.Messages.SuccessMessages.AddSuccessful);
+					(Resources.Messages.SuccessMessages.UpdateSuccessful);
 
 				result.AddSuccessMessage(message: successMessage);
 
@@ -301,22 +442,12 @@ namespace Services
 		}
 
 
-		public async Task<Result<List<GetExamResponseViewModel>>>
-			GetExam(GetExamRequestViewModel getExamRequestViewModel)
+		public async Task<Result<RecentLearnedResponseViewModel>> GetRecentLearningWords()
 		{
-			Hashtable properties = null;
 			try
 			{
-				properties =
-					LogUtilities.GetProperties(instance: getExamRequestViewModel);
-
-				await Logger.LogInformation
-					(message: Resources.Resource.InputPropertiesInfo, parameters: properties);
-
-				var result = GetExamValidation(getExamRequestViewModel: getExamRequestViewModel);
-
-				if (result.IsFailed)
-					return result;
+				var result =
+					new Result<RecentLearnedResponseViewModel>();
 
 				UserInformationInToken user = null;
 
@@ -337,25 +468,29 @@ namespace Services
 					return result;
 				}
 
-				var respone =
-					await UnitOfWork.WordsRepository.CreateExamAsync(getExamRequestViewModel: getExamRequestViewModel, userId: user.Id);
+				var recentLearnedWords =
+					await UnitOfWork.WordsRepository.GetRecentLearnedWordsAsync(userId: user.Id);
 
-				if (respone == null || respone.Count == 0)
+				if (recentLearnedWords == null || recentLearnedWords.RecentLearned == null || recentLearnedWords.RecentLearned.Count == 0)
 				{
 					string errorMessage = string.Format
-							(Resources.Messages.ErrorMessages.NotEnoughAnswers);
+						(Resources.Messages.ErrorMessages.WordsListEmpty);
 
 					result.AddErrorMessage(errorMessage);
 
 					return result;
 				}
 
-				result.Value = respone;
-
 				string successMessage = string.Format
-					(Resources.Messages.SuccessMessages.LoadExamSuccessfull);
+					(Resources.Messages.SuccessMessages.LoadContentSuccessful);
 
-				result.AddSuccessMessage(message: successMessage);
+				result.AddSuccessMessage(successMessage);
+
+				result.Value = new RecentLearnedResponseViewModel();
+
+				result.Value.RecentLearned = new List<string>();
+
+				result.Value.RecentLearned = recentLearnedWords.RecentLearned;
 
 				return result;
 			}
@@ -364,7 +499,119 @@ namespace Services
 				await Logger.LogCritical(exception: ex, ex.Message);
 
 				var response =
-					new Dtat.Results.Result<List<GetExamResponseViewModel>>();
+					new Dtat.Results.Result<RecentLearnedResponseViewModel>();
+
+				string errorMessage = string.Format
+					(Resources.Messages.ErrorMessages.UnkonwnError);
+
+				response.AddErrorMessage(errorMessage);
+
+				return response;
+			}
+		}
+
+
+		public async Task<Result> AddNewWord(AddWordRequestViewModel addWordRequestViewModel)
+		{
+			Hashtable properties = null;
+			try
+			{
+				properties =
+					LogUtilities.GetProperties(instance: addWordRequestViewModel);
+
+				await Logger.LogInformation
+					(message: Resources.Resource.InputPropertiesInfo, parameters: properties);
+
+				var result =
+					AddNewWordValidation(addWordRequestViewModel: addWordRequestViewModel);
+
+				if (result.IsFailed == true)
+					return result;
+
+				Words wordModel =
+					Mapper.Map<Words>(source: addWordRequestViewModel);
+
+				if (wordModel.WordTypeId == 5)
+				{
+					wordModel.IsVerb = true;
+				}
+
+				if (wordModel.VerbTenseId < 1 || wordModel.VerbTenseId > 17)
+				{
+					string errorMessage = string.Format
+					(Resources.Messages.ErrorMessages.InvalidVerbTenseValue);
+
+					result.AddErrorMessage(errorMessage);
+
+					return result;
+				}
+
+				if ((wordModel.VerbTenseId != 1) && wordModel.WordTypeId != 5)
+				{
+					string errorMessage = string.Format
+						(Resources.Messages.ErrorMessages.InvalidWordTypeStructure);
+
+					result.AddErrorMessage(errorMessage);
+
+					return result;
+				}
+
+				if (wordModel.VerbTenseId == 1)
+				{
+					wordModel.IsVerb = false;
+				}
+
+				UserInformationInToken user = null;
+
+				if (HttpContextAccessor != null &&
+					HttpContextAccessor.HttpContext != null &&
+					HttpContextAccessor.HttpContext.Items["User"] != null)
+				{
+					user =
+						HttpContextAccessor.HttpContext.Items["User"] as UserInformationInToken;
+				}
+				else
+				{
+					string errorMessage = string.Format
+						(Resources.Messages.ErrorMessages.UserNotFound);
+
+					result.AddErrorMessage(errorMessage);
+
+					return result;
+				}
+
+				wordModel.UserId = user.Id;
+
+				var isWordExist =
+					await UnitOfWork.WordsRepository.CheckWordExistAsync(word: wordModel.Word, userId: user.Id);
+
+				if (isWordExist == true)
+				{
+					string duplicateErrorMessage = string.Format
+						(Resources.Messages.ErrorMessages.DuplicateKey);
+
+					result.AddErrorMessage(duplicateErrorMessage);
+
+					return result;
+				}
+
+				await UnitOfWork.WordsRepository.AddAsync(wordModel);
+				await UnitOfWork.SaveAsync();
+
+				string successMessage = string.Format
+					(Resources.Messages.SuccessMessages.AddSuccessful);
+
+				result.AddSuccessMessage(message: successMessage);
+
+				return result;
+			}
+			catch (Exception ex)
+			{
+				await Logger.LogCritical
+						(exception: ex, ex.Message, parameters: properties);
+
+				var response =
+					new Dtat.Results.Result();
 
 				string errorMessage = string.Format
 					(Resources.Messages.ErrorMessages.UnkonwnError);
@@ -508,253 +755,6 @@ namespace Services
 
 				var response =
 					new Dtat.Results.Result<ExamProcessingResponseViewModel>();
-
-				string errorMessage = string.Format
-					(Resources.Messages.ErrorMessages.UnkonwnError);
-
-				response.AddErrorMessage(errorMessage);
-
-				return response;
-			}
-		}
-
-
-		public async Task<Result<RecentLearnedResponseViewModel>> GetRecentLearningWords()
-		{
-			try
-			{
-				var result =
-					new Result<RecentLearnedResponseViewModel>();
-
-				UserInformationInToken user = null;
-
-				if (HttpContextAccessor != null &&
-					HttpContextAccessor.HttpContext != null &&
-					HttpContextAccessor.HttpContext.Items["User"] != null)
-				{
-					user =
-						HttpContextAccessor.HttpContext.Items["User"] as UserInformationInToken;
-				}
-				else
-				{
-					string errorMessage = string.Format
-						(Resources.Messages.ErrorMessages.UserNotFound);
-
-					result.AddErrorMessage(errorMessage);
-
-					return result;
-				}
-
-				var recentLearnedWords =
-					await UnitOfWork.WordsRepository.GetRecentLearnedWordsAsync(userId: user.Id);
-
-				if (recentLearnedWords == null || recentLearnedWords.RecentLearned == null || recentLearnedWords.RecentLearned.Count == 0)
-				{
-					string errorMessage = string.Format
-						(Resources.Messages.ErrorMessages.WordsListEmpty);
-
-					result.AddErrorMessage(errorMessage);
-
-					return result;
-				}
-
-				string successMessage = string.Format
-					(Resources.Messages.SuccessMessages.LoadContentSuccessful);
-
-				result.AddSuccessMessage(successMessage);
-
-				result.Value = new RecentLearnedResponseViewModel();
-
-				result.Value.RecentLearned = new List<string>();
-
-				result.Value.RecentLearned = recentLearnedWords.RecentLearned;
-
-				return result;
-			}
-			catch (Exception ex)
-			{
-				await Logger.LogCritical(exception: ex, ex.Message);
-
-				var response =
-					new Dtat.Results.Result<RecentLearnedResponseViewModel>();
-
-				string errorMessage = string.Format
-					(Resources.Messages.ErrorMessages.UnkonwnError);
-
-				response.AddErrorMessage(errorMessage);
-
-				return response;
-			}
-		}
-
-
-		public async Task<Result> RemoveWord(string word)
-		{
-			try
-			{
-				var result = new Result();
-
-				UserInformationInToken user = null;
-
-				if (HttpContextAccessor != null &&
-					HttpContextAccessor.HttpContext != null &&
-					HttpContextAccessor.HttpContext.Items["User"] != null)
-				{
-					user =
-						HttpContextAccessor.HttpContext.Items["User"] as UserInformationInToken;
-				}
-				else
-				{
-					string errorMessage = string.Format
-						(Resources.Messages.ErrorMessages.UserNotFound);
-
-					result.AddErrorMessage(errorMessage);
-
-					return result;
-				}
-
-				var foundedWord =
-					await UnitOfWork.WordsRepository.GetWordInformationAsync(word: word, userId: user.Id);
-
-				if (foundedWord == null)
-				{
-					string wordNotFoundErrorMessage = string.Format
-						(Resources.Messages.ErrorMessages.WordNotFound);
-
-					result.AddErrorMessage(wordNotFoundErrorMessage);
-
-					return result;
-				}
-
-				await UnitOfWork.WordsRepository.RemoveAsync(foundedWord);
-				await UnitOfWork.SaveAsync();
-
-				string successMessage = string.Format
-					(Resources.Messages.SuccessMessages.DeleteWordSuccessful);
-
-				result.AddSuccessMessage(successMessage);
-
-				return result;
-			}
-			catch (Exception ex)
-			{
-				await Logger.LogCritical(exception: ex, ex.Message);
-
-				var result =
-					new Dtat.Results.Result<RecentLearnedResponseViewModel>();
-
-				string errorMessage = string.Format
-					(Resources.Messages.ErrorMessages.UnkonwnError);
-
-				result.AddErrorMessage(errorMessage);
-
-				return result;
-			}
-		}
-
-
-		public async Task<Result> UpdateWord(AddWordRequestViewModel word)
-		{
-			Hashtable properties = null;
-			try
-			{
-				properties =
-					LogUtilities.GetProperties(instance: word);
-
-				await Logger.LogInformation
-					(message: Resources.Resource.InputPropertiesInfo, parameters: properties);
-
-				var result =
-					UpdateWordValidation(word: word);
-
-				Words responseWord =
-					Mapper.Map<Words>(source: word);
-
-				if (result.IsFailed == true)
-					return result;
-
-				if (responseWord.WordTypeId == 5)
-				{
-					responseWord.IsVerb = true;
-				}
-
-				if (responseWord.VerbTenseId < 1 || responseWord.VerbTenseId > 17)
-				{
-					string errorMessage = string.Format
-						(Resources.Messages.ErrorMessages.InvalidVerbTenseValue);
-
-					result.AddErrorMessage(errorMessage);
-
-					return result;
-				}
-
-				if ((responseWord.VerbTenseId != 1) && responseWord.WordTypeId != 5)
-				{
-					string errorMessage = string.Format
-						(Resources.Messages.ErrorMessages.InvalidWordTypeStructure);
-
-					result.AddErrorMessage(errorMessage);
-
-					return result;
-				}
-
-				if (responseWord.VerbTenseId == 1)
-				{
-					responseWord.IsVerb = false;
-				}
-
-				UserInformationInToken user = null;
-
-				if (HttpContextAccessor != null &&
-					HttpContextAccessor.HttpContext != null &&
-					HttpContextAccessor.HttpContext.Items["User"] != null)
-				{
-					user =
-						HttpContextAccessor.HttpContext.Items["User"] as UserInformationInToken;
-				}
-				else
-				{
-					string errorMessage = string.Format
-						(Resources.Messages.ErrorMessages.UserNotFound);
-
-					result.AddErrorMessage(errorMessage);
-
-					return result;
-				}
-
-				var wordId =
-					await UnitOfWork.WordsRepository.GetWordIdAsync(word: responseWord.Word, userId: user.Id);
-
-				if (wordId == null)
-				{
-					string duplicateErrorMessage = string.Format
-						(Resources.Messages.ErrorMessages.WordNotFound);
-
-					result.AddErrorMessage(duplicateErrorMessage);
-
-					return result;
-				}
-
-				responseWord.Id = wordId;
-				responseWord.EditDate = DateTime.UtcNow;
-
-				await UnitOfWork.WordsRepository.UpdateWordAsync(responseWord);
-				await UnitOfWork.SaveAsync();
-
-				string successMessage = string.Format
-					(Resources.Messages.SuccessMessages.UpdateSuccessful);
-
-				result.AddSuccessMessage(message: successMessage);
-
-				return result;
-			}
-			catch (Exception ex)
-			{
-				await Logger.LogCritical
-						(exception: ex, ex.Message, parameters: properties);
-
-				var response =
-					new Dtat.Results.Result();
 
 				string errorMessage = string.Format
 					(Resources.Messages.ErrorMessages.UnkonwnError);

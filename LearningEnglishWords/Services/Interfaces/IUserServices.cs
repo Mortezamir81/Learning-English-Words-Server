@@ -23,11 +23,11 @@ namespace Services
 
 		Task<Dtat.Results.Result<List<Users>>> GetAllUsersAsync();
 
-		Task<Dtat.Results.Result>
-			ChangeUserRoleAsync(ChangeUserRoleRequestViewModel changeUserRoleRequestViewModel);
-
 		Task<Dtat.Results.Result<LoginResponseViewModel>>
 			LoginAsync(LoginRequestViewModel loginRequestViewModel, string ipAddress);
+
+		Task<Dtat.Results.Result>
+			ChangeUserRoleAsync(ChangeUserRoleRequestViewModel changeUserRoleRequestViewModel);
 
 		Task<Dtat.Results.Result<LoginResponseViewModel>> RefreshTokenAsync(string token, string ipAddress);
 	}
