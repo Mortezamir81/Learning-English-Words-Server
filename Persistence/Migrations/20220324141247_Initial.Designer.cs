@@ -12,8 +12,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20220314102606_AddNewWordTypes1")]
-    partial class AddNewWordTypes1
+    [Migration("20220324141247_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -50,7 +50,7 @@ namespace Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("cf28f8e1-5888-4949-ac53-5c7425b60367"),
+                            Id = new Guid("a8347345-5d4b-4526-a7ba-53a06b8af0ae"),
                             Link = "none",
                             PublishDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Version = "1.0.0.0"
@@ -77,7 +77,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CompleteResult");
+                    b.ToTable("CompleteResult", "LE");
                 });
 
             modelBuilder.Entity("Domain.Entities.Exams", b =>
@@ -104,7 +104,7 @@ namespace Persistence.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Exams");
+                    b.ToTable("Exams", "LE");
                 });
 
             modelBuilder.Entity("Domain.Entities.Notifications", b =>
@@ -185,7 +185,7 @@ namespace Persistence.Migrations
 
                     b.HasIndex("ExamsId");
 
-                    b.ToTable("PrimitiveResult");
+                    b.ToTable("PrimitiveResult", "LE");
                 });
 
             modelBuilder.Entity("Domain.Entities.Roles", b =>
@@ -546,11 +546,6 @@ namespace Persistence.Migrations
                         {
                             Id = 6,
                             Type = "Adjective"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Type = "Undefined"
                         });
                 });
 

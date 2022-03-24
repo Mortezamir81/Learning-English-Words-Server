@@ -667,26 +667,6 @@ namespace Services
 					return result;
 				}
 
-				var index = 0;
-				foreach (var item in examProcessingRequestViewModels)
-				{
-					var isWordExist =
-						await UnitOfWork.WordsRepository.CheckWordExistAsync(item.Question, userId: user.Id);
-
-					if (isWordExist == false)
-					{
-						string errorMessage = string.Format
-							(Resources.Messages.ErrorMessages.WordNotFoundWithIn, $"({item.Question})", nameof(examProcessingRequestViewModels) + $"[{index}]");
-
-						result.AddErrorMessage(errorMessage);
-					}
-
-					index++;
-				}
-
-				if (result.IsFailed)
-					return result;
-
 				var respone =
 					await UnitOfWork.WordsRepository.ExamProcessingAsync(examProcessingRequestViewModels);
 

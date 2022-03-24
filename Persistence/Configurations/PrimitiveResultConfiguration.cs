@@ -9,19 +9,13 @@ using System.Threading.Tasks;
 
 namespace Persistence.Configurations
 {
-	internal class ExamsConfiguration : IEntityTypeConfiguration<Exams>
+	internal class PrimitiveResultConfiguration : IEntityTypeConfiguration<PrimitiveResult>
 	{
-		public void Configure(EntityTypeBuilder<Exams> builder)
+		public void Configure(EntityTypeBuilder<PrimitiveResult> builder)
 		{
 			builder.ToTable
-				("Exams", "LE")
+				("PrimitiveResult", "LE")
 					.HasKey(current => current.Id);
-
-			builder.Property
-				(current => current.PocessingExamDate)
-					.HasDefaultValueSql("FORMAT (getutcdate(), 'yyyy-MM-dd')")
-					.HasColumnType("datetime")
-					.IsRequired();
 		}
 	}
 }
