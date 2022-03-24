@@ -15,12 +15,12 @@ using Services.SignalR;
 var webApplicationOptions =
 	new WebApplicationOptions
 	{
-		EnvironmentName =
-			Environments.Development,
+        EnvironmentName =
+            Environments.Development,
 
-		//EnvironmentName =
-		//	Environments.Production,
-	};
+        //EnvironmentName =
+        //    Environments.Production,
+    };
 //******************************
 
 
@@ -57,7 +57,7 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddScoped
+builder.Services.AddTransient
 	(serviceType: typeof(Dtat.Logging.ILogger<>),
 		implementationType: typeof(Dtat.Logging.NLog.NLogAdapter<>));
 
@@ -88,6 +88,8 @@ var app =
 
 #region Middlewares
 //******************************
+app.UseGlobalExceptionMiddleware();
+
 app.UseCors("DevCorsPolicy");
 
 app.UseCustomJwtMiddleware();
@@ -95,12 +97,9 @@ app.UseCustomJwtMiddleware();
 if (app.Environment.IsDevelopment())
 {
 	app.UseSwagger();
-	app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebApplication2 v1"));
+	app.UseDeveloperExceptionPage();
+	app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Server v1"));
 }
-
-app.UseDeveloperExceptionPage();
-
-//app.UseHttpsRedirection();
 
 app.UseRouting();
 
