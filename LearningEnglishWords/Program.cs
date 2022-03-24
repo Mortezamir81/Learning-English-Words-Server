@@ -1,5 +1,5 @@
 using Infrastructure.Middlewares;
-using Infrustructrue.ApplicationSettings;
+using Infrustructrue.Settings;
 using Infrustructrue.Middlewares;
 using Infrustructrue.Utilities;
 using Microsoft.AspNetCore.Builder;
@@ -26,8 +26,7 @@ var webApplicationOptions =
 
 //******************************
 var builder =
-	Microsoft.AspNetCore.Builder
-	.WebApplication.CreateBuilder(options: webApplicationOptions);
+	WebApplication.CreateBuilder(options: webApplicationOptions);
 //******************************
 
 
@@ -35,10 +34,10 @@ var builder =
 //******************************
 builder.Services.AddSwaggerGen(c =>
 {
-	c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApiCoreTemplate", Version = "v1" });
+	c.SwaggerDoc("v1", new OpenApiInfo { Title = "Server", Version = "v1" });
 });
 
-builder.Services.Configure<MainSettings>(builder.Configuration.GetSection("AppSettings"));
+builder.Services.Configure<ApplicationSettings>(builder.Configuration.GetSection(ApplicationSettings.KeyName));
 
 builder.Services.AddDbContextPool<Persistence.DatabaseContext>(option =>
 {

@@ -1,5 +1,5 @@
 ﻿using Persistence;
-using Infrustructrue.ApplicationSettings;
+using Infrustructrue.Settings;
 using Infrustructrue.Utilities;
 using Microsoft.Extensions.Options;
 using Domain.Entities;
@@ -25,7 +25,7 @@ namespace Services
 		public UserServices
 			(IMapper mapper,
 			ILogger<UserServices> logger,
-			IOptions<MainSettings> options,
+			IOptions<ApplicationSettings> options,
 			DatabaseContext databaseContext,
 			IUnitOfWork unitOfWork, ITokenUtility tokenUtility) : base()
 		{
@@ -33,7 +33,7 @@ namespace Services
 			Mapper = mapper;
 			UnitOfWork = unitOfWork;
 			TokenUtility = tokenUtility;
-			MainSettings = options.Value;
+			ApplicationSettings = options.Value;
 			DatabaseContext = databaseContext;
 		}
 		#endregion /Constractor
@@ -44,7 +44,7 @@ namespace Services
 		public ILogger<UserServices> Logger { get; }
 		protected ITokenUtility TokenUtility { get; }
 		public DatabaseContext DatabaseContext { get; }
-		protected MainSettings MainSettings { get; set; }
+		protected ApplicationSettings ApplicationSettings { get; set; }
 		#endregion /Properties
 
 		#region Methods
@@ -325,12 +325,12 @@ namespace Services
 				});
 
 			var expiredTime =
-				DateTime.UtcNow.AddMinutes(MainSettings.TokenExpiresTime);
+				DateTime.UtcNow.AddMinutes(ApplicationSettings.JwtSettings.TokenExpiresTime);
 
 			string jwtToken =
 				TokenUtility.GenerateJwtToken
-					(mainSettings: MainSettings,
-					securityKey: MainSettings.SecretKeyForToken,
+					(applicationSettings: ApplicationSettings,
+					securityKey: ApplicationSettings.JwtSettings.SecretKeyForToken,
 					claimsIdentity: claims,
 					dateTime: expiredTime);
 
@@ -557,7 +557,7 @@ namespace Services
 				}
 
 				var expiredTime =
-					DateTime.UtcNow.AddMinutes(MainSettings.TokenExpiresTime);
+					DateTime.UtcNow.AddMinutes(ApplicationSettings.JwtSettings.TokenExpiresTime);
 
 				var refreshToken = GenerateRefreshToken(ipAddress);
 
@@ -585,8 +585,8 @@ namespace Services
 
 				string token =
 					TokenUtility.GenerateJwtToken
-						(mainSettings: MainSettings,
-						securityKey: MainSettings.SecretKeyForToken,
+						(applicationSettings: ApplicationSettings,
+						securityKey: ApplicationSettings.JwtSettings.SecretKeyForToken,
 						claimsIdentity: claims,
 						dateTime: expiredTime);
 

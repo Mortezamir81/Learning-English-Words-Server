@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Persistence;
-using Infrustructrue.ApplicationSettings;
+using Infrustructrue.Settings;
 using Infrustructrue.Utilities;
 using Services;
 using ViewModels.Requests;
@@ -25,7 +25,7 @@ namespace MaxLearnTest.Services
 		public UserServicesUnitTests()
 		{
 			DbContextOptionsBuilder options = new DbContextOptionsBuilder();
-			options.UseSqlServer(connectionString: "Persist Security Info = False; Initial Catalog = LearningEnglishWords; User ID = sa; Password = m@13811386; Server = 127.0.0.1,5003");
+			options.UseSqlServer(connectionString: "Data Source = SQL5107.site4now.net;  Initial Catalog = db_a842d3_learningenglish; User ID = db_a842d3_learningenglish_admin; Password = m@13811386;");
 
 			DatabaseContext databaseContext = new DatabaseContext(options.Options);
 
@@ -43,24 +43,29 @@ namespace MaxLearnTest.Services
 
 			TokenUtility tokenUtility = new TokenUtility(logger: loggerForTokenUtility, unitOfWork: unitOfWork);
 
-			var settings = new MainSettings()
+			var jwtSettings = new JwtSettings()
 			{
 				SecretKeyForToken = "sssssssssssssssssssssssssssssssssssssssss",
 				TokenExpiresTime = 8
 			};
 
-			IOptions<MainSettings> appSettingsOptions = Options.Create(settings);
+			var settings = new ApplicationSettings()
+			{
+				JwtSettings = jwtSettings
+			};
+
+			IOptions<ApplicationSettings> appSettingsOptions = Options.Create(settings);
 
 			HttpContextAccessor httpContextAccessor = new HttpContextAccessor();
 
-			//UserServices =
-			//	new UserServices
-			//		(unitOfWork: unitOfWork,
-			//		logger: loggerForUserServices,
-			//		mapper: mapper, tokenUtility: tokenUtility,
-			//		options: appSettingsOptions,
-			//		);
-		}
+            UserServices =
+                new UserServices
+                    (unitOfWork: unitOfWork,
+                    logger: loggerForUserServices,
+                    mapper: mapper, tokenUtility: tokenUtility,
+                    options: appSettingsOptions,
+					databaseContext: databaseContext);
+        }
 
 		#region Login
 		[Fact]

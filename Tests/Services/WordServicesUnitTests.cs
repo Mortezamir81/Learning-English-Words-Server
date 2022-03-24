@@ -21,7 +21,7 @@ namespace MaxLearnTest.Services
 		public WordServicesUnitTests()
 		{
 			DbContextOptionsBuilder options = new DbContextOptionsBuilder();
-			options.UseSqlServer(connectionString: "Persist Security Info = False; Initial Catalog = LearningEnglishWords; User ID = sa; Password = m@13811386; Server = 127.0.0.1,5003");
+			options.UseSqlServer(connectionString: "Data Source = SQL5107.site4now.net;  Initial Catalog = db_a842d3_learningenglish; User ID = db_a842d3_learningenglish_admin; Password = m@13811386;");
 
 			DatabaseContext databaseContext = new DatabaseContext(options.Options);
 
@@ -37,16 +37,17 @@ namespace MaxLearnTest.Services
 
 			HttpContextAccessor httpContextAccessor = new HttpContextAccessor();
 
-			//WordServices =
-			//	new WordServices
-			//		(unitOfWork: unitOfWork,
-			//		logger: loggerForWordServices,
-			//		mapper: mapper,
-			//		httpContextAccessor);
-		}
+            WordServices =
+                new WordServices
+                    (unitOfWork: unitOfWork,
+                    logger: loggerForWordServices,
+                    mapper: mapper,
+                    httpContextAccessor: httpContextAccessor,
+					databaseContext: databaseContext);
+        }
 
-		#region AddWord
-		[Fact]
+        #region AddWord
+        [Fact]
 		public async Task TestAddWordWithNullWord()
 		{
 			//Arrange

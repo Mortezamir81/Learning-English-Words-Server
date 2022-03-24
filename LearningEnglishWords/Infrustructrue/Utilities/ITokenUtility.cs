@@ -1,4 +1,4 @@
-﻿using Infrustructrue.ApplicationSettings;
+﻿using Infrustructrue.Settings;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Security.Claims;
@@ -12,6 +12,6 @@ namespace Infrustructrue.Utilities
 			(HttpContext context, string token, string secretKey);
 
 		string GenerateJwtToken
-			(MainSettings mainSettings, string securityKey, ClaimsIdentity claimsIdentity, DateTime dateTime);
+			(ApplicationSettings applicationSettings, string securityKey, ClaimsIdentity claimsIdentity, DateTime dateTime);
 	}
 }

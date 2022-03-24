@@ -1,4 +1,4 @@
-﻿using Infrustructrue.ApplicationSettings;
+﻿using Infrustructrue.Settings;
 using Infrustructrue.Utilities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,14 +13,14 @@ namespace Infrustructrue.Middlewares
 {
 	public class JwtMiddleware
 	{
-		public JwtMiddleware(RequestDelegate next, IOptions<MainSettings> options) : base()
+		public JwtMiddleware(RequestDelegate next, IOptions<ApplicationSettings> options) : base()
 		{
 			Next = next;
-			MainSettings = options.Value;
+			ApplicationSettings = options.Value;
 		}
 
 		protected RequestDelegate Next { get; }
-		protected MainSettings MainSettings { get; }
+		protected ApplicationSettings ApplicationSettings { get; }
 
 		public async Task InvokeAsync(HttpContext context, ITokenUtility tokenUtility)
 		{
@@ -35,7 +35,7 @@ namespace Infrustructrue.Middlewares
 
 			if (string.IsNullOrEmpty(token) == false)
 				await tokenUtility.AttachUserToContextByToken
-					(context: context, token: token, secretKey: MainSettings.SecretKeyForToken);
+					(context: context, token: token, secretKey: ApplicationSettings.JwtSettings.SecretKeyForToken);
 
 			if (context.Request.Path.Value.ToLower().Contains("signal"))
 			{

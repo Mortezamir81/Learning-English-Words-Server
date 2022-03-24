@@ -1,5 +1,5 @@
 ﻿using Dtat.Logging;
-using Infrustructrue.ApplicationSettings;
+using Infrustructrue.Settings;
 using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
 using Domain.Entities;
@@ -135,7 +135,7 @@ namespace Infrustructrue.Utilities
 
 
 		public string GenerateJwtToken
-			(MainSettings mainSettings, string securityKey, ClaimsIdentity claimsIdentity, DateTime dateTime)
+			(ApplicationSettings applicationSettings, string securityKey, ClaimsIdentity claimsIdentity, DateTime dateTime)
 		{
 			var signingCredentional =
 				GetSigningCredentional(securityKey);
