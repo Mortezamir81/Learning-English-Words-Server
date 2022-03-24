@@ -61,7 +61,7 @@ namespace Services
 				result.AddErrorMessage(errorMessage);
 			}
 
-			if (addWordRequestViewModel.WordTypeId <= 0 || addWordRequestViewModel.WordTypeId >= 8)
+			if (addWordRequestViewModel.WordTypeId <= 0 || addWordRequestViewModel.WordTypeId >= 7)
 			{
 				string errorMessage = string.Format
 					(Resources.Messages.ErrorMessages.InvalidWordTypeValue);

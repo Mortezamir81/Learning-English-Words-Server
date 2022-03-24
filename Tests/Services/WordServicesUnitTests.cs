@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 using Microsoft.AspNetCore.Http;
+using ViewModels.General;
 
 namespace MaxLearnTest.Services
 {
@@ -21,7 +22,7 @@ namespace MaxLearnTest.Services
 		public WordServicesUnitTests()
 		{
 			DbContextOptionsBuilder options = new DbContextOptionsBuilder();
-			options.UseSqlServer(connectionString: "Data Source = SQL5107.site4now.net;  Initial Catalog = db_a842d3_learningenglish; User ID = db_a842d3_learningenglish_admin; Password = m@13811386;");
+			options.UseSqlServer(connectionString: "Data Source = 62.204.61.142;  Initial Catalog = mbteamir_LEW; User ID = mbteamir_LEW_Admin; Password = Morteza@Mm@13811386;");
 
 			DatabaseContext databaseContext = new DatabaseContext(options.Options);
 
@@ -150,11 +151,28 @@ namespace MaxLearnTest.Services
 				Source = "test",
 				PersianTranslation = "test",
 				EnglishTranslation = "test",
-				WordTypeId = 7
+				WordTypeId = 7,
+				VerbTenseId = 1,
 			};
 
 			string errorMessage = string.Format
 				(Resources.Messages.ErrorMessages.InvalidWordTypeValue);
+
+			var users =
+				await unitOfWork.UserRepository.GetAllAsync();
+
+			var user = users.FirstOrDefault();
+
+			WordServices.HttpContextAccessor.HttpContext = new DefaultHttpContext();
+
+			var userToken = new UserInformationInToken()
+			{
+				Id = user.Id.Value,
+				RoleId = user.RoleId,
+				Username = user.Username,
+			};
+
+			WordServices.HttpContextAccessor.HttpContext.Items["User"] = userToken;
 
 			//Act
 			var result =
@@ -298,7 +316,14 @@ namespace MaxLearnTest.Services
 
 			WordServices.HttpContextAccessor.HttpContext = new DefaultHttpContext();
 
-			WordServices.HttpContextAccessor.HttpContext.Items["User"] = user;
+			var userToken = new UserInformationInToken()
+			{
+				Id = user.Id.Value,
+				RoleId = user.RoleId,
+				Username = user.Username,
+			};
+
+			WordServices.HttpContextAccessor.HttpContext.Items["User"] = userToken;
 
 			//Act
 			var result =
@@ -347,6 +372,22 @@ namespace MaxLearnTest.Services
 			string errorMessage = string.Format
 				(Resources.Messages.ErrorMessages.WordNotFound);
 
+			var users =
+				await unitOfWork.UserRepository.GetAllAsync();
+
+			var user = users.FirstOrDefault();
+
+			WordServices.HttpContextAccessor.HttpContext = new DefaultHttpContext();
+
+			var userToken = new UserInformationInToken()
+			{
+				Id = user.Id.Value,
+				RoleId = user.RoleId,
+				Username = user.Username,
+			};
+
+			WordServices.HttpContextAccessor.HttpContext.Items["User"] = userToken;
+
 			//Act
 			var result =
 				await WordServices.GetWord(word: word);
@@ -378,7 +419,14 @@ namespace MaxLearnTest.Services
 
 			WordServices.HttpContextAccessor.HttpContext = new DefaultHttpContext();
 
-			WordServices.HttpContextAccessor.HttpContext.Items["User"] = user;
+			var userToken = new UserInformationInToken()
+			{
+				Id = user.Id.Value,
+				RoleId = user.RoleId,
+				Username = user.Username,
+			};
+
+			WordServices.HttpContextAccessor.HttpContext.Items["User"] = userToken;
 
 			var result =
 				await WordServices.AddNewWord(addWordRequestViewModel: addWordRequestViewModel);
@@ -410,6 +458,22 @@ namespace MaxLearnTest.Services
 
 			var allWords =
 				await unitOfWork.WordsRepository.GetAllAsync();
+
+			var users =
+				await unitOfWork.UserRepository.GetAllAsync();
+
+			var user = users.FirstOrDefault();
+
+			WordServices.HttpContextAccessor.HttpContext = new DefaultHttpContext();
+
+			var userToken = new UserInformationInToken()
+			{
+				Id = user.Id.Value,
+				RoleId = user.RoleId,
+				Username = user.Username,
+			};
+
+			WordServices.HttpContextAccessor.HttpContext.Items["User"] = userToken;
 
 			foreach (var word1 in allWords)
 			{
@@ -449,7 +513,14 @@ namespace MaxLearnTest.Services
 
 			WordServices.HttpContextAccessor.HttpContext = new DefaultHttpContext();
 
-			WordServices.HttpContextAccessor.HttpContext.Items["User"] = user;
+			var userToken = new UserInformationInToken()
+			{
+				Id = user.Id.Value,
+				RoleId = user.RoleId,
+				Username = user.Username,
+			};
+
+			WordServices.HttpContextAccessor.HttpContext.Items["User"] = userToken;
 
 			var result =
 				await WordServices.AddNewWord(addWordRequestViewModel: addWordRequestViewModel);
@@ -498,6 +569,22 @@ namespace MaxLearnTest.Services
 				WordTypeId = 1,
 				VerbTenseId = 1,
 			};
+
+			var users =
+				await unitOfWork.UserRepository.GetAllAsync();
+
+			var user = users.FirstOrDefault();
+
+			WordServices.HttpContextAccessor.HttpContext = new DefaultHttpContext();
+
+			var userToken = new UserInformationInToken()
+			{
+				Id = user.Id.Value,
+				RoleId = user.RoleId,
+				Username = user.Username,
+			};
+
+			WordServices.HttpContextAccessor.HttpContext.Items["User"] = userToken;
 
 			var result =
 				await WordServices.AddNewWord(addWordRequestViewModel: addWordRequestViewModel);
@@ -549,8 +636,8 @@ namespace MaxLearnTest.Services
 			{
 				Word = word + "a",
 				Source = "test",
-				PersianTranslation = "english",
-				EnglishTranslation = "فارسی",
+				PersianTranslation = "0english",
+				EnglishTranslation = "فارسی0",
 				WordTypeId = 1,
 				VerbTenseId = 1,
 			};
@@ -562,7 +649,14 @@ namespace MaxLearnTest.Services
 
 			WordServices.HttpContextAccessor.HttpContext = new DefaultHttpContext();
 
-			WordServices.HttpContextAccessor.HttpContext.Items["User"] = user;
+			var userToken = new UserInformationInToken()
+			{
+				Id = user.Id.Value,
+				RoleId = user.RoleId,
+				Username = user.Username,
+			};
+
+			WordServices.HttpContextAccessor.HttpContext.Items["User"] = userToken;
 
 			var result =
 				await WordServices.AddNewWord(addWordRequestViewModel: addWordRequestViewModel);
@@ -571,14 +665,40 @@ namespace MaxLearnTest.Services
 			{
 				Word = word + "b",
 				Source = "test",
-				PersianTranslation = "english",
-				EnglishTranslation = "فارسی",
+				PersianTranslation = "english1",
+				EnglishTranslation = "فارسی1",
 				WordTypeId = 1,
 				VerbTenseId = 1,
 			};
 
 			var result2 =
 				await WordServices.AddNewWord(addWordRequestViewModel: addWordRequestViewModel2);
+
+			AddWordRequestViewModel addWordRequestViewModel3 = new AddWordRequestViewModel()
+			{
+				Word = word + "c",
+				Source = "test",
+				PersianTranslation = "english2",
+				EnglishTranslation = "2فارسی",
+				WordTypeId = 1,
+				VerbTenseId = 1,
+			};
+
+			var result3 =
+				await WordServices.AddNewWord(addWordRequestViewModel: addWordRequestViewModel3);
+
+			AddWordRequestViewModel addWordRequestViewModel4 = new AddWordRequestViewModel()
+			{
+				Word = word + "d",
+				Source = "test",
+				PersianTranslation = "english3",
+				EnglishTranslation = "3فارسی",
+				WordTypeId = 1,
+				VerbTenseId = 1,
+			};
+
+			var result4 =
+				await WordServices.AddNewWord(addWordRequestViewModel: addWordRequestViewModel4);
 
 
 			var getExamRequestViewModel = new GetExamRequestViewModel()
@@ -590,19 +710,19 @@ namespace MaxLearnTest.Services
 
 
 			//Act
-			var result3 =
+			var result5 =
 				await WordServices.GetExam(getExamRequestViewModel: getExamRequestViewModel);
 
 			string successMessage = string.Format
 				(Resources.Messages.SuccessMessages.LoadExamSuccessfull);
 
 			//Assert
-			Assert.Equal(expected: successMessage, actual: result3.Successes[0]);
-			Assert.NotNull(result3.Value);
-			Assert.NotNull(result3.Value[0].Question);
-			Assert.NotNull(result3.Value[0].Answers);
-			Assert.NotNull(result3.Value[1].Question);
-			Assert.NotNull(result3.Value[1].Answers);
+			Assert.Equal(expected: successMessage, actual: result5.Successes[0]);
+			Assert.NotNull(result5.Value);
+			Assert.NotNull(result5.Value[0].Question);
+			Assert.NotNull(result5.Value[0].Answers);
+			Assert.NotNull(result5.Value[1].Question);
+			Assert.NotNull(result5.Value[1].Answers);
 		}
 		#endregion /GetExam
 
@@ -624,13 +744,20 @@ namespace MaxLearnTest.Services
 			};
 
 			var users =
-				await unitOfWork.UserRepository.GetAllAsync();
+					await unitOfWork.UserRepository.GetAllAsync();
 
 			var user = users.FirstOrDefault();
 
 			WordServices.HttpContextAccessor.HttpContext = new DefaultHttpContext();
 
-			WordServices.HttpContextAccessor.HttpContext.Items["User"] = user;
+			var userToken = new UserInformationInToken()
+			{
+				Id = user.Id.Value,
+				RoleId = user.RoleId,
+				Username = user.Username,
+			};
+
+			WordServices.HttpContextAccessor.HttpContext.Items["User"] = userToken;
 
 			var result =
 				await WordServices.AddNewWord(addWordRequestViewModel: addWordRequestViewModel);

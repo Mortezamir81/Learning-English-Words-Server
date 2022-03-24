@@ -536,11 +536,6 @@ namespace Services
 					return result;
 				}
 
-				if (wordModel.VerbTenseId == 1)
-				{
-					wordModel.IsVerb = false;
-				}
-
 				var user =
 					HttpContextAccessor?.HttpContext?.Items["User"] as UserInformationInToken;
 

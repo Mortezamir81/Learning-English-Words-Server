@@ -25,7 +25,7 @@ namespace MaxLearnTest.Services
 		public UserServicesUnitTests()
 		{
 			DbContextOptionsBuilder options = new DbContextOptionsBuilder();
-			options.UseSqlServer(connectionString: "Data Source = SQL5107.site4now.net;  Initial Catalog = db_a842d3_learningenglish; User ID = db_a842d3_learningenglish_admin; Password = m@13811386;");
+			options.UseSqlServer(connectionString: "Data Source = 62.204.61.142;  Initial Catalog = mbteamir_LEW; User ID = mbteamir_LEW_Admin; Password = Morteza@Mm@13811386;");
 
 			DatabaseContext databaseContext = new DatabaseContext(options.Options);
 

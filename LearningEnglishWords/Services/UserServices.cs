@@ -469,10 +469,6 @@ namespace Services
 				var result = 
 					await DatabaseContext.Users
 					.AsNoTracking()
-					.Include(current => current.Role)
-					.Include(current => current.Notifications)
-					.Include(current => current.Words)
-					.Include(current => current.UserLogins)
 					.ToListAsync()
 					;
 
