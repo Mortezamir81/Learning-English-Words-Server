@@ -5,6 +5,11 @@ namespace Domain.Entities
 {
 	public class Exams : Base.Entity
 	{
+		public Exams() : base()
+		{
+		}
+
+
 		public Users User { get; set; }
 		public Guid? UserId { get; set; }
 		public DateTime? PocessingExamDate { get; set; }
@@ -14,6 +19,11 @@ namespace Domain.Entities
 
 	public class PrimitiveResult : Base.Entity
 	{
+		public PrimitiveResult() : base()
+		{
+		}
+
+
 		public bool IsCorrect { get; set; }
 		public bool IsUnanswer { get; set; }
 		public string Question { get; set; }
@@ -23,6 +33,11 @@ namespace Domain.Entities
 
 	public class CompleteResult : Base.Entity
 	{
+		public CompleteResult() : base()
+		{
+		}
+
+
 		public int UnanswerCount { get; set; }
 		public int QuestionsCount { get; set; }
 		public int CorrectAnswersCount { get; set; }

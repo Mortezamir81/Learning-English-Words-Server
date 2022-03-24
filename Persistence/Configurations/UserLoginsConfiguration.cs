@@ -11,6 +11,11 @@ namespace Persistence.Configurations
 {
 	internal class UserLoginsConfiguration : IEntityTypeConfiguration<UserLogins>
 	{
+		public UserLoginsConfiguration() : base()
+		{
+		}
+
+
 		public void Configure(EntityTypeBuilder<UserLogins> builder)
 		{
 			builder.ToTable

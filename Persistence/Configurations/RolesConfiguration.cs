@@ -7,6 +7,11 @@ namespace Persistence.Configuration
 {
 	internal class RolesConfiguration : IEntityTypeConfiguration<Roles>
 	{
+		public RolesConfiguration() : base()
+		{
+		}
+
+
 		public void Configure(EntityTypeBuilder<Roles> builder)
 		{
 			builder.ToTable

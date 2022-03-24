@@ -5,6 +5,11 @@ namespace Domain.Entities
 {
 	public class Notifications : Base.Entity
 	{
+		public Notifications() : base()
+		{
+		}
+
+
 		[JsonIgnore]
 		public Users User { get; set; }
 		public string From { get; set; }

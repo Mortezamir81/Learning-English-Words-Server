@@ -11,6 +11,10 @@ namespace Persistence.Configurations
 {
 	internal class ExamsConfiguration : IEntityTypeConfiguration<Exams>
 	{
+		public ExamsConfiguration() : base()
+		{
+		}
+
 		public void Configure(EntityTypeBuilder<Exams> builder)
 		{
 			builder.ToTable

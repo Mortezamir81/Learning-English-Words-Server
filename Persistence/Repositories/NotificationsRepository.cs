@@ -11,8 +11,7 @@ namespace Persistence.Repositories
 		Dtat.Data.EntityFrameworkCore.Repository<Notifications>, INotificationsRepository
 	{
 		public NotificationsRepository(DatabaseContext databaseContext) : base(databaseContext)
-		{
-		
+		{	
 		}
 
 

@@ -9,9 +9,7 @@ namespace Infrustructrue.AutoMapperProfiles
 			//For Users && RegisterRequestViewModel
 			CreateMap<Domain.Entities.Users, RegisterRequestViewModel>();
 
-			CreateMap<RegisterRequestViewModel, Domain.Entities.Users>()
-				.ForMember(dest => dest.Password, opt => opt.MapFrom
-					(src => Dtat.Utilities.Security.HashDataBySHA1(src.Password)));
+			CreateMap<RegisterRequestViewModel, Domain.Entities.Users>();
 
 			CreateMap<Domain.Entities.Users, UpdateUserRequestViewModel>();
 

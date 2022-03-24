@@ -11,6 +11,11 @@ namespace Persistence.Configurations
 {
 	internal class VerbTensesConfiguration : IEntityTypeConfiguration<VerbTenses>
 	{
+		public VerbTensesConfiguration() : base()
+		{
+		}
+
+
 		public void Configure(EntityTypeBuilder<VerbTenses> builder)
 		{
 			builder.ToTable

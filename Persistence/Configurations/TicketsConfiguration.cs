@@ -11,6 +11,11 @@ namespace Persistence.Configurations
 {
 	internal class TicketsConfiguration : IEntityTypeConfiguration<Ticket>
 	{
+		public TicketsConfiguration() : base()
+		{
+		}
+
+
 		public void Configure(EntityTypeBuilder<Ticket> builder)
 		{
 			builder.ToTable

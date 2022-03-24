@@ -13,7 +13,6 @@ namespace Persistence.Repositories
 	{
 		public WordsRepository(DatabaseContext databaseContext) : base(databaseContext)
 		{
-
 		}
 
 

@@ -50,16 +50,10 @@ namespace Services
 			{
 				var result = new Result();
 
-				UserInformationInToken user = null;
-
-				if (HttpContextAccessor != null &&
-					HttpContextAccessor.HttpContext != null &&
-					HttpContextAccessor.HttpContext.Items["User"] != null)
-				{
-					user =
-						HttpContextAccessor.HttpContext.Items["User"] as UserInformationInToken;
-				}
-				else
+				var	user =
+						HttpContextAccessor?.HttpContext?.Items["User"] as UserInformationInToken;
+				
+				if(user == null)
 				{
 					string errorMessage = string.Format
 						(Resources.Messages.ErrorMessages.UserNotFound);
@@ -126,16 +120,10 @@ namespace Services
 				if (result.IsFailed)
 					return result;
 
-				UserInformationInToken user = null;
+				var user =
+					HttpContextAccessor?.HttpContext?.Items["User"] as UserInformationInToken;
 
-				if (HttpContextAccessor != null &&
-					HttpContextAccessor.HttpContext != null &&
-					HttpContextAccessor.HttpContext.Items["User"] != null)
-				{
-					user =
-						HttpContextAccessor.HttpContext.Items["User"] as UserInformationInToken;
-				}
-				else
+				if (user == null)
 				{
 					string errorMessage = string.Format
 						(Resources.Messages.ErrorMessages.UserNotFound);
@@ -234,16 +222,10 @@ namespace Services
 					responseWord.IsVerb = false;
 				}
 
-				UserInformationInToken user = null;
+				var user =
+					HttpContextAccessor?.HttpContext?.Items["User"] as UserInformationInToken;
 
-				if (HttpContextAccessor != null &&
-					HttpContextAccessor.HttpContext != null &&
-					HttpContextAccessor.HttpContext.Items["User"] != null)
-				{
-					user =
-						HttpContextAccessor.HttpContext.Items["User"] as UserInformationInToken;
-				}
-				else
+				if (user == null)
 				{
 					string errorMessage = string.Format
 						(Resources.Messages.ErrorMessages.UserNotFound);
@@ -314,16 +296,10 @@ namespace Services
 				if (result.IsFailed == true)
 					return result;
 
-				UserInformationInToken user = null;
+				var user =
+					HttpContextAccessor?.HttpContext?.Items["User"] as UserInformationInToken;
 
-				if (HttpContextAccessor != null &&
-					HttpContextAccessor.HttpContext != null &&
-					HttpContextAccessor.HttpContext.Items["User"] != null)
-				{
-					user =
-						HttpContextAccessor.HttpContext.Items["User"] as UserInformationInToken;
-				}
-				else
+				if (user == null)
 				{
 					string errorMessage = string.Format
 						(Resources.Messages.ErrorMessages.UserNotFound);
@@ -391,7 +367,17 @@ namespace Services
 				var result = new Result<List<GetWordResponseViewModel>>();
 
 				var user =
-					HttpContextAccessor.HttpContext.Items["User"] as UserInformationInToken;
+					HttpContextAccessor?.HttpContext?.Items["User"] as UserInformationInToken;
+
+				if (user == null)
+				{
+					string errorMessage = string.Format
+						(Resources.Messages.ErrorMessages.UserNotFound);
+
+					result.AddErrorMessage(errorMessage);
+
+					return result;
+				}
 
 				var foundedWords =
 					await UnitOfWork.WordsRepository.GetAllWordAsync(getAllWordsRequestViewModel, user.Id);
@@ -449,16 +435,10 @@ namespace Services
 				var result =
 					new Result<RecentLearnedResponseViewModel>();
 
-				UserInformationInToken user = null;
+				var user =
+					HttpContextAccessor?.HttpContext?.Items["User"] as UserInformationInToken;
 
-				if (HttpContextAccessor != null &&
-					HttpContextAccessor.HttpContext != null &&
-					HttpContextAccessor.HttpContext.Items["User"] != null)
-				{
-					user =
-						HttpContextAccessor.HttpContext.Items["User"] as UserInformationInToken;
-				}
-				else
+				if (user == null)
 				{
 					string errorMessage = string.Format
 						(Resources.Messages.ErrorMessages.UserNotFound);
@@ -561,16 +541,10 @@ namespace Services
 					wordModel.IsVerb = false;
 				}
 
-				UserInformationInToken user = null;
+				var user =
+					HttpContextAccessor?.HttpContext?.Items["User"] as UserInformationInToken;
 
-				if (HttpContextAccessor != null &&
-					HttpContextAccessor.HttpContext != null &&
-					HttpContextAccessor.HttpContext.Items["User"] != null)
-				{
-					user =
-						HttpContextAccessor.HttpContext.Items["User"] as UserInformationInToken;
-				}
-				else
+				if (user == null)
 				{
 					string errorMessage = string.Format
 						(Resources.Messages.ErrorMessages.UserNotFound);
@@ -648,16 +622,10 @@ namespace Services
 				if (result.IsFailed)
 					return result;
 
-				UserInformationInToken user = null;
+				var user =
+					HttpContextAccessor?.HttpContext?.Items["User"] as UserInformationInToken;
 
-				if (HttpContextAccessor != null &&
-					HttpContextAccessor.HttpContext != null &&
-					HttpContextAccessor.HttpContext.Items["User"] != null)
-				{
-					user =
-						HttpContextAccessor.HttpContext.Items["User"] as UserInformationInToken;
-				}
-				else
+				if (user == null)
 				{
 					string errorMessage = string.Format
 						(Resources.Messages.ErrorMessages.UserNotFound);

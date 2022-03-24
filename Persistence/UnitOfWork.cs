@@ -8,8 +8,8 @@ namespace Persistence
 	{
 		public UnitOfWork(DatabaseContext databaseContext) : base(databaseContext)
 		{
-
 		}
+
 
 		#region Fields And Properties
 		//********

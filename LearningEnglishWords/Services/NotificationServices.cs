@@ -54,16 +54,10 @@ namespace Services
 				var result =
 					new Dtat.Results.Result<List<GetAllNotificationResponseViewModel>>();
 
-				UserInformationInToken user = null;
+				var user =
+					HttpContextAccessor?.HttpContext?.Items["User"] as UserInformationInToken;
 
-				if (HttpContextAccessor != null &&
-					HttpContextAccessor.HttpContext != null &&
-					HttpContextAccessor.HttpContext.Items["User"] != null)
-				{
-					user =
-						HttpContextAccessor.HttpContext.Items["User"] as UserInformationInToken;
-				}
-				else
+				if (user == null)
 				{
 					string errorMessage = string.Format
 						(Resources.Messages.ErrorMessages.UserNotFound);
@@ -125,16 +119,10 @@ namespace Services
 				var result =
 					new Dtat.Results.Result();
 
-				UserInformationInToken user = null;
+				var user =
+					HttpContextAccessor?.HttpContext?.Items["User"] as UserInformationInToken;
 
-				if (HttpContextAccessor != null &&
-					HttpContextAccessor.HttpContext != null &&
-					HttpContextAccessor.HttpContext.Items["User"] != null)
-				{
-					user =
-						HttpContextAccessor.HttpContext.Items["User"] as UserInformationInToken;
-				}
-				else
+				if (user == null)
 				{
 					string errorMessage = string.Format
 						(Resources.Messages.ErrorMessages.UserNotFound);
@@ -371,16 +359,10 @@ namespace Services
 				if (result.IsFailed)
 					return result;
 
-				UserInformationInToken user = null;
+				var user =
+					HttpContextAccessor?.HttpContext?.Items["User"] as UserInformationInToken;
 
-				if (HttpContextAccessor != null &&
-					HttpContextAccessor.HttpContext != null &&
-					HttpContextAccessor.HttpContext.Items["User"] != null)
-				{
-					user =
-						HttpContextAccessor.HttpContext.Items["User"] as UserInformationInToken;
-				}
-				else
+				if (user == null)
 				{
 					string errorMessage = string.Format
 						(Resources.Messages.ErrorMessages.UserNotFound);

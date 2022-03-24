@@ -11,6 +11,11 @@ namespace Persistence.Configurations
 {
 	internal class CompleteResultConfiguration : IEntityTypeConfiguration<CompleteResult>
 	{
+		public CompleteResultConfiguration() : base()
+		{
+		}
+
+
 		public void Configure(EntityTypeBuilder<CompleteResult> builder)
 		{
 			builder.ToTable

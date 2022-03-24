@@ -11,6 +11,11 @@ namespace Persistence.Configurations
 {
 	internal class PrimitiveResultConfiguration : IEntityTypeConfiguration<PrimitiveResult>
 	{
+		public PrimitiveResultConfiguration() : base()
+		{
+		}
+
+
 		public void Configure(EntityTypeBuilder<PrimitiveResult> builder)
 		{
 			builder.ToTable

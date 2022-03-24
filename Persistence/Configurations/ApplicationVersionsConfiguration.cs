@@ -11,6 +11,10 @@ namespace Persistence.Configurations
 {
 	internal class ApplicationVersionsConfiguration : IEntityTypeConfiguration<ApplicationVersions>
 	{
+        public ApplicationVersionsConfiguration():base()
+        {
+        }
+
 		public void Configure(EntityTypeBuilder<ApplicationVersions> builder)
 		{
 			builder.ToTable

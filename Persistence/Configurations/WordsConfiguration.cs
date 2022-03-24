@@ -11,6 +11,11 @@ namespace Persistence.Configurations
 {
 	internal class WordsConfiguration : IEntityTypeConfiguration<Words>
 	{
+		public WordsConfiguration() : base()
+		{
+		}
+
+
 		public void Configure(EntityTypeBuilder<Words> builder)
 		{
 			builder.ToTable

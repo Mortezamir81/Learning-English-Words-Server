@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Http;
 using Dtat.Utilities;
 using System.Collections;
 using Microsoft.EntityFrameworkCore;
+using ViewModels.General;
 
 namespace Services
 {
@@ -24,17 +25,20 @@ namespace Services
 		#region Constractor
 		public UserServices
 			(IMapper mapper,
+			IUnitOfWork unitOfWork,
+			ITokenUtility tokenUtility,
 			ILogger<UserServices> logger,
-			IOptions<ApplicationSettings> options,
 			DatabaseContext databaseContext,
-			IUnitOfWork unitOfWork, ITokenUtility tokenUtility) : base()
+			IOptions<ApplicationSettings> options,
+			IHttpContextAccessor httpContextAccessor) : base()
 		{
 			Logger = logger;
 			Mapper = mapper;
 			UnitOfWork = unitOfWork;
 			TokenUtility = tokenUtility;
-			ApplicationSettings = options.Value;
+            ApplicationSettings = options.Value;
 			DatabaseContext = databaseContext;
+			HttpContextAccessor = httpContextAccessor;
 		}
 		#endregion /Constractor
 
@@ -43,7 +47,8 @@ namespace Services
 		public IUnitOfWork UnitOfWork { get; }
 		public ILogger<UserServices> Logger { get; }
 		protected ITokenUtility TokenUtility { get; }
-		public DatabaseContext DatabaseContext { get; }
+        public DatabaseContext DatabaseContext { get; }
+		public IHttpContextAccessor HttpContextAccessor { get; }
 		protected ApplicationSettings ApplicationSettings { get; set; }
 		#endregion /Properties
 
@@ -84,7 +89,7 @@ namespace Services
 				properties =
 					LogUtilities.GetProperties(instance: updateUserRequestViewModel);
 
-				await Logger.LogInformation
+				await Logger.LogWarning
 					(message: Resources.Resource.InputPropertiesInfo, parameters: properties);
 
 				var result =
@@ -214,7 +219,7 @@ namespace Services
 				properties =
 					LogUtilities.GetProperties(instance: deleteUserRequestViewModel);
 
-				await Logger.LogInformation
+				await Logger.LogWarning
 					(message: Resources.Resource.InputPropertiesInfo, parameters: properties);
 
 				var result =
@@ -420,9 +425,10 @@ namespace Services
 				if (result.IsFailed == true)
 					return result;
 
-				//The hashing password is in AutoMaperProfile > UserProfile
 				var user =
 					Mapper.Map<Users>(source: registerRequestViewModel);
+
+				user.Password = Security.HashDataBySHA1(user.Password);
 
 				user.SecurityStamp = Guid.NewGuid();
 
@@ -531,7 +537,7 @@ namespace Services
 				properties =
 					LogUtilities.GetProperties(instance: loginRequestViewModel);
 
-				await Logger.LogInformation
+				await Logger.LogWarning
 					(message: Resources.Resource.InputPropertiesInfo, parameters: properties);
 
 				var result =
@@ -637,11 +643,26 @@ namespace Services
 				properties =
 					LogUtilities.GetProperties(instance: changeUserRoleRequestViewModel);
 
-				await Logger.LogInformation
-					(message: Resources.Resource.InputPropertiesInfo, parameters: properties);
-
 				var result =
 					ChangeUserRoleValidation(changeUserRoleRequestViewModel);
+
+				var adminUser =
+					(HttpContextAccessor?.HttpContext?.Items["User"] as UserInformationInToken)?.Username;
+
+                if (adminUser == null)
+                {
+					string errorMessage = string.Format
+						(Resources.Messages.ErrorMessages.UserNotFound);
+
+					result.AddErrorMessage(errorMessage);
+
+					return result;
+				}
+
+				properties.Add("By Admin", adminUser);
+
+				await Logger.LogWarning
+					(message: Resources.Resource.InputPropertiesInfo, parameters: properties);
 
 				if (result.IsFailed == true)
 					return result;

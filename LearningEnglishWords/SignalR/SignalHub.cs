@@ -43,7 +43,7 @@ namespace Services.SignalR
 
 		public override async Task OnConnectedAsync()
 		{
-			var user = HttpContextAccessor.HttpContext.Items["User"] as UserInformationInToken;
+			var user = HttpContextAccessor?.HttpContext?.Items["User"] as UserInformationInToken;
 
 			if (user != null)
 			{
@@ -57,7 +57,7 @@ namespace Services.SignalR
 
 		public override async Task OnDisconnectedAsync(Exception exception)
 		{
-			var user = HttpContextAccessor.HttpContext.Items["User"] as UserInformationInToken;
+			var user = HttpContextAccessor?.HttpContext?.Items["User"] as UserInformationInToken;
 
 			if (user != null)
 			{
@@ -70,7 +70,7 @@ namespace Services.SignalR
 
 		public async Task ChangeIsReadNotificationToTrue(Guid notificationId)
 		{
-			var user = HttpContextAccessor.HttpContext.Items["User"] as UserInformationInToken;
+			var user = HttpContextAccessor?.HttpContext?.Items["User"] as UserInformationInToken;
 
 			if (user != null)
 			{
@@ -107,7 +107,7 @@ namespace Services.SignalR
 			var result =
 				new Result<List<GetWordResponseViewModel>>();
 
-			var user = HttpContextAccessor.HttpContext.Items["User"] as UserInformationInToken;
+			var user = HttpContextAccessor?.HttpContext?.Items["User"] as UserInformationInToken;
 
 			if (user != null)
 			{

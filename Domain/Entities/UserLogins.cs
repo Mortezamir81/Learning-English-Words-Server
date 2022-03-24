@@ -5,6 +5,11 @@ namespace Domain.Entities
 {
 	public class UserLogins : Base.Entity
 	{
+		public UserLogins() : base()
+		{
+		}
+
+
 		[JsonIgnore]
 		public Users User { get; set; }
 		public Guid UserId { get; set; }

@@ -5,6 +5,11 @@ namespace Domain.Entities
 {
 	public class Roles
 	{
+		public Roles() : base()
+		{
+		}
+
+
 		public int Id {  get; set; }
 
 		public string RoleName {  get; set; }

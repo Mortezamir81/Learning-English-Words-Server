@@ -4,8 +4,13 @@ using Domain.Entities;
 
 namespace Persistence.Configuration
 {
-	class UsersConfiguration : IEntityTypeConfiguration<Users>
+	internal class UsersConfiguration : IEntityTypeConfiguration<Users>
 	{
+		public UsersConfiguration() : base()
+		{
+		}
+
+
 		public void Configure(EntityTypeBuilder<Users> builder)
 		{
 			builder.ToTable

@@ -11,6 +11,11 @@ namespace Persistence.Configurations
 {
 	internal class NotificationsConfiguration : IEntityTypeConfiguration<Notifications>
 	{
+		public NotificationsConfiguration() : base()
+		{
+		}
+
+
 		public void Configure(EntityTypeBuilder<Notifications> builder)
 		{
 			builder.ToTable

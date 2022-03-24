@@ -5,6 +5,11 @@ namespace Domain.Entities
 {
 	public class VerbTenses
 	{
+		public VerbTenses() : base()
+		{
+		}
+
+
 		public int Id { get; set; }
 		public string Tense { get; set; }
 

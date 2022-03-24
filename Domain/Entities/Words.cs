@@ -5,6 +5,11 @@ namespace Domain.Entities
 {
 	public class Words : Base.Entity
 	{
+		public Words() : base()
+		{
+		}
+
+
 		[JsonIgnore]
 		public Users User { get; set; }
 		public string Word { get; set; }

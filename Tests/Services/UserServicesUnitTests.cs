@@ -64,7 +64,8 @@ namespace MaxLearnTest.Services
                     logger: loggerForUserServices,
                     mapper: mapper, tokenUtility: tokenUtility,
                     options: appSettingsOptions,
-					databaseContext: databaseContext);
+					databaseContext: databaseContext,
+					httpContextAccessor: httpContextAccessor);
         }
 
 		#region Login
