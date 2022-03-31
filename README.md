@@ -1,4 +1,4 @@
-# LearningEnglishWordsServer
+# LearningEnglishWordsServer (ASP.NET Core Web Api Project)
 
 <h1 align="center">به نام خدا<h1/>
 
