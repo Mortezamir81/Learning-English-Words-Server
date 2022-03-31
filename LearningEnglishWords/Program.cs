@@ -15,12 +15,10 @@ using Services.SignalR;
 var webApplicationOptions =
 	new WebApplicationOptions
 	{
-        EnvironmentName =
-            Environments.Development,
-
-        //EnvironmentName =
-        //    Environments.Production,
-    };
+		EnvironmentName =
+			System.Diagnostics.Debugger.IsAttached ?
+			Environments.Development : Environments.Production,
+	};
 //******************************
 
 
