@@ -274,7 +274,7 @@ namespace Persistence.Repositories
 				var correctAnswer =
 					await DbSet
 					.Where(current => current.Content == exam.Question)
-					.Select(current => exam.Language == "persian" ? current.PersianTranslation : current.EnglishTranslation)
+					.Select(current => exam.Language.ToLower() == "persian" ? current.PersianTranslation : current.EnglishTranslation)
 					.FirstOrDefaultAsync()
 					;
 

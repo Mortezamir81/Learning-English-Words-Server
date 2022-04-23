@@ -17,136 +17,143 @@ using Infrustructrue.Enums;
 
 namespace Services.SignalR
 {
-	public class SignalHub : Hub
-	{
-		public SignalHub
-			(IMapper mapper,
-			IUnitOfWork unitOfWork,
-			ILogger<SignalHub> logger,
-			DatabaseContext databaseContext,
-			IHttpContextAccessor httpContextAccessor) : base()
-		{
-			Mapper = mapper;
-			Logger = logger;
-			UnitOfWork = unitOfWork;
-			DatabaseContext = databaseContext;
-			HttpContextAccessor = httpContextAccessor;
-		}
+    public class SignalHub : Hub
+    {
+        #region Constractor
+        public SignalHub
+            (IMapper mapper,
+            IUnitOfWork unitOfWork,
+            ILogger<SignalHub> logger,
+            DatabaseContext databaseContext,
+            IHttpContextAccessor httpContextAccessor) : base()
+        {
+            Mapper = mapper;
+            Logger = logger;
+            UnitOfWork = unitOfWork;
+            DatabaseContext = databaseContext;
+            HttpContextAccessor = httpContextAccessor;
+        }
+        #endregion
+
+        #region Properties
+        public IMapper Mapper { get; }
+        public IUnitOfWork UnitOfWork { get; }
+        public ILogger<SignalHub> Logger { get; set; }
+        public DatabaseContext DatabaseContext { get; }
+        public IHttpContextAccessor HttpContextAccessor { get; }
+        #endregion
+
+        #region Methods
+        public override async Task OnConnectedAsync()
+        {
+            var user = HttpContextAccessor?.HttpContext?.Items["User"] as UserInformationInToken;
+
+            if (user != null)
+            {
+                await Logger.LogTrace($"User {user.Username} connected successful");
+                await Groups.AddToGroupAsync(Context.ConnectionId, user.Username.ToLower());
+                await Clients.All.SendAsync("RefreshNotificationPanel");
+            }
+
+            await base.OnConnectedAsync();
+        }
 
 
-		public IMapper Mapper { get; }
-		public IUnitOfWork UnitOfWork { get; }
-		public ILogger<SignalHub> Logger { get; set; }
-		public DatabaseContext DatabaseContext { get; }
-		public IHttpContextAccessor HttpContextAccessor { get; }
+        public override async Task OnDisconnectedAsync(Exception exception)
+        {
+            var user = HttpContextAccessor?.HttpContext?.Items["User"] as UserInformationInToken;
+
+            if (user != null)
+            {
+                await Logger.LogTrace($"User {user.Username} disconnected successful");
+                await Groups.RemoveFromGroupAsync(Context.ConnectionId, user.Username.ToLower());
+            }
+
+            await base.OnDisconnectedAsync(exception);
+        }
 
 
-		public override async Task OnConnectedAsync()
-		{
-			var user = HttpContextAccessor?.HttpContext?.Items["User"] as UserInformationInToken;
+        public async Task ChangeIsReadNotificationToTrue(Guid notificationId)
+        {
+            var user = HttpContextAccessor?.HttpContext?.Items["User"] as UserInformationInToken;
 
-			if (user != null)
-			{
-				await Logger.LogTrace($"User {user.Username} connected successful");
-				await Groups.AddToGroupAsync(Context.ConnectionId, user.Username.ToLower());
-				await Clients.All.SendAsync("RefreshNotificationPanel");
-			}
+            if (user != null)
+            {
+                await Logger.LogTrace($"notif is read by {user.Username}");
 
-			await base.OnConnectedAsync();
-		}
-
-		public override async Task OnDisconnectedAsync(Exception exception)
-		{
-			var user = HttpContextAccessor?.HttpContext?.Items["User"] as UserInformationInToken;
-
-			if (user != null)
-			{
-				await Logger.LogTrace($"User {user.Username} disconnected successful");
-				await Groups.RemoveFromGroupAsync(Context.ConnectionId, user.Username.ToLower());
-			}
-
-			await base.OnDisconnectedAsync(exception);
-		}
-
-		public async Task ChangeIsReadNotificationToTrue(Guid notificationId)
-		{
-			var user = HttpContextAccessor?.HttpContext?.Items["User"] as UserInformationInToken;
-
-			if (user != null)
-			{
-				await Logger.LogTrace($"notif is read by {user.Username}");
-
-				var result =
-					await DatabaseContext.Users
-					.Include(current => current.Notifications)
-					.Where(current => current.Username.ToLower() == user.Username.ToLower())
-					.FirstOrDefaultAsync()
-					;
+                var result =
+                    await DatabaseContext.Users
+                    .Include(current => current.Notifications)
+                    .Where(current => current.Username.ToLower() == user.Username.ToLower())
+                    .FirstOrDefaultAsync()
+                    ;
 
                 if (result != null)
                 {
-					await Logger.LogTrace($"user : {user.Username} is not null and readed by database");
+                    await Logger.LogTrace($"user : {user.Username} is not null and readed by database");
 
-					foreach (var notification in result.Notifications)
-					{
-						if (notification.Id == notificationId)
-						{
-							notification.IsRead = true;
-							await UnitOfWork.SaveAsync();
+                    foreach (var notification in result.Notifications)
+                    {
+                        if (notification.Id == notificationId)
+                        {
+                            notification.IsRead = true;
+                            await UnitOfWork.SaveAsync();
 
-							await Logger.LogTrace($"notification read updated in databas done.");
-							break;
-						}
-					}
-				}				
-			}
-		}
+                            await Logger.LogTrace($"notification read updated in databas done.");
+                            break;
+                        }
+                    }
+                }
+            }
+        }
 
-		public async Task<Result<List<GetWordResponseViewModel>>> SearchWord(string word)
-		{
-			var result =
-				new Result<List<GetWordResponseViewModel>>();
 
-			var user = HttpContextAccessor?.HttpContext?.Items["User"] as UserInformationInToken;
+        public async Task<Result<List<GetWordResponseViewModel>>> SearchWord(string word)
+        {
+            var result =
+                new Result<List<GetWordResponseViewModel>>();
 
-			if (user != null)
-			{
-				var foundedWords =
-					await UnitOfWork.WordsRepository.SearchWordAsync(word, user.Id);
+            var user = HttpContextAccessor?.HttpContext?.Items["User"] as UserInformationInToken;
 
-				if (foundedWords == null || foundedWords.Count <= 0)
-				{
-					string wordsListErrorMessage = string.Format
-						(Resources.Messages.ErrorMessages.WordsListEmpty);
+            if (user != null)
+            {
+                var foundedWords =
+                    await UnitOfWork.WordsRepository.SearchWordAsync(word, user.Id);
 
-					result.AddErrorMessage(wordsListErrorMessage);
+                if (foundedWords == null || foundedWords.Count <= 0)
+                {
+                    string wordsListErrorMessage = string.Format
+                        (Resources.Messages.ErrorMessages.WordsListEmpty);
 
-					return result;
-				}
+                    result.AddErrorMessage(wordsListErrorMessage);
 
-				var wordsList = new List<GetWordResponseViewModel>();
+                    return result;
+                }
 
-				foreach (var foundedWord in foundedWords)
-				{
-					GetWordResponseViewModel responseWord =
-						Mapper.Map<GetWordResponseViewModel>(source: foundedWord);
+                var wordsList = new List<GetWordResponseViewModel>();
 
-					wordsList.Add(responseWord);
-				}
+                foreach (var foundedWord in foundedWords)
+                {
+                    GetWordResponseViewModel responseWord =
+                        Mapper.Map<GetWordResponseViewModel>(source: foundedWord);
 
-				result.Value = wordsList;
+                    wordsList.Add(responseWord);
+                }
 
-				string successMessage = string.Format
-					(Resources.Messages.SuccessMessages.LoadWordSuccessfull);
+                result.Value = wordsList;
 
-				result.AddSuccessMessage(message: successMessage);
+                string successMessage = string.Format
+                    (Resources.Messages.SuccessMessages.LoadWordSuccessfull);
 
-				return result;
-			}
+                result.AddSuccessMessage(message: successMessage);
 
-			result.AddErrorMessage("Unauthorized");
+                return result;
+            }
 
-			return result;
-		}
-	}
+            result.AddErrorMessage("Unauthorized");
+
+            return result;
+        }
+        #endregion
+    }
 }
