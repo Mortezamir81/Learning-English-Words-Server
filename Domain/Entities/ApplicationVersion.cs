@@ -2,9 +2,9 @@
 
 namespace Domain.Entities
 {
-	public class ApplicationVersions : Base.Entity
+	public class ApplicationVersion : Base.Entity
 	{
-		public ApplicationVersions() : base()
+		public ApplicationVersion() : base()
 		{
 		}
 

@@ -7,14 +7,14 @@ using Domain.Entities;
 namespace Persistence.Repositories
 {
 	public class UsersRepository :
-		Dtat.Data.EntityFrameworkCore.Repository<Users>, IUsersRepository
+		Dtat.Data.EntityFrameworkCore.Repository<User>, IUsersRepository
 	{
 		public UsersRepository(DatabaseContext databaseContext) : base(databaseContext: databaseContext)
 		{
 		}
 
 
-		public async Task UpdateUserAsync(Users users)
+		public async Task UpdateUserAsync(User users)
 		{
 			if (users == null)
 				throw new ArgumentNullException(paramName: nameof(users));
@@ -57,7 +57,7 @@ namespace Persistence.Repositories
 		}
 
 
-		public async Task<Users> LoginAsync(string username, string password)
+		public async Task<User> LoginAsync(string username, string password)
 		{
 			if (string.IsNullOrWhiteSpace(username))
 			{

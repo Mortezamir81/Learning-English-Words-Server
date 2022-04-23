@@ -10,17 +10,17 @@ namespace Persistence
 		}
 
 
-		public DbSet<Roles> Roles { get; set; }
-		public DbSet<Exams> Exams { get; set; }
-		public DbSet<Users> Users { get; set; }
+		public DbSet<Role> Roles { get; set; }
+		public DbSet<Exam> Exams { get; set; }
+		public DbSet<User> Users { get; set; }
 		public DbSet<Ticket> Tickets { get; set; }
-		public DbSet<WordTypes> WordTypes { get; set; }
-		public DbSet<UserLogins> UserLogins { get; set; }
-		public DbSet<VerbTenses> VerbTenses { get; set; }
+		public DbSet<WordType> WordTypes { get; set; }
+		public DbSet<UserLogin> UserLogins { get; set; }
+		public DbSet<VerbTense> VerbTenses { get; set; }
 		public DbSet<Notifications> Notifications { get; set; }
-		public DbSet<CompleteResult> CompleteResult { get; set; }
-		public DbSet<PrimitiveResult> PrimitiveResult { get; set; }
-		public DbSet<ApplicationVersions> ApplicationVersions { get; set; }
+		public DbSet<CompleteResult> CompleteResults { get; set; }
+		public DbSet<PrimitiveResult> PrimitiveResults { get; set; }
+		public DbSet<ApplicationVersion> ApplicationVersions { get; set; }
 
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)

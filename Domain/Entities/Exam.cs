@@ -3,14 +3,14 @@ using System.Collections.Generic;
 
 namespace Domain.Entities
 {
-	public class Exams : Base.Entity
+	public class Exam : Base.Entity
 	{
-		public Exams() : base()
+		public Exam() : base()
 		{
 		}
 
 
-		public Users User { get; set; }
+		public User User { get; set; }
 		public Guid? UserId { get; set; }
 		public DateTime? PocessingExamDate { get; set; }
 		public CompleteResult CompleteResult { get; set; }

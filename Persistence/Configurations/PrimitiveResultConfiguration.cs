@@ -19,7 +19,7 @@ namespace Persistence.Configurations
 		public void Configure(EntityTypeBuilder<PrimitiveResult> builder)
 		{
 			builder.ToTable
-				("PrimitiveResult", "LE")
+				("PrimitiveResults", "LE")
 					.HasKey(current => current.Id);
 		}
 	}

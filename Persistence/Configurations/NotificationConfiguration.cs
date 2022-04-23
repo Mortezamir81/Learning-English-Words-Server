@@ -9,49 +9,48 @@ using System.Threading.Tasks;
 
 namespace Persistence.Configurations
 {
-	internal class WordsConfiguration : IEntityTypeConfiguration<Words>
+	internal class NotificationConfiguration : IEntityTypeConfiguration<Notifications>
 	{
-		public WordsConfiguration() : base()
+		public NotificationConfiguration() : base()
 		{
 		}
 
 
-		public void Configure(EntityTypeBuilder<Words> builder)
+		public void Configure(EntityTypeBuilder<Notifications> builder)
 		{
 			builder.ToTable
-				("Words", "LE")
+				("Notifications", "LE")
 					.HasKey(current => current.Id);
 
 			builder.Property
-				(current => current.Word)
+				(current => current.Message)
 					.IsRequired();
 
 			builder.Property
-				(current => current.LearningDate)
+				(current => current.Title)
 					.IsRequired();
 
 			builder.Property
-				(current => current.IsVerb)
+				(current => current.From)
 					.IsRequired();
 
 			builder.Property
-				(current => current.Source)
+				(current => current.Direction)
+					.HasDefaultValue("ltr")
 					.IsRequired();
 
 			builder.Property
-				(current => current.PersianTranslation)
+				(current => current.IsDeleted)
+					.HasDefaultValue(false)
 					.IsRequired();
 
 			builder.Property
-				(current => current.EnglishTranslation)
+				(current => current.IsRead)
+					.HasDefaultValue(false)
 					.IsRequired();
 
 			builder.Property
-				(current => current.EditDate)
-					.IsRequired(false);
-
-			builder.Property
-				(current => current.LearningDate)
+				(current => current.SentDate)
 					.HasDefaultValueSql("getutcdate()")
 					.HasColumnType("datetime")
 					.IsRequired();

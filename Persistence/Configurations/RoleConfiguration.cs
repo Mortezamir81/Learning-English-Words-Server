@@ -5,14 +5,14 @@ using System.Collections.Generic;
 
 namespace Persistence.Configuration
 {
-	internal class RolesConfiguration : IEntityTypeConfiguration<Roles>
+	internal class RoleConfiguration : IEntityTypeConfiguration<Role>
 	{
-		public RolesConfiguration() : base()
+		public RoleConfiguration() : base()
 		{
 		}
 
 
-		public void Configure(EntityTypeBuilder<Roles> builder)
+		public void Configure(EntityTypeBuilder<Role> builder)
 		{
 			builder.ToTable
 				(name: "Roles", schema: "LE")
@@ -22,19 +22,19 @@ namespace Persistence.Configuration
 				(current => current.RoleName)
 					.IsRequired();
 
-			builder.HasData(new List<Roles>()
+			builder.HasData(new List<Role>()
 			{
-				new Roles()
+				new Role()
 				{
 					Id = 1,
 					RoleName = "Admin"
 				},
-				new Roles()
+				new Role()
 				{
 					Id = 2,
 					RoleName = "Vip"
 				},
-				new Roles()
+				new Role()
 				{
 					Id = 3,
 					RoleName = "User"

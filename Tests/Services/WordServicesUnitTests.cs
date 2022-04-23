@@ -22,7 +22,7 @@ namespace MaxLearnTest.Services
 		public WordServicesUnitTests()
 		{
 			DbContextOptionsBuilder options = new DbContextOptionsBuilder();
-			options.UseSqlServer(connectionString: "Data Source = 62.204.61.142;  Initial Catalog = mbteamir_LEW; User ID = mbteamir_LEW_Admin; Password = Morteza@Mm@13811386;");
+			options.UseSqlServer(connectionString: "Data Source = 62.204.61.142;  Initial Catalog = mbteamir_LEW; User ID = mbteamir_LEW_Admin; Password = Mm@13811386;");
 
 			DatabaseContext databaseContext = new DatabaseContext(options.Options);
 
@@ -54,12 +54,12 @@ namespace MaxLearnTest.Services
 			//Arrange
 			AddWordRequestViewModel addWordRequestViewModel = new AddWordRequestViewModel()
 			{
-				Word = null
+				Content = null
 			};
 
 			string errorMessage = string.Format
 				(Resources.Messages.ErrorMessages.MostNotBeNullWithIn,
-				nameof(addWordRequestViewModel.Word), nameof(addWordRequestViewModel));
+				nameof(addWordRequestViewModel.Content), nameof(addWordRequestViewModel));
 
 			//Act
 			var result =
@@ -75,7 +75,7 @@ namespace MaxLearnTest.Services
 			//Arrange
 			AddWordRequestViewModel addWordRequestViewModel = new AddWordRequestViewModel()
 			{
-				Word = "test",
+				Content = "test",
 				Source = null
 			};
 
@@ -97,7 +97,7 @@ namespace MaxLearnTest.Services
 			//Arrange
 			AddWordRequestViewModel addWordRequestViewModel = new AddWordRequestViewModel()
 			{
-				Word = "test",
+				Content = "test",
 				Source = "test",
 				PersianTranslation = "test",
 				WordTypeId = 1,
@@ -122,7 +122,7 @@ namespace MaxLearnTest.Services
 			//Arrange
 			AddWordRequestViewModel addWordRequestViewModel = new AddWordRequestViewModel()
 			{
-				Word = "test",
+				Content = "test",
 				Source = "test",
 				WordTypeId = 1,
 				EnglishTranslation = "test",
@@ -147,7 +147,7 @@ namespace MaxLearnTest.Services
 			//Arrange
 			AddWordRequestViewModel addWordRequestViewModel = new AddWordRequestViewModel()
 			{
-				Word = "test",
+				Content = "test",
 				Source = "test",
 				PersianTranslation = "test",
 				EnglishTranslation = "test",
@@ -188,7 +188,7 @@ namespace MaxLearnTest.Services
 			//Arrange
 			AddWordRequestViewModel addWordRequestViewModel = new AddWordRequestViewModel()
 			{
-				Word = "test",
+				Content = "test",
 				Source = "test",
 				PersianTranslation = "test",
 				EnglishTranslation = "test",
@@ -213,7 +213,7 @@ namespace MaxLearnTest.Services
 			//Arrange
 			AddWordRequestViewModel addWordRequestViewModel = new AddWordRequestViewModel()
 			{
-				Word = "test",
+				Content = "test",
 				Source = "test",
 				PersianTranslation = "test",
 				EnglishTranslation = "test",
@@ -238,7 +238,7 @@ namespace MaxLearnTest.Services
 			//Arrange
 			AddWordRequestViewModel addWordRequestViewModel = new AddWordRequestViewModel()
 			{
-				Word = null,
+				Content = null,
 				Source = null,
 				PersianTranslation = null,
 				EnglishTranslation = null,
@@ -247,7 +247,7 @@ namespace MaxLearnTest.Services
 
 			string wordErrorMessage = string.Format
 				(Resources.Messages.ErrorMessages.MostNotBeNullWithIn,
-					nameof(addWordRequestViewModel.Word), nameof(addWordRequestViewModel));
+					nameof(addWordRequestViewModel.Content), nameof(addWordRequestViewModel));
 
 
 			string sourceErrorMessage = string.Format
@@ -301,7 +301,7 @@ namespace MaxLearnTest.Services
 
 			AddWordRequestViewModel addWordRequestViewModel = new AddWordRequestViewModel()
 			{
-				Word = word,
+				Content = word,
 				Source = "test",
 				PersianTranslation = "test",
 				EnglishTranslation = "test",
@@ -333,7 +333,7 @@ namespace MaxLearnTest.Services
 				await unitOfWork.WordsRepository.GetAllAsync();
 
 			var findedWord =
-				allWords.Where(current => current.Word == word);
+				allWords.Where(current => current.Content == word);
 
 			string successMessage = string.Format
 				(Resources.Messages.SuccessMessages.AddSuccessful);
@@ -404,7 +404,7 @@ namespace MaxLearnTest.Services
 
 			AddWordRequestViewModel addWordRequestViewModel = new AddWordRequestViewModel()
 			{
-				Word = word,
+				Content = word,
 				Source = "test",
 				PersianTranslation = "test",
 				EnglishTranslation = "test",
@@ -498,7 +498,7 @@ namespace MaxLearnTest.Services
 
 			AddWordRequestViewModel addWordRequestViewModel = new AddWordRequestViewModel()
 			{
-				Word = "a" + word,
+				Content = "a" + word,
 				Source = "test",
 				PersianTranslation = "test",
 				EnglishTranslation = "test",
@@ -525,7 +525,7 @@ namespace MaxLearnTest.Services
 			var result =
 				await WordServices.AddNewWord(addWordRequestViewModel: addWordRequestViewModel);
 
-			addWordRequestViewModel.Word = "b" + word;
+			addWordRequestViewModel.Content = "b" + word;
 
 			var result2 =
 				await WordServices.AddNewWord(addWordRequestViewModel: addWordRequestViewModel);
@@ -550,8 +550,8 @@ namespace MaxLearnTest.Services
 			Assert.NotNull(result3.Value);
 			Assert.NotNull(result3.Value[0].WordType);
 			Assert.NotNull(result3.Value[0].VerbTense);
-			Assert.Equal(actual: result3.Value[0].Word, expected: "a" + word);
-			Assert.Equal(actual: result3.Value[1].Word, expected: "b" + word);
+			Assert.Equal(actual: result3.Value[0].Content, expected: "a" + word);
+			Assert.Equal(actual: result3.Value[1].Content, expected: "b" + word);
 		}
 
 		[Fact]
@@ -562,7 +562,7 @@ namespace MaxLearnTest.Services
 
 			AddWordRequestViewModel addWordRequestViewModel = new AddWordRequestViewModel()
 			{
-				Word = word,
+				Content = word,
 				Source = "test",
 				PersianTranslation = "test",
 				EnglishTranslation = "test",
@@ -634,7 +634,7 @@ namespace MaxLearnTest.Services
 
 			AddWordRequestViewModel addWordRequestViewModel = new AddWordRequestViewModel()
 			{
-				Word = word + "a",
+				Content = word + "a",
 				Source = "test",
 				PersianTranslation = "0english",
 				EnglishTranslation = "فارسی0",
@@ -663,7 +663,7 @@ namespace MaxLearnTest.Services
 
 			AddWordRequestViewModel addWordRequestViewModel2 = new AddWordRequestViewModel()
 			{
-				Word = word + "b",
+				Content = word + "b",
 				Source = "test",
 				PersianTranslation = "english1",
 				EnglishTranslation = "فارسی1",
@@ -676,7 +676,7 @@ namespace MaxLearnTest.Services
 
 			AddWordRequestViewModel addWordRequestViewModel3 = new AddWordRequestViewModel()
 			{
-				Word = word + "c",
+				Content = word + "c",
 				Source = "test",
 				PersianTranslation = "english2",
 				EnglishTranslation = "2فارسی",
@@ -689,7 +689,7 @@ namespace MaxLearnTest.Services
 
 			AddWordRequestViewModel addWordRequestViewModel4 = new AddWordRequestViewModel()
 			{
-				Word = word + "d",
+				Content = word + "d",
 				Source = "test",
 				PersianTranslation = "english3",
 				EnglishTranslation = "3فارسی",
@@ -735,7 +735,7 @@ namespace MaxLearnTest.Services
 
 			AddWordRequestViewModel addWordRequestViewModel = new AddWordRequestViewModel()
 			{
-				Word = word + "a",
+				Content = word + "a",
 				Source = "test",
 				EnglishTranslation = "english",
 				PersianTranslation = "فارسی",
@@ -764,7 +764,7 @@ namespace MaxLearnTest.Services
 
 			AddWordRequestViewModel addWordRequestViewModel2 = new AddWordRequestViewModel()
 			{
-				Word = word + "b",
+				Content = word + "b",
 				Source = "test",
 				EnglishTranslation = "english",
 				PersianTranslation = "فارسی",
@@ -780,14 +780,14 @@ namespace MaxLearnTest.Services
 
 			examProcessingRequestViewModels.Add(new ExamProcessingRequestViewModel()
 			{
-				Question = addWordRequestViewModel.Word,
+				Question = addWordRequestViewModel.Content,
 				Answer = addWordRequestViewModel.EnglishTranslation,
 				Language = "english"
 			});
 
 			examProcessingRequestViewModels.Add(new ExamProcessingRequestViewModel()
 			{
-				Question = addWordRequestViewModel2.Word,
+				Question = addWordRequestViewModel2.Content,
 				Answer = "test",
 				Language = "english"
 			});
@@ -805,12 +805,12 @@ namespace MaxLearnTest.Services
 			Assert.NotNull(result3.Value.PrimitiveResults);
 			Assert.NotNull(result3.Value.CompleteResult);
 
-			Assert.Equal(expected: addWordRequestViewModel.Word, actual: result3.Value.PrimitiveResults[0].Question);
+			Assert.Equal(expected: addWordRequestViewModel.Content, actual: result3.Value.PrimitiveResults[0].Question);
 			Assert.Equal(expected: addWordRequestViewModel.EnglishTranslation, actual: result3.Value.PrimitiveResults[0].YourAnswer);
 			Assert.Equal(expected: addWordRequestViewModel.EnglishTranslation, actual: result3.Value.PrimitiveResults[0].CorrectAnswer);
 			Assert.True(result3.Value.PrimitiveResults[0].IsCorrect);
 
-			Assert.Equal(expected: addWordRequestViewModel2.Word, actual: result3.Value.PrimitiveResults[1].Question);
+			Assert.Equal(expected: addWordRequestViewModel2.Content, actual: result3.Value.PrimitiveResults[1].Question);
 			Assert.Equal(expected: "test", actual: result3.Value.PrimitiveResults[1].YourAnswer);
 			Assert.Equal(expected: addWordRequestViewModel2.EnglishTranslation, actual: result3.Value.PrimitiveResults[1].CorrectAnswer);
 			Assert.False(result3.Value.PrimitiveResults[1].IsCorrect);

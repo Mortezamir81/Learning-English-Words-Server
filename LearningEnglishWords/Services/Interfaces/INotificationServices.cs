@@ -11,7 +11,7 @@ namespace Services
 	{
 		Task<Dtat.Results.Result> RemoveNotificationAsync(Guid notificationId);
 
-		Task<Dtat.Results.Result<ApplicationVersions>> GetLastVersionOfWPFAsync();
+		Task<Dtat.Results.Result<ApplicationVersion>> GetLastVersionOfWPFAsync();
 
 		Task<Dtat.Results.Result> SendNotificationForAllUserAsync
 			(SendNotificationForAllUserRequestViewModel sendNotificationForAllUserRequestViewModel);

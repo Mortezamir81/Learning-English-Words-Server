@@ -25,11 +25,11 @@ namespace Services
 				return result;
 			}
 
-			if (string.IsNullOrWhiteSpace(addWordRequestViewModel.Word))
+			if (string.IsNullOrWhiteSpace(addWordRequestViewModel.Content))
 			{
 				string errorMessage = string.Format
 					(Resources.Messages.ErrorMessages.MostNotBeNullWithIn,
-					nameof(addWordRequestViewModel.Word), nameof(addWordRequestViewModel));
+					nameof(addWordRequestViewModel.Content), nameof(addWordRequestViewModel));
 
 				result.AddErrorMessage(errorMessage);
 			}
@@ -88,11 +88,11 @@ namespace Services
 				return result;
 			}
 
-			if (string.IsNullOrWhiteSpace(word.Word))
+			if (string.IsNullOrWhiteSpace(word.Content))
 			{
 				string errorMessage = string.Format
 					(Resources.Messages.ErrorMessages.MostNotBeNullWithIn,
-					nameof(word.Word), nameof(word));
+					nameof(word.Content), nameof(word));
 
 				result.AddErrorMessage(errorMessage);
 			}

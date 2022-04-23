@@ -7,13 +7,13 @@ namespace Infrustructrue.AutoMapperProfiles
 		public UserProfile() : base()
 		{
 			//For Users && RegisterRequestViewModel
-			CreateMap<Domain.Entities.Users, RegisterRequestViewModel>();
+			CreateMap<Domain.Entities.User, RegisterRequestViewModel>();
 
-			CreateMap<RegisterRequestViewModel, Domain.Entities.Users>();
+			CreateMap<RegisterRequestViewModel, Domain.Entities.User>();
 
-			CreateMap<Domain.Entities.Users, UpdateUserRequestViewModel>();
+			CreateMap<Domain.Entities.User, UpdateUserRequestViewModel>();
 
-			CreateMap<UpdateUserRequestViewModel, Domain.Entities.Users>();
+			CreateMap<UpdateUserRequestViewModel, Domain.Entities.User>();
 		}
 	}
 }

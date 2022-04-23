@@ -8,7 +8,7 @@ namespace Services
 {
 	public interface IUserServices
 	{
-		Task<Users> GetByUsernameAsync(string username);
+		Task<User> GetByUsernameAsync(string username);
 
 		Task<Dtat.Results.Result> LogoutAsync(string token);
 
@@ -21,7 +21,7 @@ namespace Services
 		Task<Dtat.Results.Result> UpdateUserAsync
 			(UpdateUserRequestViewModel updateUserRequestViewModel);
 
-		Task<Dtat.Results.Result<List<Users>>> GetAllUsersAsync();
+		Task<Dtat.Results.Result<List<User>>> GetAllUsersAsync();
 
 		Task<Dtat.Results.Result<LoginResponseViewModel>>
 			LoginAsync(LoginRequestViewModel loginRequestViewModel, string ipAddress);

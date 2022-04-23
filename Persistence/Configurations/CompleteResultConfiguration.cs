@@ -19,7 +19,7 @@ namespace Persistence.Configurations
 		public void Configure(EntityTypeBuilder<CompleteResult> builder)
 		{
 			builder.ToTable
-				("CompleteResult", "LE")
+				("CompleteResults", "LE")
 					.HasKey(current => current.Id);
 		}
 	}

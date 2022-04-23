@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace Persistence.Configurations
 {
-	internal class WordTypesConfiguration : IEntityTypeConfiguration<WordTypes>
+	internal class WordTypeConfiguration : IEntityTypeConfiguration<WordType>
 	{
-		public WordTypesConfiguration() : base()
+		public WordTypeConfiguration() : base()
 		{
 		}
 
 
-		public void Configure(EntityTypeBuilder<WordTypes> builder)
+		public void Configure(EntityTypeBuilder<WordType> builder)
 		{
 			builder.ToTable
 				("WordTypes", "LE")
@@ -31,34 +31,34 @@ namespace Persistence.Configurations
 				.HasForeignKey(c => c.WordTypeId)
 				.IsRequired();
 
-			builder.HasData(new List<WordTypes>()
+			builder.HasData(new List<WordType>()
 			{
-				new WordTypes()
+				new WordType()
 				{
 					Id = 1,
 					Type = "Noun"
 				},
-				new WordTypes()
+				new WordType()
 				{
 					Id = 2,
 					Type = "Letters"
 				},
-				new WordTypes()
+				new WordType()
 				{
 					Id = 3,
 					Type = "Pronoun"
 				},
-				new WordTypes()
+				new WordType()
 				{
 					Id = 4,
 					Type = "Adverb"
 				},
-				new WordTypes()
+				new WordType()
 				{
 					Id = 5,
 					Type = "Verb"
 				},
-				new WordTypes()
+				new WordType()
 				{
 					Id = 6,
 					Type = "Adjective"

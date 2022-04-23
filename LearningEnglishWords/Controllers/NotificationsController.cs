@@ -58,7 +58,7 @@ namespace Server.Controllers
 
 
 		[HttpGet("GetLastVersionOfWPF")]
-		public async Task<ActionResult<Result<ApplicationVersions>>> GetLastVersionsOfWPFAsync()
+		public async Task<ActionResult<Result<ApplicationVersion>>> GetLastVersionsOfWPFAsync()
 		{
 			var result =
 				await NotificationServices.GetLastVersionOfWPFAsync();

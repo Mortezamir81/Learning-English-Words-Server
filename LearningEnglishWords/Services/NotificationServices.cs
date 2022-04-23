@@ -174,12 +174,12 @@ namespace Services
 		}
 
 
-		public async Task<Dtat.Results.Result<ApplicationVersions>> GetLastVersionOfWPFAsync()
+		public async Task<Dtat.Results.Result<ApplicationVersion>> GetLastVersionOfWPFAsync()
 		{
 			try
 			{
 				var result =
-					new Dtat.Results.Result<ApplicationVersions>();
+					new Dtat.Results.Result<ApplicationVersion>();
 
 				var response =
 				await DatabaseContext.ApplicationVersions
@@ -205,7 +205,7 @@ namespace Services
 				await Logger.LogCritical(exception: ex, message: ex.Message);
 
 				var result =
-					new Dtat.Results.Result<ApplicationVersions>();
+					new Dtat.Results.Result<ApplicationVersion>();
 
 				result.AddErrorMessage(errorMessage);
 

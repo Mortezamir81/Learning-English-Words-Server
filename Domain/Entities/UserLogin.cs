@@ -3,15 +3,15 @@ using System.Text.Json.Serialization;
 
 namespace Domain.Entities
 {
-	public class UserLogins : Base.Entity
+	public class UserLogin : Base.Entity
 	{
-		public UserLogins() : base()
+		public UserLogin() : base()
 		{
 		}
 
 
 		[JsonIgnore]
-		public Users User { get; set; }
+		public User User { get; set; }
 		public Guid UserId { get; set; }
 		public DateTime Expires { get; set; }
 		public DateTime Created { get; set; }

@@ -3,17 +3,17 @@ using System.Text.Json.Serialization;
 
 namespace Domain.Entities
 {
-	public class WordTypes
+	public class VerbTense
 	{
-		public WordTypes() : base()
+		public VerbTense() : base()
 		{
 		}
 
 
 		public int Id { get; set; }
-		public string Type { get; set; }
+		public string Tense { get; set; }
 
 		[JsonIgnore]
-		public IList<Words> Words { get; set; }
+		public IList<Word> Words { get; set; }
 	}
 }

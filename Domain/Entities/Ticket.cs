@@ -11,7 +11,7 @@ namespace Domain.Entities
 
 
 		[JsonIgnore]
-		public Users User { get; set; }
+		public User User { get; set; }
 		public Guid UserId { get; set; }
 		public string Method { get; set; }
 		public string Message { get; set; }

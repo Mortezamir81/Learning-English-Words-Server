@@ -59,22 +59,22 @@ namespace Infrustructrue.Utilities
 
 				Claim securityStampClaim =
 					jwtToken.Claims
-					.Where(current => current.Type.ToLower() == nameof(Users.SecurityStamp).ToLower())
+					.Where(current => current.Type.ToLower() == nameof(User.SecurityStamp).ToLower())
 					.FirstOrDefault();
 
 				Claim usernameClaim =
 					jwtToken.Claims
-					.Where(current => current.Type.ToLower() == nameof(Users.Username).ToLower())
+					.Where(current => current.Type.ToLower() == nameof(User.Username).ToLower())
 					.FirstOrDefault();
 
 				Claim roleIdClaim =
 					jwtToken.Claims
-					.Where(current => current.Type.ToLower() == nameof(Users.RoleId).ToLower())
+					.Where(current => current.Type.ToLower() == nameof(User.RoleId).ToLower())
 					.FirstOrDefault();
 
 				Claim userIdClaim =
 					jwtToken.Claims
-					.Where(current => current.Type.ToLower() == nameof(Users.Id).ToLower())
+					.Where(current => current.Type.ToLower() == nameof(User.Id).ToLower())
 					.FirstOrDefault();
 
 				if (securityStampClaim == null)

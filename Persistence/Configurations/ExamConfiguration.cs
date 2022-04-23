@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace Persistence.Configurations
 {
-	internal class ExamsConfiguration : IEntityTypeConfiguration<Exams>
+	internal class ExamConfiguration : IEntityTypeConfiguration<Exam>
 	{
-		public ExamsConfiguration() : base()
+		public ExamConfiguration() : base()
 		{
 		}
 
-		public void Configure(EntityTypeBuilder<Exams> builder)
+		public void Configure(EntityTypeBuilder<Exam> builder)
 		{
 			builder.ToTable
 				("Exams", "LE")

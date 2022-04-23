@@ -9,37 +9,34 @@ using System.Threading.Tasks;
 
 namespace Persistence.Configurations
 {
-	internal class ApplicationVersionsConfiguration : IEntityTypeConfiguration<ApplicationVersions>
+	internal class TicketConfiguration : IEntityTypeConfiguration<Ticket>
 	{
-        public ApplicationVersionsConfiguration():base()
-        {
-        }
+		public TicketConfiguration() : base()
+		{
+		}
 
-		public void Configure(EntityTypeBuilder<ApplicationVersions> builder)
+
+		public void Configure(EntityTypeBuilder<Ticket> builder)
 		{
 			builder.ToTable
-				("ApplicationVersions", "LE")
+				("Tickets", "LE")
 					.HasKey(current => current.Id);
 
 			builder.Property
-				(current => current.Version)
+				(current => current.Message)
 					.IsRequired();
 
 			builder.Property
-				(current => current.Link)
+				(current => current.Method)
 					.IsRequired();
 
 			builder.Property
-				(current => current.PublishDate)
+				(current => current.SentDate)
 					.HasDefaultValueSql("getutcdate()")
 					.HasColumnType("datetime")
 					.IsRequired();
 
-			builder.HasData(new ApplicationVersions()
-			{
-				Version = "1.0.0.0",
-				Link = "none"
-			});
+				
 		}
 	}
 }

@@ -54,9 +54,9 @@ namespace Services
 
 		#region Methods
 		//GenerateRefreshToken
-		private UserLogins GenerateRefreshToken(string ipAddress)
+		private UserLogin GenerateRefreshToken(string ipAddress)
 		{
-			return new UserLogins
+			return new UserLogin
 			{
 				RefreshToken = Guid.NewGuid(),
 				Expires = DateTime.UtcNow.AddDays(30),
@@ -67,7 +67,7 @@ namespace Services
 
 
 		//GetByUsernameAsync
-		public async Task<Users> GetByUsernameAsync(string username)
+		public async Task<User> GetByUsernameAsync(string username)
 		{
 			return
 				await DatabaseContext
@@ -174,7 +174,7 @@ namespace Services
 					return result;
 
 				var user =
-					Mapper.Map<Users>(source: updateUserRequestViewModel);
+					Mapper.Map<User>(source: updateUserRequestViewModel);
 
 				user.TimeUpdated = DateTime.UtcNow;
 
@@ -426,7 +426,7 @@ namespace Services
 					return result;
 
 				var user =
-					Mapper.Map<Users>(source: registerRequestViewModel);
+					Mapper.Map<User>(source: registerRequestViewModel);
 
 				user.Password = Security.HashDataBySHA1(user.Password);
 
@@ -462,7 +462,7 @@ namespace Services
 
 
 		//GetAllUsersAsync
-		public async Task<Dtat.Results.Result<List<Users>>> GetAllUsersAsync()
+		public async Task<Dtat.Results.Result<List<User>>> GetAllUsersAsync()
 		{
 			try
 			{
@@ -473,7 +473,7 @@ namespace Services
 					;
 
 				var response =
-					new Dtat.Results.Result<List<Users>>();
+					new Dtat.Results.Result<List<User>>();
 
 				if (result != null)
 				{
@@ -511,7 +511,7 @@ namespace Services
 				await Logger.LogCritical(exception: ex, ex.Message);
 
 				var response =
-					new Dtat.Results.Result<List<Users>>();
+					new Dtat.Results.Result<List<User>>();
 
 				string errorMessage = string.Format
 					(Resources.Messages.ErrorMessages.UnkonwnError);
@@ -545,7 +545,7 @@ namespace Services
 				var hashedPassword =
 					Dtat.Utilities.Security.HashDataBySHA1(loginRequestViewModel.Password);
 
-				Users foundedUser =
+				User foundedUser =
 					await UnitOfWork.UserRepository.LoginAsync
 						(username: loginRequestViewModel.Username, password: hashedPassword);
 

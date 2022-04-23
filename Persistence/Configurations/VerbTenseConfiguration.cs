@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace Persistence.Configurations
 {
-	internal class VerbTensesConfiguration : IEntityTypeConfiguration<VerbTenses>
+	internal class VerbTenseConfiguration : IEntityTypeConfiguration<VerbTense>
 	{
-		public VerbTensesConfiguration() : base()
+		public VerbTenseConfiguration() : base()
 		{
 		}
 
 
-		public void Configure(EntityTypeBuilder<VerbTenses> builder)
+		public void Configure(EntityTypeBuilder<VerbTense> builder)
 		{
 			builder.ToTable
 				("VerbTenses", "LE")
@@ -31,89 +31,89 @@ namespace Persistence.Configurations
 				.HasForeignKey(c => c.VerbTenseId)
 				.IsRequired(false);
 
-			builder.HasData(new List<VerbTenses>()
+			builder.HasData(new List<VerbTense>()
 			{
-				new VerbTenses()
+				new VerbTense()
 				{
 					Id = 1,
 					Tense = "None"
 				},
-				new VerbTenses()
+				new VerbTense()
 				{
 					Id = 2,
 					Tense = "Present Simple"
 				},
-				new VerbTenses()
+				new VerbTense()
 				{
 					Id = 3,
 					Tense = "Present Continuous"
 				},
-				new VerbTenses()
+				new VerbTense()
 				{
 					Id = 4,
 					Tense = "Present Perfect"
 				},
-				new VerbTenses()
+				new VerbTense()
 				{
 					Id = 5,
 					Tense = "Present Perfect Continuous"
 				},
-				new VerbTenses()
+				new VerbTense()
 				{
 					Id = 6,
 					Tense = "Past Simple"
 				},
-				new VerbTenses()
+				new VerbTense()
 				{
 					Id = 7,
 					Tense = "Past Continuous"
 				},
-				new VerbTenses()
+				new VerbTense()
 				{
 					Id = 8,
 					Tense = "Past Perfect"
 				},
-				new VerbTenses()
+				new VerbTense()
 				{
 					Id = 9,
 					Tense = "Past Perfect Continuous"
 				},
-				new VerbTenses()
+				new VerbTense()
 				{
 					Id = 10,
 					Tense = "Future Simple"
 				},
-				new VerbTenses()
+				new VerbTense()
 				{
 					Id = 11,
 					Tense = "Future Continuous"
 				},
-				new VerbTenses()
+				new VerbTense()
 				{
 					Id = 12,
 					Tense = "Future Perfect"
 				},
-				new VerbTenses()
+				new VerbTense()
 				{
 					Id = 13,
 					Tense = "Future Perfect Continuous"
 				},
-				new VerbTenses()
+				new VerbTense()
 				{
 					Id = 14,
 					Tense = "Future Simple in the Past"
 				},
-				new VerbTenses()
+				new VerbTense()
 				{
 					Id = 15,
 					Tense = "Future Continuous in the Past"
 				},
-				new VerbTenses()
+				new VerbTense()
 				{
 					Id = 16,
 					Tense = "Future Perfect in the Past"
 				},
-				new VerbTenses()
+				new VerbTense()
 				{
 					Id = 17,
 					Tense = "Future Perfect Continuous in the Past"

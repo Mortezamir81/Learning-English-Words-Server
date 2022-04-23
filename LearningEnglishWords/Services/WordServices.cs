@@ -186,8 +186,8 @@ namespace Services
 				var result =
 					UpdateWordValidation(word: word);
 
-				Words responseWord =
-					Mapper.Map<Words>(source: word);
+				Word responseWord =
+					Mapper.Map<Word>(source: word);
 
 				if (result.IsFailed == true)
 					return result;
@@ -236,7 +236,7 @@ namespace Services
 				}
 
 				var wordId =
-					await UnitOfWork.WordsRepository.GetWordIdAsync(word: responseWord.Word, userId: user.Id);
+					await UnitOfWork.WordsRepository.GetWordIdAsync(word: responseWord.Content, userId: user.Id);
 
 				if (wordId == null)
 				{
@@ -508,8 +508,8 @@ namespace Services
 				if (result.IsFailed == true)
 					return result;
 
-				Words wordModel =
-					Mapper.Map<Words>(source: addWordRequestViewModel);
+				Word wordModel =
+					Mapper.Map<Word>(source: addWordRequestViewModel);
 
 				if (wordModel.WordTypeId == 5)
 				{
@@ -552,7 +552,7 @@ namespace Services
 				wordModel.UserId = user.Id;
 
 				var isWordExist =
-					await UnitOfWork.WordsRepository.CheckWordExistAsync(word: wordModel.Word, userId: user.Id);
+					await UnitOfWork.WordsRepository.CheckWordExistAsync(word: wordModel.Content, userId: user.Id);
 
 				if (isWordExist == true)
 				{
@@ -673,7 +673,7 @@ namespace Services
 				responseValue.CompleteResult.UnanswerCount = unanswerCount;
 				responseValue.CompleteResult.QuestionsCount = correctAnswersCount + incorrectAnswersCount + unanswerCount;
 
-				Exams exams = new Exams()
+				Exam exams = new Exam()
 				{
 					PrimitiveResults = responseValue.PrimitiveResults,
 					CompleteResult = responseValue.CompleteResult,

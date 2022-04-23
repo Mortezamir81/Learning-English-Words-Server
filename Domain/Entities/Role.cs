@@ -3,9 +3,9 @@ using System.Text.Json.Serialization;
 
 namespace Domain.Entities
 {
-	public class Roles
+	public class Role
 	{
-		public Roles() : base()
+		public Role() : base()
 		{
 		}
 
@@ -15,6 +15,6 @@ namespace Domain.Entities
 		public string RoleName {  get; set; }
 
 		[JsonIgnore]
-		public IList<Users> Users {  get; set; }
+		public IList<User> Users {  get; set; }
 	}
 }

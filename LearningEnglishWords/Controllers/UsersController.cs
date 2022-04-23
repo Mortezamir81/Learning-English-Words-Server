@@ -34,7 +34,7 @@ namespace Server.Controllers
 		#region HttpGet
 		[Authorize(UserRoles.Admin)]
 		[HttpGet("GetAllUsers")]
-		public async Task<ActionResult<Dtat.Results.Result<List<Users>>>> GetAllUsers()
+		public async Task<ActionResult<Dtat.Results.Result<List<User>>>> GetAllUsers()
 		{
 			var result =
 				await UserServices.GetAllUsersAsync();

@@ -4,15 +4,15 @@ using Domain.Entities;
 
 namespace Persistence.Repositories
 {
-	public interface IUsersRepository : Dtat.Data.IRepository<Users>
+	public interface IUsersRepository : Dtat.Data.IRepository<User>
 	{
-		Task UpdateUserAsync(Users users);
+		Task UpdateUserAsync(User users);
 
 		Task<bool> CheckEmailExist(string email);
 
 		Task<bool> CheckUsernameExist(string username);
 
-		Task<Users> LoginAsync(string username, string password);
+		Task<User> LoginAsync(string username, string password);
 
 		Task<bool> CheckUserSecurityStampAsync(Guid securityStamp);
 	}

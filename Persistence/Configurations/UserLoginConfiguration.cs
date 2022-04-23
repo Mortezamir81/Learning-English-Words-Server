@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace Persistence.Configurations
 {
-	internal class UserLoginsConfiguration : IEntityTypeConfiguration<UserLogins>
+	internal class UserLoginConfiguration : IEntityTypeConfiguration<UserLogin>
 	{
-		public UserLoginsConfiguration() : base()
+		public UserLoginConfiguration() : base()
 		{
 		}
 
 
-		public void Configure(EntityTypeBuilder<UserLogins> builder)
+		public void Configure(EntityTypeBuilder<UserLogin> builder)
 		{
 			builder.ToTable
 				("UserLogins", "LE")

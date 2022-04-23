@@ -6,7 +6,7 @@
 		{
 		}
 
-		public static Result ConvertToSoftmaxResult(this FluentResults.Result result)
+		public static Result ConvertToDtatResult(this FluentResults.Result result)
 		{
 			Result dtatResult = new()
 			{

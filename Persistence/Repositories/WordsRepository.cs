@@ -9,7 +9,7 @@ using ViewModels.Responses;
 
 namespace Persistence.Repositories
 {
-	public class WordsRepository : Dtat.Data.EntityFrameworkCore.Repository<Words>, IWordsRepository
+	public class WordsRepository : Dtat.Data.EntityFrameworkCore.Repository<Word>, IWordsRepository
 	{
 		public WordsRepository(DatabaseContext databaseContext) : base(databaseContext)
 		{
@@ -73,10 +73,10 @@ namespace Persistence.Repositories
 		}
 
 
-		public async Task<List<Words>> GetAllWordAsync
+		public async Task<List<Word>> GetAllWordAsync
 			(GetAllWordsRequestViewModel requestViewModel, Guid userId)
 		{
-			IQueryable<Words> query = DbSet;
+			IQueryable<Word> query = DbSet;
 
 			if (requestViewModel != null)
 			{
@@ -84,13 +84,13 @@ namespace Persistence.Repositories
 				if (!string.IsNullOrWhiteSpace(requestViewModel.StartWith))
 				{
 					query =
-						query.Where(current => current.Word.StartsWith(requestViewModel.StartWith));
+						query.Where(current => current.Content.StartsWith(requestViewModel.StartWith));
 				}
 
 				if (!string.IsNullOrWhiteSpace(requestViewModel.EndWith))
 				{
 					query =
-						query.Where(current => current.Word.EndsWith(requestViewModel.EndWith));
+						query.Where(current => current.Content.EndsWith(requestViewModel.EndWith));
 				}
 
 				if (!string.IsNullOrWhiteSpace(requestViewModel.Source))
@@ -137,7 +137,7 @@ namespace Persistence.Repositories
 					if (requestViewModel.OrderBy.ToLower() == "word")
 					{
 						query =
-							query.OrderBy(current => current.Word);
+							query.OrderBy(current => current.Content);
 					}
 
 					if (requestViewModel.OrderBy.ToLower() == "datetime")
@@ -187,7 +187,7 @@ namespace Persistence.Repositories
 			var result =
 				await DbSet
 				.AsNoTracking()
-				.Where(current => current.Word.ToLower() == word)
+				.Where(current => current.Content.ToLower() == word)
 				.Where(current => current.UserId == userId)
 				.Select(current => current.Id)
 				.FirstOrDefaultAsync()
@@ -197,7 +197,7 @@ namespace Persistence.Repositories
 		}
 
 
-		public async Task<Words> GetWordInformationAsync(string word, Guid userId)
+		public async Task<Word> GetWordInformationAsync(string word, Guid userId)
 		{
 			if (string.IsNullOrWhiteSpace(word))
 			{
@@ -207,7 +207,7 @@ namespace Persistence.Repositories
 			var result =
 				await DbSet
 					.AsNoTracking()
-					.Where(current => current.Word.ToLower() == word.ToLower())
+					.Where(current => current.Content.ToLower() == word.ToLower())
 					.Where(current => current.UserId == userId)
 					.Include(current => current.WordType)
 					.Include(current => current.VerbTense)
@@ -226,7 +226,7 @@ namespace Persistence.Repositories
 			var result =
 				await DbSet
 				.Where(current => current.UserId == userId)
-				.Select(current => new { current.Word, current.LearningDate })
+				.Select(current => new { current.Content, current.LearningDate })
 				.OrderByDescending(current => current.LearningDate)
 				.Take(10)
 				.ToListAsync()
@@ -238,7 +238,7 @@ namespace Persistence.Repositories
 
 				foreach (var item in result)
 				{
-					responseViewModel.RecentLearned.Add(item.Word);
+					responseViewModel.RecentLearned.Add(item.Content);
 				}
 			}
 
@@ -247,7 +247,7 @@ namespace Persistence.Repositories
 		//****************************************
 
 
-		public async Task UpdateWordAsync(Words word)
+		public async Task UpdateWordAsync(Word word)
 		{
 			await Task.Run(() =>
 			{
@@ -273,7 +273,7 @@ namespace Persistence.Repositories
 
 				var correctAnswer =
 					await DbSet
-					.Where(current => current.Word == exam.Question)
+					.Where(current => current.Content == exam.Question)
 					.Select(current => exam.Language == "persian" ? current.PersianTranslation : current.EnglishTranslation)
 					.FirstOrDefaultAsync()
 					;
@@ -302,7 +302,7 @@ namespace Persistence.Repositories
 
 			var result =
 				await DbSet
-				.Where(current => current.Word == word)
+				.Where(current => current.Content == word)
 				.Where(current => current.User.Id == userId)
 				.AnyAsync()
 				;
@@ -314,7 +314,7 @@ namespace Persistence.Repositories
 		public async Task<List<GetExamResponseViewModel>>
 			CreateExamAsync(GetExamRequestViewModel requestViewModel, Guid userId)
 		{
-			IQueryable<Words> query = DbSet;
+			IQueryable<Word> query = DbSet;
 			List<GetExamResponseViewModel> responseViewModels = null;
 
 
@@ -323,7 +323,7 @@ namespace Persistence.Repositories
 			{
 				query =
 					query.Where(current =>
-						current.Word.StartsWith(requestViewModel.StartWith));
+						current.Content.StartsWith(requestViewModel.StartWith));
 			}
 			if (requestViewModel.LearendDateTime != null)
 			{
@@ -339,7 +339,7 @@ namespace Persistence.Repositories
 				.Where(current => current.UserId == userId)
 				.Select(current => new QuestionResponse()
 				{
-					Word = current.Word,
+					Word = current.Content,
 					PersianTranslation = current.PersianTranslation,
 					EnglishTranslation = current.EnglishTranslation
 				})
@@ -372,7 +372,7 @@ namespace Persistence.Repositories
 		}
 
 
-		public async Task<List<Words>> SearchWordAsync(string searchContent, Guid userId)
+		public async Task<List<Word>> SearchWordAsync(string searchContent, Guid userId)
 		{
             if (string.IsNullOrWhiteSpace(searchContent))
             {
@@ -383,7 +383,7 @@ namespace Persistence.Repositories
 				await DbSet
 				.AsNoTracking()
 				.Where(current => current.UserId == userId)
-				.Where(current => current.Word.Contains(searchContent))
+				.Where(current => current.Content.Contains(searchContent))
 				.Include(current => current.VerbTense)
 				.Include(current => current.WordType)
 				.Take(6)

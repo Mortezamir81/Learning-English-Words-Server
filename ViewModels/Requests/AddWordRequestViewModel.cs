@@ -2,7 +2,7 @@
 {
 	public class AddWordRequestViewModel
 	{
-		public string Word { get; set; }
+		public string Content { get; set; }
 		public string Source { get; set; }
 		public int WordTypeId { get; set; }
 		public int VerbTenseId { get; set; }
