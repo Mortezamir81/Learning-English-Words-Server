@@ -169,7 +169,6 @@ namespace MaxLearnTest.Services
 			{
 				Id = user.Id.Value,
 				RoleId = user.RoleId,
-				Username = user.Username,
 			};
 
 			WordServices.HttpContextAccessor.HttpContext.Items["User"] = userToken;
@@ -320,7 +319,6 @@ namespace MaxLearnTest.Services
 			{
 				Id = user.Id.Value,
 				RoleId = user.RoleId,
-				Username = user.Username,
 			};
 
 			WordServices.HttpContextAccessor.HttpContext.Items["User"] = userToken;
@@ -383,7 +381,6 @@ namespace MaxLearnTest.Services
 			{
 				Id = user.Id.Value,
 				RoleId = user.RoleId,
-				Username = user.Username,
 			};
 
 			WordServices.HttpContextAccessor.HttpContext.Items["User"] = userToken;
@@ -423,7 +420,6 @@ namespace MaxLearnTest.Services
 			{
 				Id = user.Id.Value,
 				RoleId = user.RoleId,
-				Username = user.Username,
 			};
 
 			WordServices.HttpContextAccessor.HttpContext.Items["User"] = userToken;
@@ -470,7 +466,6 @@ namespace MaxLearnTest.Services
 			{
 				Id = user.Id.Value,
 				RoleId = user.RoleId,
-				Username = user.Username,
 			};
 
 			WordServices.HttpContextAccessor.HttpContext.Items["User"] = userToken;
@@ -517,7 +512,6 @@ namespace MaxLearnTest.Services
 			{
 				Id = user.Id.Value,
 				RoleId = user.RoleId,
-				Username = user.Username,
 			};
 
 			WordServices.HttpContextAccessor.HttpContext.Items["User"] = userToken;
@@ -581,7 +575,6 @@ namespace MaxLearnTest.Services
 			{
 				Id = user.Id.Value,
 				RoleId = user.RoleId,
-				Username = user.Username,
 			};
 
 			WordServices.HttpContextAccessor.HttpContext.Items["User"] = userToken;
@@ -653,7 +646,6 @@ namespace MaxLearnTest.Services
 			{
 				Id = user.Id.Value,
 				RoleId = user.RoleId,
-				Username = user.Username,
 			};
 
 			WordServices.HttpContextAccessor.HttpContext.Items["User"] = userToken;
@@ -754,7 +746,6 @@ namespace MaxLearnTest.Services
 			{
 				Id = user.Id.Value,
 				RoleId = user.RoleId,
-				Username = user.Username,
 			};
 
 			WordServices.HttpContextAccessor.HttpContext.Items["User"] = userToken;

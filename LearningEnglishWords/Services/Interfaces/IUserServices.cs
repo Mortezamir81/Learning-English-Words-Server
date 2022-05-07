@@ -15,11 +15,14 @@ namespace Services
 		Task<Dtat.Results.Result> RegisterAsync
 			(RegisterRequestViewModel registerRequestViewModel);
 
+		Task<Dtat.Results.Result> UpdateUserAsync
+			(UpdateUserRequestViewModel updateUserRequestViewModel);
+
 		Task<Dtat.Results.Result> DeleteUsersAsync
 			(DeleteUserRequestViewModel deleteUserRequestViewModel);
 
-		Task<Dtat.Results.Result> UpdateUserAsync
-			(UpdateUserRequestViewModel updateUserRequestViewModel);
+		Task<Dtat.Results.Result> UpdateUserByAdminAsync
+			(UpdateUserByAdminRequestViewModel updateUserRequestViewModel);
 
 		Task<Dtat.Results.Result<List<User>>> GetAllUsersAsync();
 
@@ -29,6 +32,9 @@ namespace Services
 		Task<Dtat.Results.Result>
 			ChangeUserRoleAsync(ChangeUserRoleRequestViewModel changeUserRoleRequestViewModel);
 
+		Task<Dtat.Results.Result<GetUserInformationResponseViewModel>> GetUserInformationForUpdate();
+
 		Task<Dtat.Results.Result<LoginResponseViewModel>> RefreshTokenAsync(string token, string ipAddress);
+
 	}
 }

@@ -723,7 +723,7 @@ namespace MaxLearnTest.Services
 		public async Task TestUpdateUserWithNullId()
 		{
 			//Arrange
-			var updateUserRequestViewModel = new UpdateUserRequestViewModel()
+			var updateUserRequestViewModel = new UpdateUserByAdminRequestViewModel()
 			{
 				Id = null
 			};
@@ -734,7 +734,7 @@ namespace MaxLearnTest.Services
 
 			//Act
 			var result =
-				await UserServices.UpdateUserAsync(updateUserRequestViewModel: updateUserRequestViewModel);
+				await UserServices.UpdateUserByAdminAsync(updateUserRequestViewModel: updateUserRequestViewModel);
 
 			var errorResult =
 				result.Errors.Where(current => current == errorMessage).FirstOrDefault();
@@ -747,7 +747,7 @@ namespace MaxLearnTest.Services
 		public async Task TestUpdateUserWithNullUsername()
 		{
 			//Arrange
-			var updateUserRequestViewModel = new UpdateUserRequestViewModel()
+			var updateUserRequestViewModel = new UpdateUserByAdminRequestViewModel()
 			{
 				Username = null
 			};
@@ -758,7 +758,7 @@ namespace MaxLearnTest.Services
 
 			//Act
 			var result =
-				await UserServices.UpdateUserAsync(updateUserRequestViewModel: updateUserRequestViewModel);
+				await UserServices.UpdateUserByAdminAsync(updateUserRequestViewModel: updateUserRequestViewModel);
 
 			var errorResult =
 				result.Errors.Where(current => current == errorMessage).FirstOrDefault();
@@ -771,7 +771,7 @@ namespace MaxLearnTest.Services
 		public async Task TestUpdateUserWithNullEmail()
 		{
 			//Arrange
-			var updateUserRequestViewModel = new UpdateUserRequestViewModel()
+			var updateUserRequestViewModel = new UpdateUserByAdminRequestViewModel()
 			{
 				Email = null
 			};
@@ -782,7 +782,7 @@ namespace MaxLearnTest.Services
 
 			//Act
 			var result =
-				await UserServices.UpdateUserAsync(updateUserRequestViewModel: updateUserRequestViewModel);
+				await UserServices.UpdateUserByAdminAsync(updateUserRequestViewModel: updateUserRequestViewModel);
 
 			var errorResult =
 				result.Errors.Where(current => current == errorMessage).FirstOrDefault();
@@ -795,7 +795,7 @@ namespace MaxLearnTest.Services
 		public async Task TestUpdateUserWithNullValues()
 		{
 			//Arrange
-			var updateUserRequestViewModel = new UpdateUserRequestViewModel()
+			var updateUserRequestViewModel = new UpdateUserByAdminRequestViewModel()
 			{
 				Email = null,
 				Username = null,
@@ -816,7 +816,7 @@ namespace MaxLearnTest.Services
 
 			//Act
 			var result =
-				await UserServices.UpdateUserAsync(updateUserRequestViewModel: updateUserRequestViewModel);
+				await UserServices.UpdateUserByAdminAsync(updateUserRequestViewModel: updateUserRequestViewModel);
 
 			var usernameErrorResult =
 				result.Errors.Where(current => current == usernameErrorMessage).SingleOrDefault();
@@ -858,7 +858,7 @@ namespace MaxLearnTest.Services
 			var createdUser =
 				await UserServices.GetByUsernameAsync(username: username);
 
-			var updateUserRequestViewModel = new UpdateUserRequestViewModel()
+			var updateUserRequestViewModel = new UpdateUserByAdminRequestViewModel()
 			{
 				Id = createdUser.Id,
 				Username = createdUser.Username,
@@ -870,7 +870,7 @@ namespace MaxLearnTest.Services
 
 			//Act
 			var result2 =
-				await UserServices.UpdateUserAsync(updateUserRequestViewModel: updateUserRequestViewModel);
+				await UserServices.UpdateUserByAdminAsync(updateUserRequestViewModel: updateUserRequestViewModel);
 
 			var errorResult =
 				result2.Errors.Where(current => current == errorMessage).FirstOrDefault();
@@ -904,7 +904,7 @@ namespace MaxLearnTest.Services
 			var createdUser =
 				await UserServices.GetByUsernameAsync(username: username);
 
-			var updateUserRequestViewModel = new UpdateUserRequestViewModel()
+			var updateUserRequestViewModel = new UpdateUserByAdminRequestViewModel()
 			{
 				Id = createdUser.Id,
 				Username = createdUser.Username,
@@ -917,7 +917,7 @@ namespace MaxLearnTest.Services
 
 			//Act
 			var result2 =
-				await UserServices.UpdateUserAsync(updateUserRequestViewModel: updateUserRequestViewModel);
+				await UserServices.UpdateUserByAdminAsync(updateUserRequestViewModel: updateUserRequestViewModel);
 
 			var errorResult =
 				result2.Errors.Where(current => current == errorMessage).FirstOrDefault();
@@ -965,7 +965,7 @@ namespace MaxLearnTest.Services
 				await UserServices.GetByUsernameAsync(username: registerRequestViewModel2.Username);
 
 			//Arrange
-			var updateUserRequestViewModel = new UpdateUserRequestViewModel()
+			var updateUserRequestViewModel = new UpdateUserByAdminRequestViewModel()
 			{
 				Id = createdUser1.Id,
 				Username = createdUser1.Username,
@@ -977,7 +977,7 @@ namespace MaxLearnTest.Services
 
 			//Act
 			var result3 =
-				await UserServices.UpdateUserAsync(updateUserRequestViewModel: updateUserRequestViewModel);
+				await UserServices.UpdateUserByAdminAsync(updateUserRequestViewModel: updateUserRequestViewModel);
 
 			var errorResult =
 				result3.Errors.Where(current => current == errorMessage).FirstOrDefault();
@@ -1025,7 +1025,7 @@ namespace MaxLearnTest.Services
 				await UserServices.GetByUsernameAsync(username: registerRequestViewModel2.Username);
 
 			//Arrange
-			var updateUserRequestViewModel = new UpdateUserRequestViewModel()
+			var updateUserRequestViewModel = new UpdateUserByAdminRequestViewModel()
 			{
 				Id = createdUser1.Id,
 				Username = createdUser2.Username,
@@ -1037,7 +1037,7 @@ namespace MaxLearnTest.Services
 
 			//Act
 			var result3 =
-				await UserServices.UpdateUserAsync(updateUserRequestViewModel: updateUserRequestViewModel);
+				await UserServices.UpdateUserByAdminAsync(updateUserRequestViewModel: updateUserRequestViewModel);
 
 			var errorResult =
 				result3.Errors.Where(current => current == errorMessage).FirstOrDefault();
@@ -1084,7 +1084,7 @@ namespace MaxLearnTest.Services
 			var createdUser2 =
 				await UserServices.GetByUsernameAsync(username: registerRequestViewModel2.Username);
 
-			var updateUserRequestViewModel = new UpdateUserRequestViewModel()
+			var updateUserRequestViewModel = new UpdateUserByAdminRequestViewModel()
 			{
 				Id = createdUser.Id,
 				Email = "Test",
@@ -1103,7 +1103,7 @@ namespace MaxLearnTest.Services
 
 			//Act
 			var result3 =
-				await UserServices.UpdateUserAsync(updateUserRequestViewModel: updateUserRequestViewModel);
+				await UserServices.UpdateUserByAdminAsync(updateUserRequestViewModel: updateUserRequestViewModel);
 
 			var usernameErrorResult =
 				result3.Errors.Where(current => current == userErrorMessage).SingleOrDefault();
@@ -1145,7 +1145,7 @@ namespace MaxLearnTest.Services
 			var createdUser =
 				await UserServices.GetByUsernameAsync(username: username);
 
-			var updateUserRequestViewModel = new UpdateUserRequestViewModel()
+			var updateUserRequestViewModel = new UpdateUserByAdminRequestViewModel()
 			{
 				Id = createdUser.Id,
 				Username = createdUser.Username,
@@ -1159,7 +1159,7 @@ namespace MaxLearnTest.Services
 
 			//Act
 			var result3 =
-				await UserServices.UpdateUserAsync(updateUserRequestViewModel: updateUserRequestViewModel);
+				await UserServices.UpdateUserByAdminAsync(updateUserRequestViewModel: updateUserRequestViewModel);
 
 			var users =
 				await UserServices.UnitOfWork.UserRepository.GetAllAsync();

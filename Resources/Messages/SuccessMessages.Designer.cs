@@ -214,6 +214,15 @@ namespace Resources.Messages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The user was loaded successful.
+        /// </summary>
+        public static string LoadUserSuccessfull {
+            get {
+                return ResourceManager.GetString("LoadUserSuccessfull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The load word was successful.
         /// </summary>
         public static string LoadWordSuccessfull {

@@ -50,9 +50,7 @@ namespace Persistence.Configuration
 
 			builder.Property
 				(current => current.PhoneNumber)
-				.HasColumnName("UserPhoneNumber")
-				.HasColumnType("int")
-				.HasDefaultValue(0);
+				.HasColumnName("UserPhoneNumber");
 
 			builder.Property
 				(current => current.TimeRegistered)

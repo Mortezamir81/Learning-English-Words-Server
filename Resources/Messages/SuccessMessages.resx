@@ -168,6 +168,9 @@
   <data name="LoadUsersSuccessfull" xml:space="preserve">
     <value>The users was loaded successful</value>
   </data>
+  <data name="LoadUserSuccessfull" xml:space="preserve">
+    <value>The user was loaded successful</value>
+  </data>
   <data name="LoadWordSuccessfull" xml:space="preserve">
     <value>The load word was successful</value>
   </data>

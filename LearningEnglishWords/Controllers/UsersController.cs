@@ -44,6 +44,19 @@ namespace Server.Controllers
 
 			return Ok(result);
 		}
+
+		[Authorize(UserRoles.All)]
+		[HttpGet]
+		public async Task<ActionResult<Dtat.Results.Result<User>>> GetUserInformationForUpdate()
+		{
+			var result =
+				await UserServices.GetUserInformationForUpdate();
+
+			if (result.IsFailed)
+				return BadRequest(result);
+
+			return Ok(result);
+		}
 		#endregion /HttpGet
 
 		#region HttpPost
@@ -76,12 +89,12 @@ namespace Server.Controllers
 
 
 		[Authorize(UserRoles.Admin)]
-		[HttpPost("UpdateUser")]
+		[HttpPost("UpdateUserByAdmin")]
 		public async Task<ActionResult<Dtat.Results.Result>>
-			UpdateUserAsync([FromBody] UpdateUserRequestViewModel updateUserRequestViewModel)
+			UpdateUserByAdminAsync([FromBody] UpdateUserByAdminRequestViewModel updateUserByAdminRequestViewModel)
 		{
 			var result =
-				await UserServices.UpdateUserAsync(updateUserRequestViewModel: updateUserRequestViewModel);
+				await UserServices.UpdateUserByAdminAsync(updateUserRequestViewModel: updateUserByAdminRequestViewModel);
 
 			if (result.IsFailed)
 				return BadRequest(result);
@@ -130,6 +143,22 @@ namespace Server.Controllers
 			return Ok(response);
 		}
 		#endregion /HttpPost
+
+		#region HttpPut
+		[Authorize(UserRoles.All)]
+		[HttpPut]
+		public async Task<ActionResult<Dtat.Results.Result>>
+			UpdateUserAsync(UpdateUserRequestViewModel updateUserRequestViewModel)
+		{
+			var result =
+				await UserServices.UpdateUserAsync(updateUserRequestViewModel: updateUserRequestViewModel);
+
+			if (result.IsFailed)
+				return BadRequest(result);
+
+			return Ok(result);
+		}
+		#endregion /HttpPut
 
 		#region Methods
 		[NonAction]

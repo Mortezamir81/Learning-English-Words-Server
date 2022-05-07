@@ -53,7 +53,6 @@ namespace Services
 		#endregion /Properties
 
 		#region Methods
-		//GenerateRefreshToken
 		private UserLogin GenerateRefreshToken(string ipAddress)
 		{
 			return new UserLogin
@@ -66,7 +65,6 @@ namespace Services
 		}
 
 
-		//GetByUsernameAsync
 		public async Task<User> GetByUsernameAsync(string username)
 		{
 			return
@@ -79,9 +77,8 @@ namespace Services
 		}
 
 
-		//UpdateUser
-		public async Task<Dtat.Results.Result> UpdateUserAsync
-			(UpdateUserRequestViewModel updateUserRequestViewModel)
+		public async Task<Dtat.Results.Result> UpdateUserByAdminAsync
+			(UpdateUserByAdminRequestViewModel updateUserRequestViewModel)
 		{
 			Hashtable properties = null;
 			try
@@ -93,7 +90,7 @@ namespace Services
 					(message: Resources.Resource.InputPropertiesInfo, parameters: properties);
 
 				var result =
-					 UpdateUserValidation(updateUserRequestViewModel: updateUserRequestViewModel);
+					 UpdateUserByAdminValidation(updateUserRequestViewModel: updateUserRequestViewModel);
 
 				if (result.IsFailed == true)
 					return result;
@@ -209,7 +206,111 @@ namespace Services
 		}
 
 
-		//DeleteUsersAsync
+		public async Task<Dtat.Results.Result> UpdateUserAsync
+			(UpdateUserRequestViewModel updateUserRequestViewModel)
+		{
+			Hashtable properties = null;
+			try
+			{
+				properties =
+					LogUtilities.GetProperties(instance: updateUserRequestViewModel);
+
+				await Logger.LogWarning
+					(message: Resources.Resource.InputPropertiesInfo, parameters: properties);
+
+				var result =
+					 UpdateUserValidation(updateUserRequestViewModel: updateUserRequestViewModel);
+
+				if (result.IsFailed == true)
+					return result;
+
+				var userId =
+					(HttpContextAccessor?.HttpContext?.Items["User"] as UserInformationInToken)?.Id;
+
+				if (userId == null)
+				{
+					string errorMessage = string.Format
+						(Resources.Messages.ErrorMessages.UserNotFound);
+
+					result.AddErrorMessage(errorMessage);
+
+					return result;
+				}
+
+				var user =
+					await DatabaseContext.Users
+					.Where(current => current.Id == userId)
+					.FirstOrDefaultAsync();
+
+				if (user == null)
+				{
+					string errorMessage = string.Format
+						(Resources.Messages.ErrorMessages.UserNotFound);
+
+					result.AddErrorMessage(errorMessage);
+
+					return result;
+				}
+
+				bool isChanged = false;
+
+				if(user.Username != updateUserRequestViewModel.Username)
+				{
+					var isUsernameExist =
+						await UnitOfWork.UserRepository.CheckUsernameExist(updateUserRequestViewModel.Username);
+
+					if (isUsernameExist == true)
+					{
+						string errorMessage = string.Format
+							(Resources.Messages.ErrorMessages.UsernameExist);
+
+						result.AddErrorMessage(errorMessage);
+						return result;
+					}
+
+					user.Username = updateUserRequestViewModel.Username;
+					isChanged = true;
+				}
+
+				if (updateUserRequestViewModel.PhoneNumber != null && 
+					user.PhoneNumber != updateUserRequestViewModel.PhoneNumber)
+				{
+					user.PhoneNumber = updateUserRequestViewModel.PhoneNumber;
+					isChanged = true;
+				}
+
+				if (isChanged)
+				{
+					await DatabaseContext.SaveChangesAsync();
+				}
+
+				string successMessage = string.Format
+					(Resources.Messages.SuccessMessages.UpdateSuccessful);
+
+				result.AddSuccessMessage(successMessage);
+
+				return result;
+			}
+			catch (Exception ex)
+			{
+				await UnitOfWork.ClearTracking();
+
+				await Logger.LogCritical
+						(exception: ex, ex.Message, parameters: properties);
+
+				var response =
+					new Dtat.Results.Result();
+
+				string errorMessage = string.Format
+					(Resources.Messages.ErrorMessages.UnkonwnError);
+
+				response.AddErrorMessage(errorMessage);
+
+				return response;
+			}
+		}
+
+
 		public async Task<Dtat.Results.Result> DeleteUsersAsync
 			(DeleteUserRequestViewModel deleteUserRequestViewModel)
 		{
@@ -273,7 +374,6 @@ namespace Services
 		}
 
 
-		//RefreshTokenAsync
 		public async Task<Dtat.Results.Result<LoginResponseViewModel>>
 			RefreshTokenAsync(string refreshToken, string ipAddress)
 		{
@@ -320,9 +420,6 @@ namespace Services
 						(type: nameof(userRefreshToken.User.Id), value: userRefreshToken.User.Id.ToString()),
 
 					new Claim
-						(type: nameof(userRefreshToken.User.Username), value: userRefreshToken.User.Username.ToString()),
-
-					new Claim
 						(type: nameof(userRefreshToken.User.RoleId), value: userRefreshToken.User.RoleId.ToString()),
 
 					new Claim
@@ -359,7 +456,6 @@ namespace Services
 		}
 
 
-		//LogoutAsync
 		public async Task<Dtat.Results.Result> LogoutAsync(string token)
 		{
 			var result =
@@ -406,7 +502,6 @@ namespace Services
 		}
 
 
-		//RegisterAsync
 		public async Task<Dtat.Results.Result>
 			RegisterAsync(RegisterRequestViewModel registerRequestViewModel)
 		{
@@ -461,7 +556,6 @@ namespace Services
 		}
 
 
-		//GetAllUsersAsync
 		public async Task<Dtat.Results.Result<List<User>>> GetAllUsersAsync()
 		{
 			try
@@ -523,7 +617,6 @@ namespace Services
 		}
 
 
-		//LoginAsync
 		public async Task<Dtat.Results.Result<LoginResponseViewModel>>
 			LoginAsync(LoginRequestViewModel loginRequestViewModel, string ipAddress)
 		{
@@ -576,9 +669,6 @@ namespace Services
 							(type: nameof(foundedUser.Id), value: foundedUser.Id.ToString()),
 
 						new Claim
-							(type: nameof(foundedUser.Username), value: foundedUser.Username.ToString()),
-
-						new Claim
 							(type: nameof(foundedUser.RoleId), value: foundedUser.RoleId.ToString()),
 
 						new Claim
@@ -629,7 +719,6 @@ namespace Services
 		}
 
 
-		//ChangeUserRoleAsync
 		public async Task<Dtat.Results.Result>
 			ChangeUserRoleAsync(ChangeUserRoleRequestViewModel changeUserRoleRequestViewModel)
 		{
@@ -643,7 +732,7 @@ namespace Services
 					ChangeUserRoleValidation(changeUserRoleRequestViewModel);
 
 				var adminUser =
-					(HttpContextAccessor?.HttpContext?.Items["User"] as UserInformationInToken)?.Username;
+					(HttpContextAccessor?.HttpContext?.Items["User"] as UserInformationInToken)?.Id;
 
                 if (adminUser == null)
                 {
@@ -710,6 +799,75 @@ namespace Services
 
 				await Logger.LogCritical
 						(exception: ex, ex.Message, parameters: properties);
+
+				string errorMessage = string.Format
+					(Resources.Messages.ErrorMessages.UnkonwnError);
+
+				result.AddErrorMessage(errorMessage);
+
+				return result;
+			}
+		}
+
+
+		public async Task<Dtat.Results.Result<GetUserInformationResponseViewModel>> GetUserInformationForUpdate()
+		{
+			try
+			{
+				var result = 
+					new Dtat.Results.Result<GetUserInformationResponseViewModel>();
+
+				var userId =
+					(HttpContextAccessor?.HttpContext?.Items["User"] as UserInformationInToken)?.Id;
+
+				if (userId == null)
+				{
+					string errorMessage = string.Format
+						(Resources.Messages.ErrorMessages.UserNotFound);
+
+					result.AddErrorMessage(errorMessage);
+
+					return result;
+				}
+
+				var user =
+					await DatabaseContext.Users
+					.AsNoTracking()
+					.Select(current => new {current.Id, current.Username, current.Email, current.PhoneNumber})
+					.Where(current => current.Id == userId)
+					.FirstOrDefaultAsync();
+
+				if (user == null)
+				{
+					string errorMessage = string.Format
+						(Resources.Messages.ErrorMessages.UserNotFound);
+
+					result.AddErrorMessage(errorMessage);
+
+					return result;
+				}
+
+				result.Value = new GetUserInformationResponseViewModel
+				{
+					Email = user.Email,
+					PhoneNumber = user.PhoneNumber,
+					Username = user.Username,
+					ProfileImage = null,
+				};
+
+				string successMessage = string.Format
+					(Resources.Messages.SuccessMessages.LoadUserSuccessfull);
+
+				result.AddSuccessMessage(successMessage);
+
+				return result;
+			}
+			catch (Exception ex)
+			{
+				var result =
+					new Dtat.Results.Result<GetUserInformationResponseViewModel>();
+
+				await Logger.LogCritical(exception: ex, ex.Message);
 
 				string errorMessage = string.Format
 					(Resources.Messages.ErrorMessages.UnkonwnError);

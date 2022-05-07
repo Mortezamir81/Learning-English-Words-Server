@@ -7,7 +7,99 @@ namespace Services
 	public partial class UserServices
 	{
 		#region Check Validation Methods
-		//ForLoginValidation
+
+		public Dtat.Results.Result
+			LogoutValidation(string token)
+		{
+			var result =
+				new Dtat.Results.Result<LoginResponseViewModel>();
+
+			if (string.IsNullOrWhiteSpace(token))
+			{
+				string errorMessage = string.Format
+					(Resources.Messages.ErrorMessages.MostNotBeNull, nameof(token));
+
+				result.AddErrorMessage(errorMessage);
+			}
+
+			return result;
+		}
+
+		public Dtat.Results.Result DeleteUserValidation
+			(DeleteUserRequestViewModel deleteUserRequestViewModel)
+		{
+			var result =
+				new Dtat.Results.Result();
+
+			if (deleteUserRequestViewModel.Id == null)
+			{
+				string errorMessage = string.Format
+					(Resources.Messages.ErrorMessages.MostNotBeNullWithIn,
+					nameof(deleteUserRequestViewModel.Id), nameof(deleteUserRequestViewModel));
+
+				result.AddErrorMessage(errorMessage);
+				return result;
+			}
+
+			return result;
+		}
+
+
+		public Dtat.Results.Result<LoginResponseViewModel>
+			RefreshTokenValidation(string token, string ipAddress)
+		{
+			var result =
+				new Dtat.Results.Result<LoginResponseViewModel>();
+
+			if (string.IsNullOrWhiteSpace(token))
+			{
+				string errorMessage = string.Format
+					(Resources.Messages.ErrorMessages.MostNotBeNull, nameof(token));
+
+				result.AddErrorMessage(errorMessage);
+			}
+
+			if (string.IsNullOrWhiteSpace(ipAddress))
+			{
+				string errorMessage = string.Format
+					(Resources.Messages.ErrorMessages.MostNotBeNull, nameof(ipAddress));
+
+				result.AddErrorMessage(errorMessage);
+			}
+
+			return result;
+		}
+
+
+		public Dtat.Results.Result UpdateUserValidation
+			(UpdateUserRequestViewModel updateUserRequestViewModel)
+		{
+			var result =
+				new Dtat.Results.Result();
+
+			if (updateUserRequestViewModel == null)
+			{
+				string errorMessage = string.Format
+					(Resources.Messages.ErrorMessages.MostNotBeNull,
+						nameof(updateUserRequestViewModel));
+
+				result.AddErrorMessage(errorMessage);
+				return result;
+			}
+
+			if (string.IsNullOrWhiteSpace(updateUserRequestViewModel.Username))
+			{
+				string errorMessage = string.Format
+					(Resources.Messages.ErrorMessages.MostNotBeNullWithIn,
+					nameof(updateUserRequestViewModel.Username), nameof(updateUserRequestViewModel));
+
+				result.AddErrorMessage(errorMessage);
+			}
+
+			return result;
+		}
+
+
 		public Dtat.Results.Result<LoginResponseViewModel>
 			LoginValidation(LoginRequestViewModel loginRequestViewModel)
 		{
@@ -46,80 +138,46 @@ namespace Services
 
 		}
 
-		//ForRevokeTokenValidation
-		public Dtat.Results.Result<LoginResponseViewModel>
-			RefreshTokenValidation(string token, string ipAddress)
+
+		public Dtat.Results.Result UpdateUserByAdminValidation
+			(UpdateUserByAdminRequestViewModel updateUserRequestViewModel)
 		{
 			var result =
-				new Dtat.Results.Result<LoginResponseViewModel>();
+				new Dtat.Results.Result();
 
-			if (string.IsNullOrWhiteSpace(token))
-			{
-				string errorMessage = string.Format
-					(Resources.Messages.ErrorMessages.MostNotBeNull, nameof(token));
-
-				result.AddErrorMessage(errorMessage);
-			}
-
-			if (string.IsNullOrWhiteSpace(ipAddress))
-			{
-				string errorMessage = string.Format
-					(Resources.Messages.ErrorMessages.MostNotBeNull, nameof(ipAddress));
-
-				result.AddErrorMessage(errorMessage);
-			}
-
-			return result;
-		}
-
-		//ForRefreshTokenValidation
-		public Dtat.Results.Result
-			LogoutValidation(string token)
-		{
-			var result =
-				new Dtat.Results.Result<LoginResponseViewModel>();
-
-			if (string.IsNullOrWhiteSpace(token))
-			{
-				string errorMessage = string.Format
-					(Resources.Messages.ErrorMessages.MostNotBeNull, nameof(token));
-
-				result.AddErrorMessage(errorMessage);
-			}
-
-			return result;
-		}
-
-		//ChangeUserRoleValidation
-		public Dtat.Results.Result
-			ChangeUserRoleValidation(ChangeUserRoleRequestViewModel changeUserRoleRequestViewModel)
-		{
-			var result =
-				new Dtat.Results.Result<LoginResponseViewModel>();
-
-			if (changeUserRoleRequestViewModel == null)
+			if (updateUserRequestViewModel == null)
 			{
 				string errorMessage = string.Format
 					(Resources.Messages.ErrorMessages.MostNotBeNull,
-					nameof(changeUserRoleRequestViewModel));
+					nameof(updateUserRequestViewModel));
 
 				result.AddErrorMessage(errorMessage);
 				return result;
 			}
 
-			if (string.IsNullOrWhiteSpace(changeUserRoleRequestViewModel.Username))
+			if (updateUserRequestViewModel.Id == null)
 			{
 				string errorMessage = string.Format
 					(Resources.Messages.ErrorMessages.MostNotBeNullWithIn,
-					nameof(changeUserRoleRequestViewModel.Username), nameof(changeUserRoleRequestViewModel));
+					nameof(updateUserRequestViewModel.Id), nameof(updateUserRequestViewModel));
 
 				result.AddErrorMessage(errorMessage);
 			}
 
-			if (changeUserRoleRequestViewModel.RoleId <= 0)
+			if (string.IsNullOrWhiteSpace(updateUserRequestViewModel.Username))
 			{
 				string errorMessage = string.Format
-					(Resources.Messages.ErrorMessages.InvalidRoleId);
+					(Resources.Messages.ErrorMessages.MostNotBeNullWithIn,
+					nameof(updateUserRequestViewModel.Username), nameof(updateUserRequestViewModel));
+
+				result.AddErrorMessage(errorMessage);
+			}
+
+			if (string.IsNullOrWhiteSpace(updateUserRequestViewModel.Email))
+			{
+				string errorMessage = string.Format
+					(Resources.Messages.ErrorMessages.MostNotBeNullWithIn,
+					nameof(updateUserRequestViewModel.Email), nameof(updateUserRequestViewModel));
 
 				result.AddErrorMessage(errorMessage);
 			}
@@ -127,7 +185,7 @@ namespace Services
 			return result;
 		}
 
-		//ForRegisterValidation
+
 		public async Task<Dtat.Results.Result>
 			RegisterValidation(RegisterRequestViewModel registerRequestViewModel)
 		{
@@ -209,68 +267,38 @@ namespace Services
 			return result;
 		}
 
-		//ForUpdateUserValidation
-		public Dtat.Results.Result UpdateUserValidation
-			(UpdateUserRequestViewModel updateUserRequestViewModel)
+
+		public Dtat.Results.Result
+			ChangeUserRoleValidation(ChangeUserRoleRequestViewModel changeUserRoleRequestViewModel)
 		{
 			var result =
-				new Dtat.Results.Result();
+				new Dtat.Results.Result<LoginResponseViewModel>();
 
-			if (updateUserRequestViewModel == null)
+			if (changeUserRoleRequestViewModel == null)
 			{
 				string errorMessage = string.Format
 					(Resources.Messages.ErrorMessages.MostNotBeNull,
-					nameof(updateUserRequestViewModel));
+					nameof(changeUserRoleRequestViewModel));
 
 				result.AddErrorMessage(errorMessage);
 				return result;
 			}
 
-			if (updateUserRequestViewModel.Id == null)
+			if (string.IsNullOrWhiteSpace(changeUserRoleRequestViewModel.Username))
 			{
 				string errorMessage = string.Format
 					(Resources.Messages.ErrorMessages.MostNotBeNullWithIn,
-					nameof(updateUserRequestViewModel.Id), nameof(updateUserRequestViewModel));
+					nameof(changeUserRoleRequestViewModel.Username), nameof(changeUserRoleRequestViewModel));
 
 				result.AddErrorMessage(errorMessage);
 			}
 
-			if (string.IsNullOrWhiteSpace(updateUserRequestViewModel.Username))
+			if (changeUserRoleRequestViewModel.RoleId <= 0)
 			{
 				string errorMessage = string.Format
-					(Resources.Messages.ErrorMessages.MostNotBeNullWithIn,
-					nameof(updateUserRequestViewModel.Username), nameof(updateUserRequestViewModel));
+					(Resources.Messages.ErrorMessages.InvalidRoleId);
 
 				result.AddErrorMessage(errorMessage);
-			}
-
-			if (string.IsNullOrWhiteSpace(updateUserRequestViewModel.Email))
-			{
-				string errorMessage = string.Format
-					(Resources.Messages.ErrorMessages.MostNotBeNullWithIn,
-					nameof(updateUserRequestViewModel.Email), nameof(updateUserRequestViewModel));
-
-				result.AddErrorMessage(errorMessage);
-			}
-
-			return result;
-		}
-
-		//ForDeleteUserValidation
-		public Dtat.Results.Result DeleteUserValidation
-			(DeleteUserRequestViewModel deleteUserRequestViewModel)
-		{
-			var result =
-				new Dtat.Results.Result();
-
-			if (deleteUserRequestViewModel.Id == null)
-			{
-				string errorMessage = string.Format
-					(Resources.Messages.ErrorMessages.MostNotBeNullWithIn,
-					nameof(deleteUserRequestViewModel.Id), nameof(deleteUserRequestViewModel));
-
-				result.AddErrorMessage(errorMessage);
-				return result;
 			}
 
 			return result;

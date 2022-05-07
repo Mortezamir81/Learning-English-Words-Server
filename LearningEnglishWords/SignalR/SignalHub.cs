@@ -50,8 +50,8 @@ namespace Services.SignalR
 
             if (user != null)
             {
-                await Logger.LogTrace($"User {user.Username} connected successful");
-                await Groups.AddToGroupAsync(Context.ConnectionId, user.Username.ToLower());
+                await Logger.LogTrace($"User {user.Id} connected successful");
+                await Groups.AddToGroupAsync(Context.ConnectionId, user.Id.ToString());
                 await Clients.All.SendAsync("RefreshNotificationPanel");
             }
 
@@ -65,8 +65,8 @@ namespace Services.SignalR
 
             if (user != null)
             {
-                await Logger.LogTrace($"User {user.Username} disconnected successful");
-                await Groups.RemoveFromGroupAsync(Context.ConnectionId, user.Username.ToLower());
+                await Logger.LogTrace($"User {user.Id} disconnected successful");
+                await Groups.RemoveFromGroupAsync(Context.ConnectionId, user.Id.ToString());
             }
 
             await base.OnDisconnectedAsync(exception);
@@ -79,18 +79,18 @@ namespace Services.SignalR
 
             if (user != null)
             {
-                await Logger.LogTrace($"notif is read by {user.Username}");
+                await Logger.LogTrace($"notif is read by {user.Id}");
 
                 var result =
                     await DatabaseContext.Users
                     .Include(current => current.Notifications)
-                    .Where(current => current.Username.ToLower() == user.Username.ToLower())
+                    .Where(current => current.Id == user.Id)
                     .FirstOrDefaultAsync()
                     ;
 
                 if (result != null)
                 {
-                    await Logger.LogTrace($"user : {user.Username} is not null and readed by database");
+                    await Logger.LogTrace($"user : {user.Id} is not null and readed by database");
 
                     foreach (var notification in result.Notifications)
                     {

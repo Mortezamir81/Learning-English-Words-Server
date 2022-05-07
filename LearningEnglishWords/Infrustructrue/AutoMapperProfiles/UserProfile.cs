@@ -11,9 +11,9 @@ namespace Infrustructrue.AutoMapperProfiles
 
 			CreateMap<RegisterRequestViewModel, Domain.Entities.User>();
 
-			CreateMap<Domain.Entities.User, UpdateUserRequestViewModel>();
+			CreateMap<Domain.Entities.User, UpdateUserByAdminRequestViewModel>();
 
-			CreateMap<UpdateUserRequestViewModel, Domain.Entities.User>();
+			CreateMap<UpdateUserByAdminRequestViewModel, Domain.Entities.User>();
 		}
 	}
 }

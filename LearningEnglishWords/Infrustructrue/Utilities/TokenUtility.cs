@@ -62,11 +62,6 @@ namespace Infrustructrue.Utilities
 					.Where(current => current.Type.ToLower() == nameof(User.SecurityStamp).ToLower())
 					.FirstOrDefault();
 
-				Claim usernameClaim =
-					jwtToken.Claims
-					.Where(current => current.Type.ToLower() == nameof(User.Username).ToLower())
-					.FirstOrDefault();
-
 				Claim roleIdClaim =
 					jwtToken.Claims
 					.Where(current => current.Type.ToLower() == nameof(User.RoleId).ToLower())
@@ -95,7 +90,6 @@ namespace Infrustructrue.Utilities
 				var userInformationInToken = new UserInformationInToken()
 				{
 					Id = userId,
-					Username = usernameClaim.Value,
 					RoleId = Convert.ToInt32(roleIdClaim.Value),
 				};
 
