@@ -10,11 +10,13 @@ using ViewModels.Responses;
 using Dtat.Logging;
 using Infrustructrue.Attributes;
 using Infrustructrue.Enums;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Hosting;
 
 namespace Server.Controllers
 {
 	public class UsersController : BaseApiControllerWithDatabase
-	{	
+	{
 		#region Constractor
 		public UsersController
 			(IUnitOfWork unitOfWork,
@@ -33,7 +35,7 @@ namespace Server.Controllers
 
 		#region HttpGet
 		[Authorize(UserRoles.Admin)]
-		[HttpGet("GetAllUsers")]
+		[HttpGet]
 		public async Task<ActionResult<Dtat.Results.Result<List<User>>>> GetAllUsers()
 		{
 			var result =
@@ -46,8 +48,8 @@ namespace Server.Controllers
 		}
 
 		[Authorize(UserRoles.All)]
-		[HttpGet]
-		public async Task<ActionResult<Dtat.Results.Result<User>>> GetUserInformationForUpdate()
+		[HttpGet("GetBasicUserInformation")]
+		public async Task<ActionResult<Dtat.Results.Result<GetUserInformationResponseViewModel>>> GetUserInformationForUpdate()
 		{
 			var result =
 				await UserServices.GetUserInformationForUpdate();
@@ -64,7 +66,7 @@ namespace Server.Controllers
 		public async Task<ActionResult<Dtat.Results.Result<LoginResponseViewModel>>>
 			LoginAsync([FromBody] LoginRequestViewModel viewModel)
 		{
-			var response = 
+			var response =
 				await UserServices.LoginAsync(viewModel, ipAddress: GetIPAddress());
 
 			if (response.IsFailed)
@@ -158,7 +160,37 @@ namespace Server.Controllers
 
 			return Ok(result);
 		}
+
+
+		[Authorize(UserRoles.All)]
+		[HttpPut("UpdateProfileImage")]
+		public async Task<ActionResult<Dtat.Results.Result>>
+			UpdateUserProfileImageAsync(IFormFile file, [FromServices] IHostEnvironment HostEnvironment)
+		{
+			var result =
+				await UserServices.UpdateUserProfileAsync(file: file, environment: HostEnvironment);
+
+			if (result.IsFailed)
+				return BadRequest(result);
+
+			return Ok();
+		}
 		#endregion /HttpPut
+
+		#region HttpDelete
+		[Authorize(UserRoles.All)]
+		[HttpDelete("DeleteUserProfileImage")]
+		public async Task<ActionResult<Dtat.Results.Result>> DeleteUserProfileImageAsync([FromServices] IHostEnvironment HostEnvironment)
+		{
+			var result =
+				await UserServices.DeleteUserProfileImageAsync(HostEnvironment: HostEnvironment);
+
+			if (result.IsFailed)
+				return BadRequest(result);
+
+			return Ok(result);
+		}
+		#endregion /HttpDelete
 
 		#region Methods
 		[NonAction]

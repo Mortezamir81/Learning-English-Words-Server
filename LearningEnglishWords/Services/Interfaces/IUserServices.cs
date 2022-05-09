@@ -1,4 +1,6 @@
 ﻿using Domain.Entities;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Hosting;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ViewModels.Requests;
@@ -15,6 +17,8 @@ namespace Services
 		Task<Dtat.Results.Result> RegisterAsync
 			(RegisterRequestViewModel registerRequestViewModel);
 
+		Task<Dtat.Results.Result<List<User>>> GetAllUsersAsync();
+
 		Task<Dtat.Results.Result> UpdateUserAsync
 			(UpdateUserRequestViewModel updateUserRequestViewModel);
 
@@ -24,7 +28,11 @@ namespace Services
 		Task<Dtat.Results.Result> UpdateUserByAdminAsync
 			(UpdateUserByAdminRequestViewModel updateUserRequestViewModel);
 
-		Task<Dtat.Results.Result<List<User>>> GetAllUsersAsync();
+		Task<Dtat.Results.Result> 
+			DeleteUserProfileImageAsync(IHostEnvironment HostEnvironment);
+
+		Task<Dtat.Results.Result>
+			UpdateUserProfileAsync(IFormFile file, IHostEnvironment environment);
 
 		Task<Dtat.Results.Result<LoginResponseViewModel>>
 			LoginAsync(LoginRequestViewModel loginRequestViewModel, string ipAddress);
@@ -35,6 +43,5 @@ namespace Services
 		Task<Dtat.Results.Result<GetUserInformationResponseViewModel>> GetUserInformationForUpdate();
 
 		Task<Dtat.Results.Result<LoginResponseViewModel>> RefreshTokenAsync(string token, string ipAddress);
-
 	}
 }

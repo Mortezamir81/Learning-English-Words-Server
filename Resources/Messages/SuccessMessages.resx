@@ -144,6 +144,9 @@
   <data name="DeleteNotificationSuccessful" xml:space="preserve">
     <value>The notification was deleted successful</value>
   </data>
+  <data name="DeleteProfileImageSuccessful" xml:space="preserve">
+    <value>The profile image was deleted successful</value>
+  </data>
   <data name="DeleteUserSuccessful" xml:space="preserve">
     <value>The user was deleted successful</value>
   </data>

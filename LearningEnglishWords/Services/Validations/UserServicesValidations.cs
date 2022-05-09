@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using ViewModels.Requests;
 using ViewModels.Responses;
 
@@ -24,6 +27,63 @@ namespace Services
 
 			return result;
 		}
+
+
+		private Dtat.Results.Result CheckFileValidation(IFormFile file)
+		{
+			var result = new Dtat.Results.Result();
+
+			if (file == null)
+			{
+				string errorMessage = string.Format
+					(Resources.Messages.ErrorMessages.FileNull);
+
+				result.AddErrorMessage(errorMessage);
+
+				return result;
+			}
+
+
+			if (file.Length == 0)
+			{
+				string errorMessage = string.Format
+					(Resources.Messages.ErrorMessages.FileNotUploaded, file.FileName);
+
+				result.AddErrorMessage(errorMessage);
+
+				return result;
+			}
+
+			var fileExtension =
+				System.IO.Path.GetExtension
+				(path: file.FileName)?.ToLower();
+
+			if (fileExtension == null)
+			{
+				string errorMessage = string.Format
+					(Resources.Messages.ErrorMessages.FileDoesNotHaveExtention, file.FileName);
+
+				result.AddErrorMessage(errorMessage);
+
+				return result;
+			}
+
+			var permittedFileExtensions = 
+				new string[] { ".ico", ".png", ".jpg", ".jpeg" };
+
+			if (permittedFileExtensions.ToList().Contains(item: fileExtension) == false)
+			{
+				var errorMessage = string.Format
+					(Resources.Messages.ErrorMessages.FileExtentionDoesNotSupport, file.FileName);
+
+				result.AddErrorMessage(errorMessage);
+
+				return result;
+			}
+
+			return result;
+		}
+
 
 		public Dtat.Results.Result DeleteUserValidation
 			(DeleteUserRequestViewModel deleteUserRequestViewModel)

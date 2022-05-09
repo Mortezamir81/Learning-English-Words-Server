@@ -142,6 +142,15 @@ namespace Resources.Messages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The profile image was deleted successful.
+        /// </summary>
+        public static string DeleteProfileImageSuccessful {
+            get {
+                return ResourceManager.GetString("DeleteProfileImageSuccessful", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The user was deleted successful.
         /// </summary>
         public static string DeleteUserSuccessful {

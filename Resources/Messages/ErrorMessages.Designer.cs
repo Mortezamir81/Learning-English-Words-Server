@@ -106,6 +106,42 @@ namespace Resources.Messages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to File {0} does not have any extension!.
+        /// </summary>
+        public static string FileDoesNotHaveExtention {
+            get {
+                return ResourceManager.GetString("FileDoesNotHaveExtention", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Site does not support file {0} extension!.
+        /// </summary>
+        public static string FileExtentionDoesNotSupport {
+            get {
+                return ResourceManager.GetString("FileExtentionDoesNotSupport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File {0} did not uploaded successfully!.
+        /// </summary>
+        public static string FileNotUploaded {
+            get {
+                return ResourceManager.GetString("FileNotUploaded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You did not specify any file for uploading!.
+        /// </summary>
+        public static string FileNull {
+            get {
+                return ResourceManager.GetString("FileNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Content Id structure is invalid.
         /// </summary>
         public static string InvalidContentIdStructure {

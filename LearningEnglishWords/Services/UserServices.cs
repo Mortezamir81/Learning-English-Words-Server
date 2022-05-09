@@ -17,6 +17,8 @@ using Dtat.Utilities;
 using System.Collections;
 using Microsoft.EntityFrameworkCore;
 using ViewModels.General;
+using Microsoft.Extensions.Hosting;
+using System.IO;
 
 namespace Services
 {
@@ -53,6 +55,101 @@ namespace Services
 		#endregion /Properties
 
 		#region Methods
+		public async Task<Dtat.Results.Result>
+			UpdateUserProfileAsync(IFormFile file, IHostEnvironment HostEnvironment)
+		{
+			try
+			{
+				var result = CheckFileValidation(file);
+
+				if (result.IsFailed)
+				{
+					return result;
+				}
+
+				var userId =
+					(HttpContextAccessor?.HttpContext?.Items["User"] as UserInformationInToken)?.Id;
+
+				if (userId == null)
+				{
+					string errorMessage = string.Format
+						(Resources.Messages.ErrorMessages.UserNotFound);
+
+					result.AddErrorMessage(errorMessage);
+
+					return result;
+				}
+
+				var user =
+					await DatabaseContext.Users
+					.Where(current => current.Id == userId)
+					.FirstOrDefaultAsync();
+
+				if (user == null)
+				{
+					string errorMessage = string.Format
+						(Resources.Messages.ErrorMessages.UserNotFound);
+
+					result.AddErrorMessage(errorMessage);
+
+					return result;
+				}
+
+				var fileName =
+					file!.FileName
+					.Trim()
+					.Replace(" ", "_");
+
+				var fileExtension =
+					System.IO.Path.GetExtension
+						(path: file.FileName)?.ToLower();
+
+				var rootPath =
+					HostEnvironment.ContentRootPath;
+
+				var newFileName = $"{user.Username}profile{fileExtension}";
+
+				var physicalPathName =
+					System.IO.Path.Combine
+					(path1: rootPath, path2: "wwwroot", path3: "ProfileImages", path4: newFileName);
+
+				using (var stream = System.IO.File.Create(path: physicalPathName))
+				{
+					await file.CopyToAsync(target: stream);
+
+					await stream.FlushAsync();
+
+					stream.Close();
+				}
+
+				user.ProfileImage = $"/ProfileImages/{newFileName}";
+
+				await DatabaseContext.SaveChangesAsync();
+
+				string successMessage = string.Format
+					(Resources.Messages.SuccessMessages.UpdateSuccessful);
+
+				result.AddSuccessMessage(successMessage);
+
+				return result;
+			}
+			catch (Exception ex)
+			{
+				await Logger.LogCritical(exception: ex, ex.Message);
+
+				var response =
+					new Dtat.Results.Result();
+
+				string errorMessage = string.Format
+					(Resources.Messages.ErrorMessages.UnkonwnError);
+
+				response.AddErrorMessage(errorMessage);
+
+				return response;
+			}
+		}
+
+
 		private UserLogin GenerateRefreshToken(string ipAddress)
 		{
 			return new UserLogin
@@ -456,6 +553,87 @@ namespace Services
 		}
 
 
+		public async Task<Dtat.Results.Result>
+			DeleteUserProfileImageAsync(IHostEnvironment HostEnvironment)
+		{
+			try
+			{
+				var result = new Dtat.Results.Result();
+
+				var userId =
+					(HttpContextAccessor?.HttpContext?.Items["User"] as UserInformationInToken)?.Id;
+
+				if (userId == null)
+				{
+					string errorMessage = string.Format
+						(Resources.Messages.ErrorMessages.UserNotFound);
+
+					result.AddErrorMessage(errorMessage);
+
+					return result;
+				}
+
+				var user =
+					await DatabaseContext.Users
+					.Where(current => current.Id == userId)
+					.FirstOrDefaultAsync();
+
+				if (user == null)
+				{
+					string errorMessage = string.Format
+						(Resources.Messages.ErrorMessages.UserNotFound);
+
+					result.AddErrorMessage(errorMessage);
+
+					return result;
+				}
+
+				if (!string.IsNullOrWhiteSpace(user.ProfileImage))
+				{
+					var rootPath =
+						HostEnvironment.ContentRootPath;
+
+					var physicalPathName =
+						System.IO.Path.Combine
+							(path1: rootPath, path2: "wwwroot");
+
+					try
+					{
+						File.Delete(path: $"{physicalPathName}{user.ProfileImage}");
+					}
+					catch { }
+
+					user.ProfileImage = null;
+
+					await DatabaseContext.SaveChangesAsync();
+				}
+				
+				string successMessage = string.Format
+					(Resources.Messages.SuccessMessages.DeleteProfileImageSuccessful);
+
+				result.AddSuccessMessage(successMessage);
+
+				return result;
+			}
+			catch (Exception ex)
+			{
+				await UnitOfWork.ClearTracking();
+
+				await Logger.LogCritical(exception: ex, ex.Message);
+
+				var response =
+					new Dtat.Results.Result();
+
+				string errorMessage = string.Format
+					(Resources.Messages.ErrorMessages.UnkonwnError);
+
+				response.AddErrorMessage(errorMessage);
+
+				return response;
+			}
+		}
+
+
 		public async Task<Dtat.Results.Result> LogoutAsync(string token)
 		{
 			var result =
@@ -833,7 +1011,7 @@ namespace Services
 				var user =
 					await DatabaseContext.Users
 					.AsNoTracking()
-					.Select(current => new {current.Id, current.Username, current.Email, current.PhoneNumber})
+					.Select(current => new {current.Id, current.Username, current.Email, current.PhoneNumber, current.ProfileImage})
 					.Where(current => current.Id == userId)
 					.FirstOrDefaultAsync();
 
@@ -852,7 +1030,7 @@ namespace Services
 					Email = user.Email,
 					PhoneNumber = user.PhoneNumber,
 					Username = user.Username,
-					ProfileImage = null,
+					ProfileImage = user.ProfileImage,
 				};
 
 				string successMessage = string.Format

@@ -132,6 +132,18 @@
   <data name="EmailExist" xml:space="preserve">
     <value>This email has already been registered</value>
   </data>
+  <data name="FileDoesNotHaveExtention" xml:space="preserve">
+    <value>File {0} does not have any extension!</value>
+  </data>
+  <data name="FileExtentionDoesNotSupport" xml:space="preserve">
+    <value>Site does not support file {0} extension!</value>
+  </data>
+  <data name="FileNotUploaded" xml:space="preserve">
+    <value>File {0} did not uploaded successfully!</value>
+  </data>
+  <data name="FileNull" xml:space="preserve">
+    <value>You did not specify any file for uploading!</value>
+  </data>
   <data name="InvalidContentIdStructure" xml:space="preserve">
     <value>Content Id structure is invalid</value>
   </data>

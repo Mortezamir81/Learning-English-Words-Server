@@ -10,6 +10,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Services;
 using Services.SignalR;
+using ViewModels.General;
+using Microsoft.AspNetCore.Http;
 
 //******************************
 var webApplicationOptions =
@@ -102,6 +104,8 @@ if (app.Environment.IsDevelopment())
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.UseCustomStaticFilesMiddleware();
 
 app.UseEndpoints(endpoints =>
 {
