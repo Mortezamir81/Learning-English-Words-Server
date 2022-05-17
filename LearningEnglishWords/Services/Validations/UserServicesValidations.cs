@@ -1,21 +1,13 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ViewModels.Requests;
-using ViewModels.Responses;
-
-namespace Services
+﻿namespace Services
 {
 	public partial class UserServices
 	{
 		#region Check Validation Methods
-
-		public Dtat.Results.Result
+		public Result
 			LogoutValidation(string token)
 		{
 			var result =
-				new Dtat.Results.Result<LoginResponseViewModel>();
+				new Result<LoginResponseViewModel>();
 
 			if (string.IsNullOrWhiteSpace(token))
 			{
@@ -29,67 +21,10 @@ namespace Services
 		}
 
 
-		private Dtat.Results.Result CheckFileValidation(IFormFile file)
-		{
-			var result = new Dtat.Results.Result();
-
-			if (file == null)
-			{
-				string errorMessage = string.Format
-					(Resources.Messages.ErrorMessages.FileNull);
-
-				result.AddErrorMessage(errorMessage);
-
-				return result;
-			}
-
-
-			if (file.Length == 0)
-			{
-				string errorMessage = string.Format
-					(Resources.Messages.ErrorMessages.FileNotUploaded, file.FileName);
-
-				result.AddErrorMessage(errorMessage);
-
-				return result;
-			}
-
-			var fileExtension =
-				System.IO.Path.GetExtension
-				(path: file.FileName)?.ToLower();
-
-			if (fileExtension == null)
-			{
-				string errorMessage = string.Format
-					(Resources.Messages.ErrorMessages.FileDoesNotHaveExtention, file.FileName);
-
-				result.AddErrorMessage(errorMessage);
-
-				return result;
-			}
-
-			var permittedFileExtensions = 
-				new string[] { ".ico", ".png", ".jpg", ".jpeg" };
-
-			if (permittedFileExtensions.ToList().Contains(item: fileExtension) == false)
-			{
-				var errorMessage = string.Format
-					(Resources.Messages.ErrorMessages.FileExtentionDoesNotSupport, file.FileName);
-
-				result.AddErrorMessage(errorMessage);
-
-				return result;
-			}
-
-			return result;
-		}
-
-
-		public Dtat.Results.Result DeleteUserValidation
+		public Result DeleteUserValidation
 			(DeleteUserRequestViewModel deleteUserRequestViewModel)
 		{
-			var result =
-				new Dtat.Results.Result();
+			var result = new Result();
 
 			if (deleteUserRequestViewModel.Id == null)
 			{
@@ -105,11 +40,11 @@ namespace Services
 		}
 
 
-		public Dtat.Results.Result<LoginResponseViewModel>
+		public Result<LoginResponseViewModel>
 			RefreshTokenValidation(string token, string ipAddress)
 		{
-			var result =
-				new Dtat.Results.Result<LoginResponseViewModel>();
+			var result = 
+				new Result<LoginResponseViewModel>();
 
 			if (string.IsNullOrWhiteSpace(token))
 			{
@@ -131,11 +66,10 @@ namespace Services
 		}
 
 
-		public Dtat.Results.Result UpdateUserValidation
+		public Result UpdateUserValidation
 			(UpdateUserRequestViewModel updateUserRequestViewModel)
 		{
-			var result =
-				new Dtat.Results.Result();
+			var result = new Result();
 
 			if (updateUserRequestViewModel == null)
 			{
@@ -160,11 +94,11 @@ namespace Services
 		}
 
 
-		public Dtat.Results.Result<LoginResponseViewModel>
+		public Result<LoginResponseViewModel>
 			LoginValidation(LoginRequestViewModel loginRequestViewModel)
 		{
 			var result =
-				new Dtat.Results.Result<LoginResponseViewModel>();
+				new Result<LoginResponseViewModel>();
 
 			if (loginRequestViewModel == null)
 			{
@@ -199,11 +133,10 @@ namespace Services
 		}
 
 
-		public Dtat.Results.Result UpdateUserByAdminValidation
+		public Result UpdateUserByAdminValidation
 			(UpdateUserByAdminRequestViewModel updateUserRequestViewModel)
 		{
-			var result =
-				new Dtat.Results.Result();
+			var result = new Result();
 
 			if (updateUserRequestViewModel == null)
 			{
@@ -246,11 +179,10 @@ namespace Services
 		}
 
 
-		public async Task<Dtat.Results.Result>
+		public async Task<Result>
 			RegisterValidation(RegisterRequestViewModel registerRequestViewModel)
 		{
-			var result =
-				new Dtat.Results.Result();
+			var result = new Result();
 
 			if (registerRequestViewModel == null)
 			{
@@ -328,11 +260,11 @@ namespace Services
 		}
 
 
-		public Dtat.Results.Result
+		public Result
 			ChangeUserRoleValidation(ChangeUserRoleRequestViewModel changeUserRoleRequestViewModel)
 		{
 			var result =
-				new Dtat.Results.Result<LoginResponseViewModel>();
+				new Result<LoginResponseViewModel>();
 
 			if (changeUserRoleRequestViewModel == null)
 			{
@@ -359,6 +291,63 @@ namespace Services
 					(Resources.Messages.ErrorMessages.InvalidRoleId);
 
 				result.AddErrorMessage(errorMessage);
+			}
+
+			return result;
+		}
+
+
+		public Result<UpdateUserProfileResponseViewModel> CheckFileValidation(IFormFile file)
+		{
+			var result = 
+				new Result<UpdateUserProfileResponseViewModel>();
+
+			if (file == null)
+			{
+				string errorMessage = string.Format
+					(Resources.Messages.ErrorMessages.FileNull);
+
+				result.AddErrorMessage(errorMessage);
+
+				return result;
+			}
+
+
+			if (file.Length == 0)
+			{
+				string errorMessage = string.Format
+					(Resources.Messages.ErrorMessages.FileNotUploaded, file.FileName);
+
+				result.AddErrorMessage(errorMessage);
+
+				return result;
+			}
+
+			var fileExtension =
+				System.IO.Path.GetExtension
+				(path: file.FileName)?.ToLower();
+
+			if (fileExtension == null)
+			{
+				string errorMessage = string.Format
+					(Resources.Messages.ErrorMessages.FileDoesNotHaveExtention, file.FileName);
+
+				result.AddErrorMessage(errorMessage);
+
+				return result;
+			}
+
+			var permittedFileExtensions =
+				new string[] { ".ico", ".png", ".jpg", ".jpeg" };
+
+			if (permittedFileExtensions.ToList().Contains(item: fileExtension) == false)
+			{
+				var errorMessage = string.Format
+					(Resources.Messages.ErrorMessages.FileExtentionDoesNotSupport, file.FileName);
+
+				result.AddErrorMessage(errorMessage);
+
+				return result;
 			}
 
 			return result;

@@ -1,19 +1,4 @@
-﻿using AutoMapper;
-using Persistence;
-using Microsoft.AspNetCore.Http;
-using Domain.Entities;
-using Dtat.Logging;
-using Dtat.Results;
-using Dtat.Utilities;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using ViewModels.General;
-using ViewModels.Requests;
-using ViewModels.Responses;
-
-namespace Services
+﻿namespace Services
 {
 	public partial class WordServices : IWordServices
 	{
@@ -21,8 +6,8 @@ namespace Services
 		public WordServices
 			(IMapper mapper,
 			IUnitOfWork unitOfWork,
-			ILogger<WordServices> logger,
 			DatabaseContext databaseContext,
+			Dtat.Logging.ILogger<WordServices> logger,
 			IHttpContextAccessor httpContextAccessor) : base()
 		{
 			Logger = logger;
@@ -37,9 +22,9 @@ namespace Services
 		#region Properties
 		public IMapper Mapper { get; }
 		public IUnitOfWork UnitOfWork { get; }
-		public ILogger<WordServices> Logger { get; }
 		public DatabaseContext DatabaseContext { get; }
 		public IHttpContextAccessor HttpContextAccessor { get; }
+		public Dtat.Logging.ILogger<WordServices> Logger { get; }
 		#endregion /Properties
 
 		#region Methods
@@ -90,7 +75,7 @@ namespace Services
 				await Logger.LogCritical(exception: ex, ex.Message);
 
 				var result =
-					new Dtat.Results.Result<RecentLearnedResponseViewModel>();
+					new Result<RecentLearnedResponseViewModel>();
 
 				string errorMessage = string.Format
 					(Resources.Messages.ErrorMessages.UnkonwnError);
@@ -159,7 +144,7 @@ namespace Services
 				await Logger.LogCritical(exception: ex, ex.Message);
 
 				var response =
-					new Dtat.Results.Result<List<GetExamResponseViewModel>>();
+					new Result<List<GetExamResponseViewModel>>();
 
 				string errorMessage = string.Format
 					(Resources.Messages.ErrorMessages.UnkonwnError);
@@ -265,8 +250,7 @@ namespace Services
 				await Logger.LogCritical
 						(exception: ex, ex.Message, parameters: properties);
 
-				var response =
-					new Dtat.Results.Result();
+				var response = new Result();
 
 				string errorMessage = string.Format
 					(Resources.Messages.ErrorMessages.UnkonwnError);
@@ -339,7 +323,7 @@ namespace Services
 						(exception: ex, ex.Message, parameters: properties);
 
 				var response =
-					new Dtat.Results.Result<GetWordResponseViewModel>();
+					new Result<GetWordResponseViewModel>();
 
 				string errorMessage = string.Format
 					(Resources.Messages.ErrorMessages.UnkonwnError);
@@ -415,7 +399,7 @@ namespace Services
 				await Logger.LogCritical(exception: ex, ex.Message);
 
 				var response =
-					new Dtat.Results.Result<List<GetWordResponseViewModel>>();
+					new Result<List<GetWordResponseViewModel>>();
 
 				string errorMessage = string.Format
 					(Resources.Messages.ErrorMessages.UnkonwnError);
@@ -478,7 +462,7 @@ namespace Services
 				await Logger.LogCritical(exception: ex, ex.Message);
 
 				var response =
-					new Dtat.Results.Result<RecentLearnedResponseViewModel>();
+					new Result<RecentLearnedResponseViewModel>();
 
 				string errorMessage = string.Format
 					(Resources.Messages.ErrorMessages.UnkonwnError);
@@ -578,8 +562,7 @@ namespace Services
 				await Logger.LogCritical
 						(exception: ex, ex.Message, parameters: properties);
 
-				var response =
-					new Dtat.Results.Result();
+				var response = new Result();
 
 				string errorMessage = string.Format
 					(Resources.Messages.ErrorMessages.UnkonwnError);
@@ -696,7 +679,7 @@ namespace Services
 				await Logger.LogCritical(exception: ex, ex.Message);
 
 				var response =
-					new Dtat.Results.Result<ExamProcessingResponseViewModel>();
+					new Result<ExamProcessingResponseViewModel>();
 
 				string errorMessage = string.Format
 					(Resources.Messages.ErrorMessages.UnkonwnError);

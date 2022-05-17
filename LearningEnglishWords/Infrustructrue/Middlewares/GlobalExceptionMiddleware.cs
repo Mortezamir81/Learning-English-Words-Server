@@ -1,15 +1,10 @@
-﻿using Dtat.Logging;
-using Dtat.Results;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Threading.Tasks;
-
-namespace Server.Infrustructrue.Middlewares
+﻿namespace Server.Infrustructrue.Middlewares
 {
     public class GlobalExceptionMiddleware
     {
-		public GlobalExceptionMiddleware(RequestDelegate next, ILogger<GlobalExceptionMiddleware> logger) : base()
+		public GlobalExceptionMiddleware
+			(RequestDelegate next, 
+			Dtat.Logging.ILogger<GlobalExceptionMiddleware> logger) : base()
 		{
 			Next = next;
             Logger = logger;
@@ -17,7 +12,7 @@ namespace Server.Infrustructrue.Middlewares
 
 
 		protected RequestDelegate Next { get; }
-        public ILogger<GlobalExceptionMiddleware> Logger { get; }
+        public Dtat.Logging.ILogger<GlobalExceptionMiddleware> Logger { get; }
 
 
         public async Task InvokeAsync(HttpContext httpContext)

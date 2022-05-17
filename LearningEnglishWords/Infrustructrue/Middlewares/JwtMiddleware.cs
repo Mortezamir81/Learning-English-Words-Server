@@ -1,15 +1,4 @@
-﻿using Infrustructrue.Settings;
-using Infrustructrue.Utilities;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using Domain.Entities;
-using System.Linq;
-using System.Threading.Tasks;
-using ViewModels.General;
-
-
-namespace Infrustructrue.Middlewares
+﻿namespace Infrustructrue.Middlewares
 {
 	public class JwtMiddleware
 	{

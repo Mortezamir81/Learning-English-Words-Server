@@ -1,18 +1,3 @@
-using Infrastructure.Middlewares;
-using Infrustructrue.Settings;
-using Infrustructrue.Middlewares;
-using Infrustructrue.Utilities;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
-using Services;
-using Services.SignalR;
-using ViewModels.General;
-using Microsoft.AspNetCore.Http;
-
 //******************************
 var webApplicationOptions =
 	new WebApplicationOptions

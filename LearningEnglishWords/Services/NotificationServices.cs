@@ -1,20 +1,4 @@
-﻿using Persistence;
-using Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ViewModels.Requests;
-using ViewModels.Responses;
-using Dtat.Logging;
-using AutoMapper;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.SignalR;
-using Services.SignalR;
-using ViewModels.General;
-using Microsoft.EntityFrameworkCore;
-
-namespace Services
+﻿namespace Services
 {
 	public partial class NotificationServices : INotificationServices
 	{
@@ -24,8 +8,8 @@ namespace Services
 			IUnitOfWork unitOfWork,
 			DatabaseContext databaseContext,
 			IHubContext<SignalHub> hubContext,
-			ILogger<NotificationServices> logger,
-			IHttpContextAccessor httpContextAccessor) : base()
+			IHttpContextAccessor httpContextAccessor,
+			Dtat.Logging.ILogger<NotificationServices> logger) : base()
 		{
 			Logger = logger;
 			Mapper = mapper;
@@ -41,18 +25,18 @@ namespace Services
 		public IUnitOfWork UnitOfWork { get; }
 		public DatabaseContext DatabaseContext { get; }
 		public IHubContext<SignalHub> HubContext { get; }
-		public ILogger<NotificationServices> Logger { get; }
 		public IHttpContextAccessor HttpContextAccessor { get; }
+		public Dtat.Logging.ILogger<NotificationServices> Logger { get; }
 		#endregion /Properties
 
 		#region Methods
-		public async Task<Dtat.Results.Result
-			<List<GetAllNotificationResponseViewModel>>> GetAllNotificationsAsync()
+		public async Task<Result<List
+			<GetAllNotificationResponseViewModel>>> GetAllNotificationsAsync()
 		{
 			try
 			{
 				var result =
-					new Dtat.Results.Result<List<GetAllNotificationResponseViewModel>>();
+					new Result<List<GetAllNotificationResponseViewModel>>();
 
 				var user =
 					HttpContextAccessor?.HttpContext?.Items["User"] as UserInformationInToken;
@@ -102,7 +86,7 @@ namespace Services
 				await Logger.LogCritical(exception: ex, message: ex.Message);
 
 				var result =
-					new Dtat.Results.Result<List<GetAllNotificationResponseViewModel>>();
+					new Result<List<GetAllNotificationResponseViewModel>>();
 
 				result.AddErrorMessage(errorMessage);
 
@@ -112,12 +96,11 @@ namespace Services
 		}
 
 
-		public async Task<Dtat.Results.Result> RemoveNotificationAsync(Guid notificationId)
+		public async Task<Result> RemoveNotificationAsync(Guid notificationId)
 		{
 			try
 			{
-				var result =
-					new Dtat.Results.Result();
+				var result = new Result();
 
 				var user =
 					HttpContextAccessor?.HttpContext?.Items["User"] as UserInformationInToken;
@@ -163,8 +146,7 @@ namespace Services
 
 				await Logger.LogCritical(exception: ex, message: ex.Message);
 
-				var result =
-					new Dtat.Results.Result();
+				var result = new Result();
 
 				result.AddErrorMessage(errorMessage);
 
@@ -174,12 +156,12 @@ namespace Services
 		}
 
 
-		public async Task<Dtat.Results.Result<ApplicationVersion>> GetLastVersionOfWPFAsync()
+		public async Task<Result<ApplicationVersion>> GetLastVersionOfWPFAsync()
 		{
 			try
 			{
 				var result =
-					new Dtat.Results.Result<ApplicationVersion>();
+					new Result<ApplicationVersion>();
 
 				var response =
 				await DatabaseContext.ApplicationVersions
@@ -205,7 +187,7 @@ namespace Services
 				await Logger.LogCritical(exception: ex, message: ex.Message);
 
 				var result =
-					new Dtat.Results.Result<ApplicationVersion>();
+					new Result<ApplicationVersion>();
 
 				result.AddErrorMessage(errorMessage);
 
@@ -215,7 +197,7 @@ namespace Services
 		}
 
 
-		public async Task<Dtat.Results.Result> SendNotificationForAllUserAsync
+		public async Task<Result> SendNotificationForAllUserAsync
 			(SendNotificationForAllUserRequestViewModel sendNotificationForAllUserRequestViewModel)
 		{
 			try
@@ -274,7 +256,7 @@ namespace Services
 				await Logger.LogCritical(exception: ex, message: ex.Message);
 
 				var result =
-					new Dtat.Results.Result<List<GetAllNotificationResponseViewModel>>();
+					new Result<List<GetAllNotificationResponseViewModel>>();
 
 				result.AddErrorMessage(errorMessage);
 
@@ -284,7 +266,7 @@ namespace Services
 		}
 
 
-		public async Task<Dtat.Results.Result> SendNotificationForSpeceficUserAsync
+		public async Task<Result> SendNotificationForSpeceficUserAsync
 			(SendNotificationForSpeceficUserRequestViewModel sendNotificationForSpeceficUserRequestViewModel)
 		{
 			try
@@ -339,7 +321,7 @@ namespace Services
 				await Logger.LogCritical(exception: ex, message: ex.Message);
 
 				var result =
-					new Dtat.Results.Result<List<GetAllNotificationResponseViewModel>>();
+					new Result<List<GetAllNotificationResponseViewModel>>();
 
 				result.AddErrorMessage(errorMessage);
 
@@ -349,7 +331,7 @@ namespace Services
 		}
 
 
-		public async Task<Dtat.Results.Result> AddTicketAsync(AddTicketRequestViewModel addTicketRequestViewModel)
+		public async Task<Result> AddTicketAsync(AddTicketRequestViewModel addTicketRequestViewModel)
 		{
 			try
 			{
@@ -396,8 +378,7 @@ namespace Services
 
 				await Logger.LogCritical(exception: ex, message: ex.Message);
 
-				var result =
-					new Dtat.Results.Result();
+				var result = new Result();
 
 				result.AddErrorMessage(errorMessage);
 

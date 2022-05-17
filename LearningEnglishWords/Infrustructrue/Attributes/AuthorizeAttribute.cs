@@ -1,12 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
-using System;
-using System.Collections.Generic;
-using ViewModels.General;
-using Infrustructrue.Enums;
-
-namespace Infrustructrue.Attributes
+﻿namespace Infrustructrue.Attributes
 {
 	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
 	public class AuthorizeAttribute : Attribute, IAuthorizationFilter

@@ -1,15 +1,12 @@
-﻿using ViewModels.Requests;
-
-namespace Services
+﻿namespace Services
 {
 	public partial class NotificationServices
 	{
 		#region Check Validation Methods
-		public Dtat.Results.Result AddTicketValidation
+		public Result AddTicketValidation
 			(AddTicketRequestViewModel addTicketRequestViewModel)
 		{
-			var result =
-				new Dtat.Results.Result();
+			var result = new Result();
 
 			if (string.IsNullOrWhiteSpace(addTicketRequestViewModel.Message))
 			{
@@ -31,11 +28,12 @@ namespace Services
 
 			return result;
 		}
-		public Dtat.Results.Result SendNotificationForAllUserValidation
+
+
+		public Result SendNotificationForAllUserValidation
 			(SendNotificationForAllUserRequestViewModel sendNotificationForAllUserRequestViewModel)
 		{
-			var result =
-				new Dtat.Results.Result();
+			var result = new Result();
 
 			if (sendNotificationForAllUserRequestViewModel == null)
 			{
@@ -93,11 +91,11 @@ namespace Services
 			return result;
 		}
 
-		public Dtat.Results.Result SendNotificationForSpeceficUserValidation
+
+		public Result SendNotificationForSpeceficUserValidation
 			(SendNotificationForSpeceficUserRequestViewModel sendNotificationForSpeceficUserRequestViewModel)
 		{
-			var result =
-				new Dtat.Results.Result();
+			var result = new Result();
 
 			if (sendNotificationForSpeceficUserRequestViewModel == null)
 			{

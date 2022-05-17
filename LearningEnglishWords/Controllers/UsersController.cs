@@ -1,19 +1,4 @@
-﻿using Persistence;
-using Microsoft.AspNetCore.Mvc;
-using Domain.Entities;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Infrustructrue;
-using Services;
-using ViewModels.Requests;
-using ViewModels.Responses;
-using Dtat.Logging;
-using Infrustructrue.Attributes;
-using Infrustructrue.Enums;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Hosting;
-
-namespace Server.Controllers
+﻿namespace Server.Controllers
 {
 	public class UsersController : BaseApiControllerWithDatabase
 	{
@@ -21,7 +6,7 @@ namespace Server.Controllers
 		public UsersController
 			(IUnitOfWork unitOfWork,
 			IUserServices userServices,
-			ILogger<UsersController> logger) : base(unitOfWork)
+			Dtat.Logging.ILogger<UsersController> logger) : base(unitOfWork)
 		{
 			Logger = logger;
 			UserServices = userServices;
@@ -30,13 +15,13 @@ namespace Server.Controllers
 
 		#region Properties
 		public IUserServices UserServices { get; }
-		public ILogger<UsersController> Logger { get; }
+		public Dtat.Logging.ILogger<UsersController> Logger { get; }
 		#endregion /Properties
 
 		#region HttpGet
 		[Authorize(UserRoles.Admin)]
 		[HttpGet]
-		public async Task<ActionResult<Dtat.Results.Result<List<User>>>> GetAllUsers()
+		public async Task<IActionResult> GetAllUsers()
 		{
 			var result =
 				await UserServices.GetAllUsersAsync();
@@ -47,9 +32,10 @@ namespace Server.Controllers
 			return Ok(result);
 		}
 
+
 		[Authorize(UserRoles.All)]
 		[HttpGet("GetBasicUserInformation")]
-		public async Task<ActionResult<Dtat.Results.Result<GetUserInformationResponseViewModel>>> GetUserInformationForUpdate()
+		public async Task<IActionResult> GetUserInformationForUpdate()
 		{
 			var result =
 				await UserServices.GetUserInformationForUpdate();
@@ -63,7 +49,7 @@ namespace Server.Controllers
 
 		#region HttpPost
 		[HttpPost("Login")]
-		public async Task<ActionResult<Dtat.Results.Result<LoginResponseViewModel>>>
+		public async Task<IActionResult>
 			LoginAsync([FromBody] LoginRequestViewModel viewModel)
 		{
 			var response =
@@ -77,7 +63,7 @@ namespace Server.Controllers
 
 
 		[HttpPost("Register")]
-		public async Task<ActionResult<Dtat.Results.Result>>
+		public async Task<IActionResult>
 			RegisterAccount([FromBody] RegisterRequestViewModel registerRequestViewModel)
 		{
 			var result =
@@ -92,7 +78,7 @@ namespace Server.Controllers
 
 		[Authorize(UserRoles.Admin)]
 		[HttpPost("UpdateUserByAdmin")]
-		public async Task<ActionResult<Dtat.Results.Result>>
+		public async Task<IActionResult>
 			UpdateUserByAdminAsync([FromBody] UpdateUserByAdminRequestViewModel updateUserByAdminRequestViewModel)
 		{
 			var result =
@@ -106,7 +92,7 @@ namespace Server.Controllers
 
 
 		[HttpDelete("Logout/{refreshToken}")]
-		public async Task<ActionResult<Dtat.Results.Result>> LogoutToken(string refreshToken)
+		public async Task<IActionResult> LogoutToken(string refreshToken)
 		{
 			var response = await
 				UserServices.LogoutAsync(refreshToken);
@@ -118,9 +104,24 @@ namespace Server.Controllers
 		}
 
 
+		[Authorize(UserRoles.All)]
+		[HttpPut("UpdateProfileImage")]
+		public async Task<IActionResult>
+			UpdateUserProfileImageAsync(IFormFile file, [FromServices] IHostEnvironment HostEnvironment)
+		{
+			var result =
+				await UserServices.UpdateUserProfileAsync(file: file, environment: HostEnvironment);
+
+			if (result.IsFailed)
+				return BadRequest(result);
+
+			return Ok(result);
+		}
+
+
 		[Authorize(UserRoles.Admin)]
 		[HttpPost("ChangeUserRole")]
-		public async Task<ActionResult<Dtat.Results.Result>>
+		public async Task<IActionResult>
 			ChangeUserRoleAsync([FromBody] ChangeUserRoleRequestViewModel changeUserRoleRequestViewModel)
 		{
 			var result =
@@ -134,7 +135,7 @@ namespace Server.Controllers
 
 
 		[HttpPost("RefreshToken/{refreshToken?}")]
-		public async Task<ActionResult<Dtat.Results.Result<LoginResponseViewModel>>> RefreshToken(string refreshToken)
+		public async Task<IActionResult> RefreshToken(string refreshToken)
 		{
 			var response =
 				await UserServices.RefreshTokenAsync(token: refreshToken, ipAddress: GetIPAddress());
@@ -149,7 +150,7 @@ namespace Server.Controllers
 		#region HttpPut
 		[Authorize(UserRoles.All)]
 		[HttpPut]
-		public async Task<ActionResult<Dtat.Results.Result>>
+		public async Task<IActionResult>
 			UpdateUserAsync(UpdateUserRequestViewModel updateUserRequestViewModel)
 		{
 			var result =
@@ -160,27 +161,13 @@ namespace Server.Controllers
 
 			return Ok(result);
 		}
-
-
-		[Authorize(UserRoles.All)]
-		[HttpPut("UpdateProfileImage")]
-		public async Task<ActionResult<Dtat.Results.Result>>
-			UpdateUserProfileImageAsync(IFormFile file, [FromServices] IHostEnvironment HostEnvironment)
-		{
-			var result =
-				await UserServices.UpdateUserProfileAsync(file: file, environment: HostEnvironment);
-
-			if (result.IsFailed)
-				return BadRequest(result);
-
-			return Ok();
-		}
 		#endregion /HttpPut
 
 		#region HttpDelete
 		[Authorize(UserRoles.All)]
 		[HttpDelete("DeleteUserProfileImage")]
-		public async Task<ActionResult<Dtat.Results.Result>> DeleteUserProfileImageAsync([FromServices] IHostEnvironment HostEnvironment)
+		public async Task<IActionResult> 
+			DeleteUserProfileImageAsync([FromServices] IHostEnvironment HostEnvironment)
 		{
 			var result =
 				await UserServices.DeleteUserProfileImageAsync(HostEnvironment: HostEnvironment);

@@ -1,26 +1,4 @@
-﻿using Persistence;
-using Infrustructrue.Settings;
-using Infrustructrue.Utilities;
-using Microsoft.Extensions.Options;
-using Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using ViewModels.Requests;
-using ViewModels.Responses;
-using Dtat.Logging;
-using AutoMapper;
-using Microsoft.AspNetCore.Http;
-using Dtat.Utilities;
-using System.Collections;
-using Microsoft.EntityFrameworkCore;
-using ViewModels.General;
-using Microsoft.Extensions.Hosting;
-using System.IO;
-
-namespace Services
+﻿namespace Services
 {
 	public partial class UserServices : IUserServices
 	{
@@ -29,9 +7,9 @@ namespace Services
 			(IMapper mapper,
 			IUnitOfWork unitOfWork,
 			ITokenUtility tokenUtility,
-			ILogger<UserServices> logger,
 			DatabaseContext databaseContext,
 			IOptions<ApplicationSettings> options,
+			Dtat.Logging.ILogger<UserServices> logger,
 			IHttpContextAccessor httpContextAccessor) : base()
 		{
 			Logger = logger;
@@ -47,15 +25,15 @@ namespace Services
 		#region Properties
 		public IMapper Mapper { get; }
 		public IUnitOfWork UnitOfWork { get; }
-		public ILogger<UserServices> Logger { get; }
 		protected ITokenUtility TokenUtility { get; }
         public DatabaseContext DatabaseContext { get; }
 		public IHttpContextAccessor HttpContextAccessor { get; }
+		public Dtat.Logging.ILogger<UserServices> Logger { get; }
 		protected ApplicationSettings ApplicationSettings { get; set; }
 		#endregion /Properties
 
 		#region Methods
-		public async Task<Dtat.Results.Result>
+		public async Task<Result<UpdateUserProfileResponseViewModel>>
 			UpdateUserProfileAsync(IFormFile file, IHostEnvironment HostEnvironment)
 		{
 			try
@@ -95,25 +73,20 @@ namespace Services
 					return result;
 				}
 
-				var fileName =
-					file!.FileName
-					.Trim()
-					.Replace(" ", "_");
-
 				var fileExtension =
-					System.IO.Path.GetExtension
+					Path.GetExtension
 						(path: file.FileName)?.ToLower();
 
 				var rootPath =
 					HostEnvironment.ContentRootPath;
 
-				var newFileName = $"{user.Username}profile{fileExtension}";
+				var newFileName = $"{Guid.NewGuid()}{fileExtension}";
 
 				var physicalPathName =
-					System.IO.Path.Combine
-					(path1: rootPath, path2: "wwwroot", path3: "ProfileImages", path4: newFileName);
+					Path.Combine
+						(path1: rootPath, path2: "wwwroot", path3: "ProfileImages", path4: newFileName);
 
-				using (var stream = System.IO.File.Create(path: physicalPathName))
+				using (var stream = File.Create(path: physicalPathName))
 				{
 					await file.CopyToAsync(target: stream);
 
@@ -125,6 +98,11 @@ namespace Services
 				user.ProfileImage = $"/ProfileImages/{newFileName}";
 
 				await DatabaseContext.SaveChangesAsync();
+
+				result.Value = new UpdateUserProfileResponseViewModel
+				{
+					ProfileImage = user.ProfileImage,
+				};
 
 				string successMessage = string.Format
 					(Resources.Messages.SuccessMessages.UpdateSuccessful);
@@ -138,7 +116,7 @@ namespace Services
 				await Logger.LogCritical(exception: ex, ex.Message);
 
 				var response =
-					new Dtat.Results.Result();
+					new Result<UpdateUserProfileResponseViewModel>();
 
 				string errorMessage = string.Format
 					(Resources.Messages.ErrorMessages.UnkonwnError);
@@ -174,7 +152,7 @@ namespace Services
 		}
 
 
-		public async Task<Dtat.Results.Result> UpdateUserByAdminAsync
+		public async Task<Result> UpdateUserByAdminAsync
 			(UpdateUserByAdminRequestViewModel updateUserRequestViewModel)
 		{
 			Hashtable properties = null;
@@ -228,7 +206,7 @@ namespace Services
 
 				if (isEmailUpdate == true)
 				{
-					if (Dtat.Utilities.Validation.CheckEmailValid(updateUserRequestViewModel.Email) == false)
+					if (Validation.CheckEmailValid(updateUserRequestViewModel.Email) == false)
 					{
 						string errorMessage = string.Format
 							(Resources.Messages.ErrorMessages.InvalidEmailStructure);
@@ -290,8 +268,7 @@ namespace Services
 				await Logger.LogCritical
 						(exception: ex, ex.Message, parameters: properties);
 
-				var response =
-					new Dtat.Results.Result();
+				var response = new Result();
 
 				string errorMessage = string.Format
 					(Resources.Messages.ErrorMessages.UnkonwnError);
@@ -303,7 +280,7 @@ namespace Services
 		}
 
 
-		public async Task<Dtat.Results.Result> UpdateUserAsync
+		public async Task<Result> UpdateUserAsync
 			(UpdateUserRequestViewModel updateUserRequestViewModel)
 		{
 			Hashtable properties = null;
@@ -395,8 +372,7 @@ namespace Services
 				await Logger.LogCritical
 						(exception: ex, ex.Message, parameters: properties);
 
-				var response =
-					new Dtat.Results.Result();
+				var response = new Result();
 
 				string errorMessage = string.Format
 					(Resources.Messages.ErrorMessages.UnkonwnError);
@@ -408,7 +384,7 @@ namespace Services
 		}
 
 
-		public async Task<Dtat.Results.Result> DeleteUsersAsync
+		public async Task<Result> DeleteUsersAsync
 			(DeleteUserRequestViewModel deleteUserRequestViewModel)
 		{
 			Hashtable properties = null;
@@ -458,8 +434,7 @@ namespace Services
 				await Logger.LogCritical
 						(exception: ex, ex.Message, parameters: properties);
 
-				var response =
-					new Dtat.Results.Result();
+				var response = new Result();
 
 				string errorMessage = string.Format
 					(Resources.Messages.ErrorMessages.UnkonwnError);
@@ -471,7 +446,7 @@ namespace Services
 		}
 
 
-		public async Task<Dtat.Results.Result<LoginResponseViewModel>>
+		public async Task<Result<LoginResponseViewModel>>
 			RefreshTokenAsync(string refreshToken, string ipAddress)
 		{
 			var result =
@@ -528,8 +503,7 @@ namespace Services
 
 			string jwtToken =
 				TokenUtility.GenerateJwtToken
-					(applicationSettings: ApplicationSettings,
-					securityKey: ApplicationSettings.JwtSettings.SecretKeyForToken,
+					(securityKey: ApplicationSettings.JwtSettings.SecretKeyForToken,
 					claimsIdentity: claims,
 					dateTime: expiredTime);
 
@@ -553,12 +527,12 @@ namespace Services
 		}
 
 
-		public async Task<Dtat.Results.Result>
+		public async Task<Result>
 			DeleteUserProfileImageAsync(IHostEnvironment HostEnvironment)
 		{
 			try
 			{
-				var result = new Dtat.Results.Result();
+				var result = new Result();
 
 				var userId =
 					(HttpContextAccessor?.HttpContext?.Items["User"] as UserInformationInToken)?.Id;
@@ -594,7 +568,7 @@ namespace Services
 						HostEnvironment.ContentRootPath;
 
 					var physicalPathName =
-						System.IO.Path.Combine
+						Path.Combine
 							(path1: rootPath, path2: "wwwroot");
 
 					try
@@ -621,8 +595,7 @@ namespace Services
 
 				await Logger.LogCritical(exception: ex, ex.Message);
 
-				var response =
-					new Dtat.Results.Result();
+				var response = new Result();
 
 				string errorMessage = string.Format
 					(Resources.Messages.ErrorMessages.UnkonwnError);
@@ -634,7 +607,7 @@ namespace Services
 		}
 
 
-		public async Task<Dtat.Results.Result> LogoutAsync(string token)
+		public async Task<Result> LogoutAsync(string token)
 		{
 			var result =
 				 LogoutValidation(token);
@@ -680,7 +653,7 @@ namespace Services
 		}
 
 
-		public async Task<Dtat.Results.Result>
+		public async Task<Result>
 			RegisterAsync(RegisterRequestViewModel registerRequestViewModel)
 		{
 			Hashtable properties = null;
@@ -724,8 +697,7 @@ namespace Services
 				string errorMessage = string.Format
 					(Resources.Messages.ErrorMessages.UnkonwnError);
 
-				var result =
-					new Dtat.Results.Result();
+				var result = new Result();
 
 				result.AddErrorMessage(errorMessage);
 
@@ -734,7 +706,7 @@ namespace Services
 		}
 
 
-		public async Task<Dtat.Results.Result<List<User>>> GetAllUsersAsync()
+		public async Task<Result<List<User>>> GetAllUsersAsync()
 		{
 			try
 			{
@@ -745,7 +717,7 @@ namespace Services
 					;
 
 				var response =
-					new Dtat.Results.Result<List<User>>();
+					new Result<List<User>>();
 
 				if (result != null)
 				{
@@ -783,7 +755,7 @@ namespace Services
 				await Logger.LogCritical(exception: ex, ex.Message);
 
 				var response =
-					new Dtat.Results.Result<List<User>>();
+					new Result<List<User>>();
 
 				string errorMessage = string.Format
 					(Resources.Messages.ErrorMessages.UnkonwnError);
@@ -795,7 +767,7 @@ namespace Services
 		}
 
 
-		public async Task<Dtat.Results.Result<LoginResponseViewModel>>
+		public async Task<Result<LoginResponseViewModel>>
 			LoginAsync(LoginRequestViewModel loginRequestViewModel, string ipAddress)
 		{
 			Hashtable properties = null;
@@ -814,7 +786,7 @@ namespace Services
 					return result;
 
 				var hashedPassword =
-					Dtat.Utilities.Security.HashDataBySHA1(loginRequestViewModel.Password);
+					Security.HashDataBySHA1(loginRequestViewModel.Password);
 
 				User foundedUser =
 					await UnitOfWork.UserRepository.LoginAsync
@@ -855,8 +827,7 @@ namespace Services
 
 				string token =
 					TokenUtility.GenerateJwtToken
-						(applicationSettings: ApplicationSettings,
-						securityKey: ApplicationSettings.JwtSettings.SecretKeyForToken,
+						(securityKey: ApplicationSettings.JwtSettings.SecretKeyForToken,
 						claimsIdentity: claims,
 						dateTime: expiredTime);
 
@@ -887,7 +858,7 @@ namespace Services
 					(Resources.Messages.ErrorMessages.UnkonwnError);
 
 				var result =
-					new Dtat.Results.Result<LoginResponseViewModel>();
+					new Result<LoginResponseViewModel>();
 
 				result.AddErrorMessage(errorMessage);
 
@@ -897,7 +868,7 @@ namespace Services
 		}
 
 
-		public async Task<Dtat.Results.Result>
+		public async Task<Result>
 			ChangeUserRoleAsync(ChangeUserRoleRequestViewModel changeUserRoleRequestViewModel)
 		{
 			Hashtable properties = null;
@@ -933,8 +904,6 @@ namespace Services
 				var foundedUser =
 					await DatabaseContext.Users
 					.Include(current => current.Role)
-					.Include(current => current.Notifications)
-					.Include(current => current.Words)
 					.Where(current => current.Username.ToLower() == changeUserRoleRequestViewModel.Username.ToLower())
 					.FirstOrDefaultAsync()
 					;
@@ -962,8 +931,7 @@ namespace Services
 			}
 			catch (Exception ex)
 			{
-				var result =
-					new Dtat.Results.Result();
+				var result = new Result();
 
 				if (ex.InnerException != null && ex.InnerException.Message.Contains("The conflict occurred"))
 				{
@@ -988,12 +956,12 @@ namespace Services
 		}
 
 
-		public async Task<Dtat.Results.Result<GetUserInformationResponseViewModel>> GetUserInformationForUpdate()
+		public async Task<Result<GetUserInformationResponseViewModel>> GetUserInformationForUpdate()
 		{
 			try
 			{
 				var result = 
-					new Dtat.Results.Result<GetUserInformationResponseViewModel>();
+					new Result<GetUserInformationResponseViewModel>();
 
 				var userId =
 					(HttpContextAccessor?.HttpContext?.Items["User"] as UserInformationInToken)?.Id;
@@ -1043,7 +1011,7 @@ namespace Services
 			catch (Exception ex)
 			{
 				var result =
-					new Dtat.Results.Result<GetUserInformationResponseViewModel>();
+					new Result<GetUserInformationResponseViewModel>();
 
 				await Logger.LogCritical(exception: ex, ex.Message);
 

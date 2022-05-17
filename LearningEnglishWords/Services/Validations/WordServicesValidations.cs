@@ -1,19 +1,12 @@
-﻿using Dtat.Results;
-using System.Collections.Generic;
-using ViewModels.Requests;
-using ViewModels.Responses;
-
-namespace Services
+﻿namespace Services
 {
 	public partial  class WordServices
 	{
 		#region Check Validation Methods
-		//ForAddNewWordValidation
 		public Result AddNewWordValidation
 			(AddWordRequestViewModel addWordRequestViewModel)
 		{
-			var result =
-				new Dtat.Results.Result();
+			var result = new Result();
 
 			if (addWordRequestViewModel == null)
 			{
@@ -73,10 +66,10 @@ namespace Services
 
 		}
 
+
 		public Result UpdateWordValidation(AddWordRequestViewModel word)
 		{
-			var result =
-				new Dtat.Results.Result();
+			var result = new Result();
 
 			if (word == null)
 			{
@@ -136,10 +129,11 @@ namespace Services
 
 		}
 
+
 		public Result<GetWordResponseViewModel> GetWordValidation(string word)
 		{
 			var result =
-				new Dtat.Results.Result<GetWordResponseViewModel>();
+				new Result<GetWordResponseViewModel>();
 
 			if (string.IsNullOrWhiteSpace(word))
 			{
@@ -152,11 +146,12 @@ namespace Services
 			return result;
 		}
 
+
 		public Result<List<GetExamResponseViewModel>> 
 			GetExamValidation(GetExamRequestViewModel getExamRequestViewModel)
 		{
 			var result =
-				new Dtat.Results.Result<List<GetExamResponseViewModel>>();
+				new Result<List<GetExamResponseViewModel>>();
 
 			if (getExamRequestViewModel.QuestionsCount < 1 || getExamRequestViewModel.QuestionsCount > 100)
 			{
@@ -169,11 +164,12 @@ namespace Services
 			return result;
 		}
 
+
 		public Result<ExamProcessingResponseViewModel>
 			ExamProcessingValidation(List<ExamProcessingRequestViewModel> examProcessingRequestViewModels)
 		{
 			var result =
-				new Dtat.Results.Result<ExamProcessingResponseViewModel>();
+				new Result<ExamProcessingResponseViewModel>();
 
 			if (examProcessingRequestViewModels == null || examProcessingRequestViewModels.Count == 0)
 			{
@@ -200,7 +196,6 @@ namespace Services
 
 			return result;
 		}
-
 		#endregion /Check Validation Methods
 	}
 }

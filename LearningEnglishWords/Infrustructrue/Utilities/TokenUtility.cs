@@ -1,29 +1,16 @@
-﻿using Dtat.Logging;
-using Infrustructrue.Settings;
-using Microsoft.AspNetCore.Http;
-using Microsoft.IdentityModel.Tokens;
-using Domain.Entities;
-using System;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
-using ViewModels.General;
-
-namespace Infrustructrue.Utilities
+﻿namespace Infrustructrue.Utilities
 {
 	public class TokenUtility : ITokenUtility
 	{
-		public TokenUtility(ILogger<TokenUtility> logger, Persistence.IUnitOfWork unitOfWork)
+		public TokenUtility(Dtat.Logging.ILogger<TokenUtility> logger, IUnitOfWork unitOfWork)
 		{
 			Logger = logger;
 			UnitOfWork = unitOfWork;
 		}
 
 
-		private ILogger<TokenUtility> Logger { get; }
-		public Persistence.IUnitOfWork UnitOfWork { get; }
+		public IUnitOfWork UnitOfWork { get; }
+		private Dtat.Logging.ILogger<TokenUtility> Logger { get; }
 
 
 		public async Task AttachUserToContextByToken
@@ -129,7 +116,7 @@ namespace Infrustructrue.Utilities
 
 
 		public string GenerateJwtToken
-			(ApplicationSettings applicationSettings, string securityKey, ClaimsIdentity claimsIdentity, DateTime dateTime)
+			(string securityKey, ClaimsIdentity claimsIdentity, DateTime dateTime)
 		{
 			var signingCredentional =
 				GetSigningCredentional(securityKey);

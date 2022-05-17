@@ -1,16 +1,4 @@
-﻿using Persistence;
-using Infrustructrue;
-using Infrustructrue.Attributes;
-using Infrustructrue.Enums;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Services;
-using Dtat.Logging;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using ViewModels.Requests;
-
-namespace Server.Controllers
+﻿namespace Server.Controllers
 {
 	public class WordsController : BaseApiControllerWithDatabase
 	{
@@ -18,7 +6,7 @@ namespace Server.Controllers
 		public WordsController
 			(IUnitOfWork unitOfWork,
 			IWordServices wordServices,
-			ILogger<WordsController> logger) : base(unitOfWork)
+			Dtat.Logging.ILogger<WordsController> logger) : base(unitOfWork)
 		{
 			Logger = logger;
 			WordServices = wordServices;
@@ -27,7 +15,7 @@ namespace Server.Controllers
 
 		#region Properties
 		public IWordServices WordServices { get; }
-		public ILogger<WordsController> Logger { get; }
+		public Dtat.Logging.ILogger<WordsController> Logger { get; }
 		public IHttpContextAccessor HttpContextAccessor { get; }
 		#endregion /Properties
 

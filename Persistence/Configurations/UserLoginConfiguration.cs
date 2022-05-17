@@ -21,6 +21,8 @@ namespace Persistence.Configurations
 			builder.ToTable
 				("UserLogins", "LE")
 					.HasKey(current => current.Id);
+
+
 		}
 	}
 }

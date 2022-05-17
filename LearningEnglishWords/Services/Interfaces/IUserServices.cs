@@ -1,47 +1,51 @@
-﻿using Domain.Entities;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Hosting;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using ViewModels.Requests;
-using ViewModels.Responses;
-
-namespace Services
+﻿namespace Services
 {
 	public interface IUserServices
 	{
 		Task<User> GetByUsernameAsync(string username);
 
-		Task<Dtat.Results.Result> LogoutAsync(string token);
 
-		Task<Dtat.Results.Result> RegisterAsync
+		Task<Result> LogoutAsync(string token);
+
+
+		Task<Result> RegisterAsync
 			(RegisterRequestViewModel registerRequestViewModel);
 
-		Task<Dtat.Results.Result<List<User>>> GetAllUsersAsync();
 
-		Task<Dtat.Results.Result> UpdateUserAsync
+		Task<Result<List<User>>> GetAllUsersAsync();
+
+
+		Task<Result> UpdateUserAsync
 			(UpdateUserRequestViewModel updateUserRequestViewModel);
 
-		Task<Dtat.Results.Result> DeleteUsersAsync
+
+		Task<Result> DeleteUsersAsync
 			(DeleteUserRequestViewModel deleteUserRequestViewModel);
 
-		Task<Dtat.Results.Result> UpdateUserByAdminAsync
+
+		Task<Result> UpdateUserByAdminAsync
 			(UpdateUserByAdminRequestViewModel updateUserRequestViewModel);
 
-		Task<Dtat.Results.Result> 
+
+		Task<Result> 
 			DeleteUserProfileImageAsync(IHostEnvironment HostEnvironment);
 
-		Task<Dtat.Results.Result>
+
+		Task<Result<UpdateUserProfileResponseViewModel>>
 			UpdateUserProfileAsync(IFormFile file, IHostEnvironment environment);
 
-		Task<Dtat.Results.Result<LoginResponseViewModel>>
+
+		Task<Result<LoginResponseViewModel>>
 			LoginAsync(LoginRequestViewModel loginRequestViewModel, string ipAddress);
 
-		Task<Dtat.Results.Result>
+
+		Task<Result>
 			ChangeUserRoleAsync(ChangeUserRoleRequestViewModel changeUserRoleRequestViewModel);
 
-		Task<Dtat.Results.Result<GetUserInformationResponseViewModel>> GetUserInformationForUpdate();
 
-		Task<Dtat.Results.Result<LoginResponseViewModel>> RefreshTokenAsync(string token, string ipAddress);
+		Task<Result<GetUserInformationResponseViewModel>> GetUserInformationForUpdate();
+
+
+		Task<Result<LoginResponseViewModel>> RefreshTokenAsync(string token, string ipAddress);
 	}
 }

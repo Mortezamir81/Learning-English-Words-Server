@@ -1,25 +1,11 @@
-﻿using Persistence;
-using Infrustructrue;
-using Infrustructrue.Attributes;
-using Infrustructrue.Enums;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Services;
-using Dtat.Logging;
-using System;
-using System.Threading.Tasks;
-using ViewModels.Requests;
-using Dtat.Results;
-using Domain.Entities;
-
-namespace Server.Controllers
+﻿namespace Server.Controllers
 {
 	public class NotificationsController : BaseApiControllerWithDatabase
 	{
 		#region Constractor
 		public NotificationsController
 			(IUnitOfWork unitOfWork,
-			ILogger<NotificationsController> logger,
+			Dtat.Logging.ILogger<NotificationsController> logger,
 			INotificationServices notificationServices) : base(unitOfWork)
 		{
 			Logger = logger;
@@ -28,7 +14,7 @@ namespace Server.Controllers
 		#endregion /Constractor
 
 		#region Properties
-		public ILogger<NotificationsController> Logger { get; }
+		public Dtat.Logging.ILogger<NotificationsController> Logger { get; }
 		public IHttpContextAccessor HttpContextAccessor { get; }
 		public INotificationServices NotificationServices { get; }
 		#endregion /Properties
@@ -58,7 +44,7 @@ namespace Server.Controllers
 
 
 		[HttpGet("GetLastVersionOfWPF")]
-		public async Task<ActionResult<Result<ApplicationVersion>>> GetLastVersionsOfWPFAsync()
+		public async Task<IActionResult> GetLastVersionsOfWPFAsync()
 		{
 			var result =
 				await NotificationServices.GetLastVersionOfWPFAsync();

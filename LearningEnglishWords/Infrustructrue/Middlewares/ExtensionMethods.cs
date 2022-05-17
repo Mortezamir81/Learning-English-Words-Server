@@ -1,8 +1,4 @@
-﻿using Infrustructrue.Middlewares;
-using Microsoft.AspNetCore.Builder;
-using Server.Infrustructrue.Middlewares;
-
-namespace Infrastructure.Middlewares
+﻿namespace Infrastructure.Middlewares
 {
 	public static class ExtensionMethods
 	{

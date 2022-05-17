@@ -1,26 +1,24 @@
-﻿using Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using ViewModels.Requests;
-using ViewModels.Responses;
-
-namespace Services
+﻿namespace Services
 {
 	public interface INotificationServices
 	{
-		Task<Dtat.Results.Result> RemoveNotificationAsync(Guid notificationId);
+		Task<Result> RemoveNotificationAsync(Guid notificationId);
 
-		Task<Dtat.Results.Result<ApplicationVersion>> GetLastVersionOfWPFAsync();
 
-		Task<Dtat.Results.Result> SendNotificationForAllUserAsync
+		Task<Result<ApplicationVersion>> GetLastVersionOfWPFAsync();
+
+
+		Task<Result> SendNotificationForAllUserAsync
 			(SendNotificationForAllUserRequestViewModel sendNotificationForAllUserRequestViewModel);
 
-		Task<Dtat.Results.Result> AddTicketAsync(AddTicketRequestViewModel addTicketRequestViewModel);
 
-		Task<Dtat.Results.Result<List<GetAllNotificationResponseViewModel>>> GetAllNotificationsAsync();
+		Task<Result> AddTicketAsync(AddTicketRequestViewModel addTicketRequestViewModel);
 
-		Task<Dtat.Results.Result> SendNotificationForSpeceficUserAsync
+
+		Task<Result<List<GetAllNotificationResponseViewModel>>> GetAllNotificationsAsync();
+
+
+		Task<Result> SendNotificationForSpeceficUserAsync
 			(SendNotificationForSpeceficUserRequestViewModel sendNotificationForSpeceficUserRequestViewModel);
 	}
 }

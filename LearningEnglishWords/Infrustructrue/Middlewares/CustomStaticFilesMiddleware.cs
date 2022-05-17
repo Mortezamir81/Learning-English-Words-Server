@@ -1,23 +1,21 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.Net;
-using ViewModels.General;
-
-namespace Infrastructure.Middlewares
+﻿namespace Infrastructure.Middlewares
 {
 	public class CustomStaticFilesMiddleware : object
 	{
 		public CustomStaticFilesMiddleware
-			(RequestDelegate next, Microsoft.Extensions.Hosting.IHostEnvironment hostEnvironment) : base()
+			(RequestDelegate next, IHostEnvironment hostEnvironment) : base()
 		{
 			Next = next;
 			HostEnvironment = hostEnvironment;
 		}
 
+
 		private RequestDelegate Next { get; }
 
-		private Microsoft.Extensions.Hosting.IHostEnvironment HostEnvironment { get; }
+		private IHostEnvironment HostEnvironment { get; }
 
-		public async System.Threading.Tasks.Task InvokeAsync(HttpContext httpContext)
+
+		public async Task InvokeAsync(HttpContext httpContext)
 		{
 			string requestPath =
 				httpContext.Request.Path;
@@ -42,32 +40,24 @@ namespace Infrastructure.Middlewares
 				HostEnvironment.ContentRootPath;
 
 			var physicalPathName =
-				System.IO.Path.Combine
-				(path1: rootPath, path2: "wwwroot", path3: requestPath);
+				Path.Combine
+					(path1: rootPath, path2: "wwwroot", path3: requestPath);
 
 
-			if (System.IO.File.Exists(physicalPathName) == false)
+			if (File.Exists(physicalPathName) == false)
 			{
 				await Next(httpContext);
 				return;
 			}
 
 			string fileExtension =
-				System.IO.Path.GetExtension(physicalPathName)?.ToLower();
+				Path.GetExtension(physicalPathName)?.ToLower();
 
 			switch (fileExtension)
 			{		
 				case ".jpg":
 				case ".jpeg":
 					{
-						if (httpContext.Items["User"] as UserInformationInToken == null)
-						{
-							httpContext.Response.StatusCode = (int) HttpStatusCode.Unauthorized;
-							await httpContext.Response.WriteAsync("Unauthorized");
-
-							return;
-						}
-
 						httpContext.Response.StatusCode = 200;
 						httpContext.Response.ContentType = "image/jpeg";
 
@@ -76,14 +66,6 @@ namespace Infrastructure.Middlewares
 
 				case ".png":
 					{
-						if (httpContext.Items["User"] as UserInformationInToken == null)
-						{
-							httpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-							await httpContext.Response.WriteAsync("Unauthorized");
-
-							return;
-						}
-
 						httpContext.Response.StatusCode = 200;
 						httpContext.Response.ContentType = "image/png";
 

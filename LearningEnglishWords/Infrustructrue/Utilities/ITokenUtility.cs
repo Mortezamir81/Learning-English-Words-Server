@@ -1,10 +1,4 @@
-﻿using Infrustructrue.Settings;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Security.Claims;
-using System.Threading.Tasks;
-
-namespace Infrustructrue.Utilities
+﻿namespace Infrustructrue.Utilities
 {
 	public interface ITokenUtility
 	{
@@ -12,6 +6,6 @@ namespace Infrustructrue.Utilities
 			(HttpContext context, string token, string secretKey);
 
 		string GenerateJwtToken
-			(ApplicationSettings applicationSettings, string securityKey, ClaimsIdentity claimsIdentity, DateTime dateTime);
+			(string securityKey, ClaimsIdentity claimsIdentity, DateTime dateTime);
 	}
 }

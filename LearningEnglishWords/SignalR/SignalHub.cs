@@ -1,21 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.SignalR;
-using Domain.Entities;
-using Persistence;
-using System;
-using System.Threading.Tasks;
-using Dtat.Results;
-using System.Collections.Generic;
-using ViewModels.Responses;
-using ViewModels.General;
-using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using Dtat.Logging;
-using Infrustructrue.Attributes;
-using Infrustructrue.Enums;
-
-namespace Services.SignalR
+﻿namespace Services.SignalR
 {
     public class SignalHub : Hub
     {
@@ -23,8 +6,8 @@ namespace Services.SignalR
         public SignalHub
             (IMapper mapper,
             IUnitOfWork unitOfWork,
-            ILogger<SignalHub> logger,
             DatabaseContext databaseContext,
+            Dtat.Logging.ILogger<SignalHub> logger,
             IHttpContextAccessor httpContextAccessor) : base()
         {
             Mapper = mapper;
@@ -38,9 +21,9 @@ namespace Services.SignalR
         #region Properties
         public IMapper Mapper { get; }
         public IUnitOfWork UnitOfWork { get; }
-        public ILogger<SignalHub> Logger { get; set; }
         public DatabaseContext DatabaseContext { get; }
         public IHttpContextAccessor HttpContextAccessor { get; }
+        public Dtat.Logging.ILogger<SignalHub> Logger { get; set; }
         #endregion
 
         #region Methods
