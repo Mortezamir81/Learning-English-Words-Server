@@ -31,82 +31,60 @@
 		[HttpGet]
 		public async Task<IActionResult> GetAllNotification()
 		{
-			var result =
+			var serviceResult =
 				await NotificationServices.GetAllNotificationsAsync();
 
-			if (result.IsFailed)
-			{
-				return BadRequest(result);
-			}
-
-			return Ok(result);
+			return serviceResult.ApiResult();
 		}
 
 
 		[HttpGet("GetLastVersionOfWPF")]
 		public async Task<IActionResult> GetLastVersionsOfWPFAsync()
 		{
-			var result =
+			var serviceResult =
 				await NotificationServices.GetLastVersionOfWPFAsync();
 
-			if (result.IsFailed)
-			{
-				return BadRequest(result);
-			}
-
-			return Ok(result);
+			return serviceResult.ApiResult();
 		}
 		#endregion /HttpGet
 
 		#region HttpPost
 		[Authorize(UserRoles.All)]
 		[HttpPost("Ticket")]
+		[LogInputParameter(InputLogLevel.Warning)]
 		public async Task<IActionResult> AddTicketAsync
-			(AddTicketRequestViewModel addTicketRequestViewModel)
+			(AddTicketRequestViewModel requestViewModel)
 		{
-			var result =
-				await NotificationServices.AddTicketAsync(addTicketRequestViewModel);
+			var serviceResult =
+				await NotificationServices.AddTicketAsync(requestViewModel);
 
-			if (result.IsFailed)
-			{
-				return BadRequest(result);
-			}
-
-			return Ok(result);
+			return serviceResult.ApiResult();
 		}
 
 
 		[Authorize(UserRoles.Admin)]
 		[HttpPost]
+		[LogInputParameter(InputLogLevel.Warning)]
 		public async Task<IActionResult> SendNotificationForAllUserAsync
-			(SendNotificationForAllUserRequestViewModel sendNotificationForAllUserRequestViewModel)
+			(SendNotificationForAllUserRequestViewModel requestViewModel)
 		{
-			var result =
-				await NotificationServices.SendNotificationForAllUserAsync(sendNotificationForAllUserRequestViewModel);
+			var serviceResult =
+				await NotificationServices.SendNotificationForAllUserAsync(requestViewModel);
 
-			if (result.IsFailed)
-			{
-				return BadRequest(result);
-			}
-
-			return Ok(result);
+			return serviceResult.ApiResult();
 		}
 
 
 		[Authorize(UserRoles.Admin)]
 		[HttpPost("User")]
+		[LogInputParameter(InputLogLevel.Warning)]
 		public async Task<IActionResult> SendNotificationForSpeceficUserAsync
-			(SendNotificationForSpeceficUserRequestViewModel sendNotificationForSpeceficUserRequestViewModel)
+			(SendNotificationForSpeceficUserRequestViewModel requestViewModel)
 		{
-			var result =
-				await NotificationServices.SendNotificationForSpeceficUserAsync(sendNotificationForSpeceficUserRequestViewModel);
+			var serviceResult =
+				await NotificationServices.SendNotificationForSpeceficUserAsync(requestViewModel);
 
-			if (result.IsFailed)
-			{
-				return BadRequest(result);
-			}
-
-			return Ok(result);
+			return serviceResult.ApiResult();
 		}
 		#endregion /HttpPost
 
@@ -115,15 +93,10 @@
 		[HttpDelete("{notificationId}")]
 		public async Task<IActionResult> RemoveNotificationAsync(Guid notificationId)
 		{
-			var result =
+			var serviceResult =
 				await NotificationServices.RemoveNotificationAsync(notificationId: notificationId);
 
-			if (result.IsFailed)
-			{
-				return BadRequest(result);
-			}
-
-			return Ok(result);
+			return serviceResult.ApiResult();
 		}
 		#endregion /HttpDelete
 	}

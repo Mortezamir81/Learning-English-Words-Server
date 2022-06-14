@@ -1,6 +1,4 @@
-﻿using Dtat;
-
-namespace Dtat.Results
+﻿namespace Dtat.Results.Server
 {
 	public class Result : object
 	{
@@ -45,7 +43,7 @@ namespace Dtat.Results
 		public void AddErrorMessage(string message)
 		{
 			message =
-				Dtat.String.Fix(text: message);
+				String.Fix(text: message);
 
 			if (message == null)
 			{
@@ -66,7 +64,7 @@ namespace Dtat.Results
 		public void RemoveErrorMessage(string message)
 		{
 			message =
-				Dtat.String.Fix(text: message);
+				String.Fix(text: message);
 
 			if (message == null)
 			{
@@ -93,7 +91,7 @@ namespace Dtat.Results
 		public void AddSuccessMessage(string message)
 		{
 			message =
-				Dtat.String.Fix(text: message);
+				String.Fix(text: message);
 
 			if (message == null)
 			{
@@ -112,7 +110,7 @@ namespace Dtat.Results
 		public void RemoveSuccessMessage(string message)
 		{
 			message =
-				Dtat.String.Fix(text: message);
+				String.Fix(text: message);
 
 			if (message == null)
 			{

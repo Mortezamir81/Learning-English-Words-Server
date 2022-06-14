@@ -30,7 +30,8 @@ namespace MaxLearnTest.Services
 
 			ILogger<WordServices> loggerForWordServices = new NLogAdapter<WordServices>(null);
 
-			var config = new MapperConfiguration(cfg => {
+			var config = new MapperConfiguration(cfg =>
+			{
 				cfg.AddProfile<Infrustructrue.AutoMapperProfiles.WordProfile>();
 			});
 
@@ -38,17 +39,17 @@ namespace MaxLearnTest.Services
 
 			HttpContextAccessor httpContextAccessor = new HttpContextAccessor();
 
-            WordServices =
-                new WordServices
-                    (unitOfWork: unitOfWork,
-                    logger: loggerForWordServices,
-                    mapper: mapper,
-                    httpContextAccessor: httpContextAccessor,
+			WordServices =
+				new WordServices
+					(unitOfWork: unitOfWork,
+					logger: loggerForWordServices,
+					mapper: mapper,
+					httpContextAccessor: httpContextAccessor,
 					databaseContext: databaseContext);
-        }
+		}
 
-        #region AddWord
-        [Fact]
+		#region AddWord
+		[Fact]
 		public async Task TestAddWordWithNullWord()
 		{
 			//Arrange

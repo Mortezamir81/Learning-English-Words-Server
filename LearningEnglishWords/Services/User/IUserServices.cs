@@ -19,7 +19,7 @@
 			(UpdateUserRequestViewModel updateUserRequestViewModel);
 
 
-		Task<Result> DeleteUsersAsync
+		Task<Result> DeleteUserAsync
 			(DeleteUserRequestViewModel deleteUserRequestViewModel);
 
 
@@ -27,12 +27,12 @@
 			(UpdateUserByAdminRequestViewModel updateUserRequestViewModel);
 
 
-		Task<Result> 
+		Task<Result>
 			DeleteUserProfileImageAsync(IHostEnvironment HostEnvironment);
 
 
 		Task<Result<UpdateUserProfileResponseViewModel>>
-			UpdateUserProfileAsync(IFormFile file, IHostEnvironment environment);
+			UpdateUserAvatarAsync(IFormFile file, IHostEnvironment environment);
 
 
 		Task<Result<LoginResponseViewModel>>

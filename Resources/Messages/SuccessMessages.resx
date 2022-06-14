@@ -129,11 +129,17 @@
   <data name="AddSuccessful" xml:space="preserve">
     <value>The addition was successful</value>
   </data>
+  <data name="DeleteAvatarImageSuccessful" xml:space="preserve">
+    <value>The avatar image was deleted successful</value>
+  </data>
   <data name="DeleteCommentFromContentSuccessful" xml:space="preserve">
     <value>The comment was deleted from content successful</value>
   </data>
   <data name="DeleteContentSuccessful" xml:space="preserve">
     <value>The content was deleted successful</value>
+  </data>
+  <data name="DeleteFavoritePostSuccessful" xml:space="preserve">
+    <value>The favorite post was deleted successful</value>
   </data>
   <data name="DeleteLableFromContentSuccessful" xml:space="preserve">
     <value>The lable was deleted from content successful</value>
@@ -141,11 +147,23 @@
   <data name="DeleteLableSuccessful" xml:space="preserve">
     <value>The lable was deleted successful</value>
   </data>
+  <data name="DeleteMusicKindSuccessful" xml:space="preserve">
+    <value>The music kind was deleted successful</value>
+  </data>
   <data name="DeleteNotificationSuccessful" xml:space="preserve">
     <value>The notification was deleted successful</value>
   </data>
-  <data name="DeleteProfileImageSuccessful" xml:space="preserve">
-    <value>The profile image was deleted successful</value>
+  <data name="DeletePlayListPostSuccessful" xml:space="preserve">
+    <value>The play list post was deleted successful</value>
+  </data>
+  <data name="DeletePlayListSuccessful" xml:space="preserve">
+    <value>The play list was deleted successful</value>
+  </data>
+  <data name="DeletePostSuccessful" xml:space="preserve">
+    <value>The post was deleted successful</value>
+  </data>
+  <data name="DeletePostTypeSuccessful" xml:space="preserve">
+    <value>The post type was deleted successful</value>
   </data>
   <data name="DeleteUserSuccessful" xml:space="preserve">
     <value>The user was deleted successful</value>
@@ -183,13 +201,25 @@
   <data name="NotificationSentSuccessful" xml:space="preserve">
     <value>The notification was sent successfully</value>
   </data>
+  <data name="PostUploadSuccessful" xml:space="preserve">
+    <value>The post was uploaded successful</value>
+  </data>
   <data name="RefreshTokenRevoked" xml:space="preserve">
     <value>The refresh token revoked</value>
+  </data>
+  <data name="RefreshTokenSuccessfull" xml:space="preserve">
+    <value>The refresh token was successful</value>
   </data>
   <data name="RegisterSuccessful" xml:space="preserve">
     <value>The register was successful</value>
   </data>
   <data name="UpdateSuccessful" xml:space="preserve">
     <value>The update was successful</value>
+  </data>
+  <data name="UserBannedSuccessful" xml:space="preserve">
+    <value>the user was banned successful</value>
+  </data>
+  <data name="UserUnbannedSuccessful" xml:space="preserve">
+    <value>the user was unbanned successful</value>
   </data>
 </root>

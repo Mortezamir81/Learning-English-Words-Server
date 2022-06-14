@@ -33,7 +33,7 @@
 
             if (user != null)
             {
-                await Logger.LogTrace($"User {user.Id} connected successful");
+                Logger.LogDebug($"User {user.Id} connected successful");
                 await Groups.AddToGroupAsync(Context.ConnectionId, user.Id.ToString());
                 await Clients.All.SendAsync("RefreshNotificationPanel");
             }
@@ -48,7 +48,7 @@
 
             if (user != null)
             {
-                await Logger.LogTrace($"User {user.Id} disconnected successful");
+                Logger.LogDebug($"User {user.Id} disconnected successful");
                 await Groups.RemoveFromGroupAsync(Context.ConnectionId, user.Id.ToString());
             }
 
@@ -62,7 +62,7 @@
 
             if (user != null)
             {
-                await Logger.LogTrace($"notif is read by {user.Id}");
+                Logger.LogDebug($"notif is read by {user.Id}");
 
                 var result =
                     await DatabaseContext.Users
@@ -73,7 +73,7 @@
 
                 if (result != null)
                 {
-                    await Logger.LogTrace($"user : {user.Id} is not null and readed by database");
+                    Logger.LogDebug($"user : {user.Id} is not null and readed by database");
 
                     foreach (var notification in result.Notifications)
                     {
@@ -82,7 +82,7 @@
                             notification.IsRead = true;
                             await UnitOfWork.SaveAsync();
 
-                            await Logger.LogTrace($"notification read updated in databas done.");
+                            Logger.LogDebug($"notification read updated in databas done.");
                             break;
                         }
                     }

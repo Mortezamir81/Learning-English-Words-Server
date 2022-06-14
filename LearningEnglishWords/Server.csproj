@@ -7,13 +7,14 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="EasyCaching.InMemory" Version="1.6.0" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.4" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.4">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.6">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="NLog.Extensions.Logging" Version="1.7.4" />
+    <PackageReference Include="NLog.Extensions.Logging" Version="5.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.1" />
   </ItemGroup>
 
@@ -24,8 +25,7 @@
     <ProjectReference Include="..\Softmax Libraries\Softmax.Data.EntityFrameworkCore\Dtat.Data.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\Softmax Libraries\Softmax.Data\Dtat.Data.csproj" />
     <ProjectReference Include="..\Softmax Libraries\Softmax.Logging.NLog\Dtat.Logging.NLog.csproj" />
-    <ProjectReference Include="..\Softmax Libraries\Softmax.Logging\Dtat.Logging.csproj" />
-    <ProjectReference Include="..\Softmax Libraries\Softmax.Result\Dtat.Result.csproj" />
+    <ProjectReference Include="..\Softmax Libraries\Softmax.Result.Server\Dtat.Result.Server.csproj" />
     <ProjectReference Include="..\Softmax Libraries\Softmax.Utilities.Log\Softmax.Utilities.Log.csproj" />
     <ProjectReference Include="..\Softmax Libraries\Softmax.Utilities.Security\Softmax.Utilities.Security.csproj" />
     <ProjectReference Include="..\Softmax Libraries\Softmax.Utilities.Validation\Softmax.Utilities.Validation.csproj" />

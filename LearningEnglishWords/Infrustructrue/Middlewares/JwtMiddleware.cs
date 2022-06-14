@@ -11,7 +11,7 @@
 		protected RequestDelegate Next { get; }
 		protected ApplicationSettings ApplicationSettings { get; }
 
-		public async Task InvokeAsync(HttpContext context, ITokenUtility tokenUtility)
+		public async Task InvokeAsync(HttpContext context, ITokenServices tokenUtility)
 		{
 			var requestHeaders =
 				context.Request.Headers["Authorization"];

@@ -17,20 +17,13 @@ namespace Persistence.Migrations
 			{
 				using (var databaseContext = scope.ServiceProvider.GetRequiredService<DatabaseContext>())
 				{
-					try
+					if (databaseContext.Database.ProviderName != "Microsoft.EntityFrameworkCore.InMemory")
 					{
-						if (databaseContext.Database.ProviderName != "Microsoft.EntityFrameworkCore.InMemory")
-						{
-							databaseContext.Database.Migrate();
-						}
-					}
-					catch (Exception ex)
-					{
-						//Log errors or do anything you think it's needed
-						throw;
+						databaseContext.Database.Migrate();
 					}
 				}
 			}
+
 			return host;
 		}
 	}

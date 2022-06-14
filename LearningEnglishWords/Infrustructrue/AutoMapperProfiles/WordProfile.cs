@@ -4,7 +4,6 @@
 	{
 		public WordProfile() : base()
 		{
-			//For Words && AddWordRequestViewModel
 			CreateMap<Word, AddWordRequestViewModel>().ReverseMap();
 
 			CreateMap<Word, GetWordResponseViewModel>().ReverseMap();

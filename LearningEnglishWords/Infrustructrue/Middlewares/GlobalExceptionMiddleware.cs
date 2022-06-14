@@ -24,7 +24,7 @@
 			catch (Exception ex)
 			{
 				//******************************
-				await Logger.LogCritical(ex, ex.Message);
+				Logger.LogCritical(ex, ex.Message);
 				//******************************
 
 				//******************************

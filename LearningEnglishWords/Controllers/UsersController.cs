@@ -23,13 +23,10 @@
 		[HttpGet]
 		public async Task<IActionResult> GetAllUsers()
 		{
-			var result =
+			var serviceResult =
 				await UserServices.GetAllUsersAsync();
 
-			if (result.IsFailed)
-				return BadRequest(result);
-
-			return Ok(result);
+			return serviceResult.ApiResult();
 		}
 
 
@@ -37,113 +34,91 @@
 		[HttpGet("GetBasicUserInformation")]
 		public async Task<IActionResult> GetUserInformationForUpdate()
 		{
-			var result =
+			var serviceResult =
 				await UserServices.GetUserInformationForUpdate();
 
-			if (result.IsFailed)
-				return BadRequest(result);
-
-			return Ok(result);
+			return serviceResult.ApiResult();
 		}
 		#endregion /HttpGet
 
 		#region HttpPost
 		[HttpPost("Login")]
 		public async Task<IActionResult>
-			LoginAsync([FromBody] LoginRequestViewModel viewModel)
+			LoginAsync(LoginRequestViewModel requestViewModel)
 		{
-			var response =
-				await UserServices.LoginAsync(viewModel, ipAddress: GetIPAddress());
+			var serviceResult =
+				await UserServices.LoginAsync(requestViewModel, ipAddress: GetIPAddress());
 
-			if (response.IsFailed)
-				return BadRequest(response);
-
-			return Ok(response);
+			return serviceResult.ApiResult();
 		}
 
 
 		[HttpPost("Register")]
 		public async Task<IActionResult>
-			RegisterAccount([FromBody] RegisterRequestViewModel registerRequestViewModel)
+			RegisterAccount(RegisterRequestViewModel requestViewModel)
 		{
-			var result =
-				await UserServices.RegisterAsync(registerRequestViewModel: registerRequestViewModel);
+			var serviceResult =
+				await UserServices.RegisterAsync(registerRequestViewModel: requestViewModel);
 
-			if (result.IsFailed)
-				return BadRequest(result);
-
-			return Ok(result);
+			return serviceResult.ApiResult();
 		}
 
 
 		[Authorize(UserRoles.Admin)]
 		[HttpPost("UpdateUserByAdmin")]
+		[LogInputParameter(InputLogLevel.Warning)]
 		public async Task<IActionResult>
-			UpdateUserByAdminAsync([FromBody] UpdateUserByAdminRequestViewModel updateUserByAdminRequestViewModel)
+			UpdateUserByAdminAsync(UpdateUserByAdminRequestViewModel requestViewModel)
 		{
-			var result =
-				await UserServices.UpdateUserByAdminAsync(updateUserRequestViewModel: updateUserByAdminRequestViewModel);
+			var serviceResult =
+				await UserServices.UpdateUserByAdminAsync(updateUserRequestViewModel: requestViewModel);
 
-			if (result.IsFailed)
-				return BadRequest(result);
-
-			return Ok(result);
+			return serviceResult.ApiResult();
 		}
 
 
 		[HttpDelete("Logout/{refreshToken}")]
 		public async Task<IActionResult> LogoutToken(string refreshToken)
 		{
-			var response = await
+			var serviceResult = await
 				UserServices.LogoutAsync(refreshToken);
 
-			if (response.IsFailed)
-				return BadRequest(response);
-
-			return Ok(response);
+			return serviceResult.ApiResult();
 		}
 
 
 		[Authorize(UserRoles.All)]
 		[HttpPut("UpdateProfileImage")]
 		public async Task<IActionResult>
-			UpdateUserProfileImageAsync(IFormFile file, [FromServices] IHostEnvironment HostEnvironment)
+			UpdateUserProfileImageAsync([FromForm] IFormFile imageFile, [FromServices] IHostEnvironment HostEnvironment)
 		{
-			var result =
-				await UserServices.UpdateUserProfileAsync(file: file, environment: HostEnvironment);
+			var serviceResult =
+				await UserServices.UpdateUserAvatarAsync(file: imageFile, environment: HostEnvironment);
 
-			if (result.IsFailed)
-				return BadRequest(result);
-
-			return Ok(result);
+			return serviceResult.ApiResult();
 		}
 
 
 		[Authorize(UserRoles.Admin)]
 		[HttpPost("ChangeUserRole")]
+		[LogInputParameter(InputLogLevel.Warning)]
 		public async Task<IActionResult>
-			ChangeUserRoleAsync([FromBody] ChangeUserRoleRequestViewModel changeUserRoleRequestViewModel)
+			ChangeUserRoleAsync(ChangeUserRoleRequestViewModel requestViewModel)
 		{
-			var result =
-				await UserServices.ChangeUserRoleAsync(changeUserRoleRequestViewModel);
+			var serviceResult =
+				await UserServices.ChangeUserRoleAsync(requestViewModel);
 
-			if (result.IsFailed)
-				return BadRequest(result);
-
-			return Ok(result);
+			return serviceResult.ApiResult();
 		}
 
 
 		[HttpPost("RefreshToken/{refreshToken?}")]
 		public async Task<IActionResult> RefreshToken(string refreshToken)
 		{
-			var response =
+			var serviceResult =
 				await UserServices.RefreshTokenAsync(token: refreshToken, ipAddress: GetIPAddress());
 
-			if (response.IsFailed)
-				return BadRequest(response);
-
-			return Ok(response);
+			return serviceResult.ApiResult();
 		}
 		#endregion /HttpPost
 
@@ -153,13 +128,10 @@
 		public async Task<IActionResult>
 			UpdateUserAsync(UpdateUserRequestViewModel updateUserRequestViewModel)
 		{
-			var result =
+			var serviceResult =
 				await UserServices.UpdateUserAsync(updateUserRequestViewModel: updateUserRequestViewModel);
 
-			if (result.IsFailed)
-				return BadRequest(result);
-
-			return Ok(result);
+			return serviceResult.ApiResult();
 		}
 		#endregion /HttpPut
 
@@ -169,13 +141,10 @@
 		public async Task<IActionResult> 
 			DeleteUserProfileImageAsync([FromServices] IHostEnvironment HostEnvironment)
 		{
-			var result =
+			var serviceResult =
 				await UserServices.DeleteUserProfileImageAsync(HostEnvironment: HostEnvironment);
 
-			if (result.IsFailed)
-				return BadRequest(result);
-
-			return Ok(result);
+			return serviceResult.ApiResult();
 		}
 		#endregion /HttpDelete
 

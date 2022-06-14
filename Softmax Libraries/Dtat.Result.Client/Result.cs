@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dtat.Results
+namespace Dtat.Results.Client
 {
-	public class ResponseResult
+	public class Result
 	{
-
 		public bool IsFailed { get; set; }
 
 		public bool IsSuccess { get; set; }

@@ -61,11 +61,74 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Addition was successful.
+        /// </summary>
+        public static string AddSuccessful {
+            get {
+                return ResourceManager.GetString("AddSuccessful", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Content File.
+        /// </summary>
+        public static string ContentFile {
+            get {
+                return ResourceManager.GetString("ContentFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete was successful.
+        /// </summary>
+        public static string DeleteSuccessful {
+            get {
+                return ResourceManager.GetString("DeleteSuccessful", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The input properties info.
         /// </summary>
         public static string InputPropertiesInfo {
             get {
                 return ResourceManager.GetString("InputPropertiesInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Post Baner Image.
+        /// </summary>
+        public static string PostBanerImage {
+            get {
+                return ResourceManager.GetString("PostBanerImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update was successful.
+        /// </summary>
+        public static string UpdateSuccessful {
+            get {
+                return ResourceManager.GetString("UpdateSuccessful", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User was login successful.
+        /// </summary>
+        public static string UserLoginSuccessfulInformation {
+            get {
+                return ResourceManager.GetString("UserLoginSuccessfulInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User was refreshed token.
+        /// </summary>
+        public static string UserRefreshTokenSuccessfulInformation {
+            get {
+                return ResourceManager.GetString("UserRefreshTokenSuccessfulInformation", resourceCulture);
             }
         }
     }

@@ -24,11 +24,10 @@
     <ProjectReference Include="..\LearningEnglishWords\Server.csproj" />
     <ProjectReference Include="..\Persistence\Persistence.csproj" />
     <ProjectReference Include="..\Resources\Resources.csproj" />
+    <ProjectReference Include="..\Softmax Libraries\Dtat.Result.Client\Dtat.Result.Client.csproj" />
     <ProjectReference Include="..\Softmax Libraries\Softmax.Data.EntityFrameworkCore\Dtat.Data.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\Softmax Libraries\Softmax.Data\Dtat.Data.csproj" />
     <ProjectReference Include="..\Softmax Libraries\Softmax.Logging.NLog\Dtat.Logging.NLog.csproj" />
-    <ProjectReference Include="..\Softmax Libraries\Softmax.Logging\Dtat.Logging.csproj" />
-    <ProjectReference Include="..\Softmax Libraries\Softmax.Result\Dtat.Result.csproj" />
     <ProjectReference Include="..\Softmax Libraries\Softmax.Utilities.Log\Softmax.Utilities.Log.csproj" />
     <ProjectReference Include="..\Softmax Libraries\Softmax.Utilities.Security\Softmax.Utilities.Security.csproj" />
     <ProjectReference Include="..\Softmax Libraries\Softmax.Utilities.Validation\Softmax.Utilities.Validation.csproj" />

@@ -17,9 +17,9 @@ namespace Dtat.Logging.NLog
 			 Logger logger =
 				LogManager.GetLogger(name: typeof(T).ToString());
 
-			switch (log.Level)
+			switch (log.LogLevel)
 			{
-				case LogLevel.Trace:
+				case "Trace":
 				{
 					logger.Trace
 						(exception, message: loggerMessage);
@@ -27,7 +27,7 @@ namespace Dtat.Logging.NLog
 					break;
 				}
 
-				case LogLevel.Debug:
+				case "Debug":
 				{
 					logger.Debug
 						(exception, message: loggerMessage);
@@ -35,7 +35,7 @@ namespace Dtat.Logging.NLog
 					break;
 				}
 
-				case LogLevel.Information:
+				case "Information":
 				{
 					logger.Info
 						(exception, message: loggerMessage);
@@ -43,7 +43,7 @@ namespace Dtat.Logging.NLog
 					break;
 				}
 
-				case LogLevel.Warning:
+				case "Warning":
 				{
 					logger.Warn
 						(exception, message: loggerMessage);
@@ -51,7 +51,7 @@ namespace Dtat.Logging.NLog
 					break;
 				}
 
-				case LogLevel.Error:
+				case "Error":
 				{
 					logger.Error
 						(exception, message: loggerMessage);
@@ -59,7 +59,7 @@ namespace Dtat.Logging.NLog
 					break;
 				}
 
-				case LogLevel.Critical:
+				case "Critical":
 				{
 					logger.Fatal
 						(exception, message: loggerMessage);

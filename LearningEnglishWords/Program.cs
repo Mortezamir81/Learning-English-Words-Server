@@ -9,9 +9,15 @@ var webApplicationOptions =
 //******************************
 
 
+////******************************
+//var builder =
+//	WebApplication.CreateBuilder(options: webApplicationOptions);
+////******************************
+
+
 //******************************
 var builder =
-	WebApplication.CreateBuilder(options: webApplicationOptions);
+	WebApplication.CreateBuilder(args);
 //******************************
 
 
@@ -20,6 +26,26 @@ var builder =
 builder.Services.AddSwaggerGen(c =>
 {
 	c.SwaggerDoc("v1", new OpenApiInfo { Title = "Server", Version = "v1" });
+	c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+	{
+		Name = "Authorization",
+		Type = SecuritySchemeType.ApiKey,
+		Scheme = "Bearer",
+		BearerFormat = "JWT",
+		In = ParameterLocation.Header,
+		Description = "JWT Authorization header using the Bearer scheme. \r\n\r\n Enter your token in the text input below.",
+	});
+	c.AddSecurityRequirement(new OpenApiSecurityRequirement {
+		{
+			new OpenApiSecurityScheme {
+				Reference = new OpenApiReference {
+					Type = ReferenceType.SecurityScheme,
+						Id = "Bearer"
+				}
+			},
+			new string[] {}
+		}
+	});
 });
 
 builder.Services.Configure<ApplicationSettings>(builder.Configuration.GetSection(ApplicationSettings.KeyName));
@@ -54,13 +80,27 @@ builder.Services.AddScoped<IWordServices, WordServices>();
 
 builder.Services.AddScoped<INotificationServices, NotificationServices>();
 
-builder.Services.AddScoped<ITokenUtility, TokenUtility>();
+builder.Services.AddScoped<ITokenServices, TokenServices>();
 
 builder.Services.AddAutoMapper(typeof(Infrustructrue.AutoMapperProfiles.WordProfile));
 
 builder.Services.AddSignalR();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(config =>
+{
+	config.Filters.Add<ModelStateValidationAttribute>();
+	config.Filters.Add<CustomExceptionHandlerAttribute>();
+	config.Filters.Add(new LogInputParameterAttribute(InputLogLevel.Debug));
+})
+.ConfigureApiBehaviorOptions(options =>
+{
+	options.SuppressModelStateInvalidFilter = true;
+});
+
+builder.Services.AddEasyCaching(options =>
+{
+	options.UseInMemory();
+});
 //******************************
 #endregion /Services
 
@@ -74,8 +114,6 @@ var app =
 #region Middlewares
 //******************************
 app.UseGlobalExceptionMiddleware();
-
-app.UseCors("DevCorsPolicy");
 
 app.UseCustomJwtMiddleware();
 
@@ -92,6 +130,8 @@ app.UseAuthorization();
 
 app.UseCustomStaticFilesMiddleware();
 
+app.UseCors("DevCorsPolicy");
+
 app.UseEndpoints(endpoints =>
 {
 	endpoints.MapHub<SignalHub>("/api/signal");
@@ -104,4 +144,7 @@ app.UseEndpoints(endpoints =>
 //******************************
 app.Run();
 //******************************
+
+
+public partial class Program { }
 

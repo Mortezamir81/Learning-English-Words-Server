@@ -1,6 +1,6 @@
-﻿namespace Infrustructrue.Utilities
+﻿namespace Services
 {
-	public interface ITokenUtility
+	public interface ITokenServices
 	{
 		Task AttachUserToContextByToken
 			(HttpContext context, string token, string secretKey);

@@ -1,34 +1,43 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace Dtat.Logging
 {
 	public interface ILogger<T> where T : class
 	{
-		Task<bool> LogTrace
+		bool LogTrace
 			(string message, [CallerMemberName] string methodName = null,
-				System.Collections.Hashtable parameters = null);
+				Type classType = null,
+				List<object> parameters = null);
 
-		Task<bool> LogDebug
+		bool LogDebug
 			(string message, [CallerMemberName] string methodName = null,
-				System.Collections.Hashtable parameters = null);
+				Type classType = null,
+				List<object> parameters = null);
 
-		Task<bool> LogInformation
+		bool LogInformation
 			(string message, [CallerMemberName] string methodName = null,
-				System.Collections.Hashtable parameters = null);
+				Type classType = null,
+				List<object> parameters = null);
 
-		Task<bool> LogWarning
+		bool LogWarning
 			(string message, [CallerMemberName] string methodName = null,
-				System.Collections.Hashtable parameters = null);
+				Type classType = null,
+				List<object> parameters = null);
 
-		Task<bool> LogError
-			(System.Exception exception,
+		bool LogError
+			(Exception exception,
 			string message = null, [CallerMemberName] string methodName = null,
-				System.Collections.Hashtable parameters = null);
+				Type classType = null,
+				List<object> parameters = null);
 
-		Task<bool> LogCritical
-			(System.Exception exception,
+		bool LogCritical
+			(Exception exception,
 			string message = null, [CallerMemberName] string methodName = null,
-				System.Collections.Hashtable parameters = null);
+				Type classType = null,
+				List<object> parameters = null);
 	}
 }

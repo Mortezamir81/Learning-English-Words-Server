@@ -97,6 +97,15 @@ namespace Resources.Messages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The avatar image was deleted successful.
+        /// </summary>
+        public static string DeleteAvatarImageSuccessful {
+            get {
+                return ResourceManager.GetString("DeleteAvatarImageSuccessful", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The comment was deleted from content successful.
         /// </summary>
         public static string DeleteCommentFromContentSuccessful {
@@ -111,6 +120,15 @@ namespace Resources.Messages {
         public static string DeleteContentSuccessful {
             get {
                 return ResourceManager.GetString("DeleteContentSuccessful", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The favorite post was deleted successful.
+        /// </summary>
+        public static string DeleteFavoritePostSuccessful {
+            get {
+                return ResourceManager.GetString("DeleteFavoritePostSuccessful", resourceCulture);
             }
         }
         
@@ -133,6 +151,15 @@ namespace Resources.Messages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The music kind was deleted successful.
+        /// </summary>
+        public static string DeleteMusicKindSuccessful {
+            get {
+                return ResourceManager.GetString("DeleteMusicKindSuccessful", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The notification was deleted successful.
         /// </summary>
         public static string DeleteNotificationSuccessful {
@@ -142,11 +169,38 @@ namespace Resources.Messages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The profile image was deleted successful.
+        ///   Looks up a localized string similar to The play list post was deleted successful.
         /// </summary>
-        public static string DeleteProfileImageSuccessful {
+        public static string DeletePlayListPostSuccessful {
             get {
-                return ResourceManager.GetString("DeleteProfileImageSuccessful", resourceCulture);
+                return ResourceManager.GetString("DeletePlayListPostSuccessful", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The play list was deleted successful.
+        /// </summary>
+        public static string DeletePlayListSuccessful {
+            get {
+                return ResourceManager.GetString("DeletePlayListSuccessful", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The post was deleted successful.
+        /// </summary>
+        public static string DeletePostSuccessful {
+            get {
+                return ResourceManager.GetString("DeletePostSuccessful", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The post type was deleted successful.
+        /// </summary>
+        public static string DeletePostTypeSuccessful {
+            get {
+                return ResourceManager.GetString("DeletePostTypeSuccessful", resourceCulture);
             }
         }
         
@@ -259,11 +313,29 @@ namespace Resources.Messages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The post was uploaded successful.
+        /// </summary>
+        public static string PostUploadSuccessful {
+            get {
+                return ResourceManager.GetString("PostUploadSuccessful", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The refresh token revoked.
         /// </summary>
         public static string RefreshTokenRevoked {
             get {
                 return ResourceManager.GetString("RefreshTokenRevoked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The refresh token was successful.
+        /// </summary>
+        public static string RefreshTokenSuccessfull {
+            get {
+                return ResourceManager.GetString("RefreshTokenSuccessfull", resourceCulture);
             }
         }
         
@@ -282,6 +354,24 @@ namespace Resources.Messages {
         public static string UpdateSuccessful {
             get {
                 return ResourceManager.GetString("UpdateSuccessful", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to the user was banned successful.
+        /// </summary>
+        public static string UserBannedSuccessful {
+            get {
+                return ResourceManager.GetString("UserBannedSuccessful", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to the user was unbanned successful.
+        /// </summary>
+        public static string UserUnbannedSuccessful {
+            get {
+                return ResourceManager.GetString("UserUnbannedSuccessful", resourceCulture);
             }
         }
     }

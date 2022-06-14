@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Globalization;
 using System.Threading;
 using System.Runtime.CompilerServices;
+using System.Collections.Generic;
 
 namespace Dtat.Logging
 {
@@ -23,98 +24,76 @@ namespace Dtat.Logging
 		public IHttpContextAccessor HttpContextAccessor { get; }
 
 		#region GetExceptions
-		protected virtual string GetExceptions(Exception exception)
+		protected virtual List<object> GetExceptions(Exception exception)
 		{
 			if (exception == null)
 			{
 				return null;
 			}
 
-			var stringBuilder =
-				new StringBuilder();
+			var exceptions = new List<object>();
 
-			int index = 0;
 			Exception currentException = exception;
+
+			int index = 1;
 
 			while (currentException != null)
 			{
-				if (index == 0)
+				exceptions.Add(new
 				{
-					stringBuilder.Append($"<{ nameof(Exception) }>");
-				}
-				else
-				{
-					stringBuilder.Append($"<{ nameof(Exception.InnerException) }>");
-				}
-
-				stringBuilder.Append($"{currentException.Message}");
-
-				if (index == 0)
-				{
-					stringBuilder.Append($"</{ nameof(Exception) }>");
-				}
-				else
-				{
-					stringBuilder.Append($"</{ nameof(Exception.InnerException) }>");
-				}
-
-				index++;
+					Message = $"{currentException.Message} - (Message Level: {index})",
+				});
 
 				currentException =
 					currentException.InnerException;
+
+				index++;
 			}
 
-			string result =
-				stringBuilder.ToString();
 
-			return result;
+			return exceptions;
 		}
 		#endregion /GetExceptions
 
 		#region GetParameters
-		protected virtual string GetParameters(Hashtable parameters)
+		protected virtual List<object> GetParameters(List<object> parameters)
 		{
-			if ((parameters == null) || (parameters.Count == 0))
-			{
-				return null;
-			}
+			List<object> returnValue = null;
 
-			var stringBuilder = new StringBuilder();
-
-			foreach (DictionaryEntry item in parameters)
+			if (parameters != null && parameters.Count > 0)
 			{
-				if (item.Key != null)
+				returnValue = new List<object>();
+
+				parameters.ForEach(current =>
 				{
-					stringBuilder.Append("<parameter>");
-
-					stringBuilder.Append($"<key>{ item.Key }</key>");
-
-					if (item.Value == null)
+					if (current != null)
 					{
-						stringBuilder.Append($"<value>NULL</value>");
+						returnValue.Add(current);
 					}
-					else
-					{
-						stringBuilder.Append($"<value>{ item.Value }</value>");
-					}
-
-					stringBuilder.Append("</parameter>");
-				}
+				});
 			}
 
-			string result = stringBuilder.ToString();
-
-			return result;
+			return returnValue;
 		}
 		#endregion /GetParameters
 
+		#region GetUsername
+		public string GetUsername()
+		{
+			var username = 
+				HttpContextAccessor?.HttpContext?.Items["Username"] as string;
+
+			return username;
+		}
+		#endregion /GetUsername
+
 		#region Log
-		protected async Task<bool>
-			Log(LogLevel level,
-				string message,
-				Exception exception = null,
-				Hashtable parameters = null,
-				string methodName = null)
+		protected bool Log(string logLevel,
+			string message,
+			Exception exception = null,
+			List<object> parameters = null,
+			Type classType = null,
+			string methodName = null)
 		{
 			try
 			{
@@ -133,86 +112,82 @@ namespace Dtat.Logging
 
 				var logModel = new LogModel
 				{
-					Level = level,
+					LogLevel = logLevel,
 				};
 
-				await Task.Run(() =>
+				if ((HttpContextAccessor != null) &&
+					(HttpContextAccessor.HttpContext != null) &&
+					(HttpContextAccessor.HttpContext.Connection != null) &&
+					(HttpContextAccessor.HttpContext.Connection.RemoteIpAddress != null))
 				{
+					logModel.RemoteIP =
+						HttpContextAccessor.HttpContext.Connection.RemoteIpAddress.ToString();
+				}
 
-					if ((HttpContextAccessor != null) &&
-						(HttpContextAccessor.HttpContext != null) &&
-						(HttpContextAccessor.HttpContext.Connection != null) &&
-						(HttpContextAccessor.HttpContext.Connection.RemoteIpAddress != null))
-					{
-						logModel.RemoteIP =
-							HttpContextAccessor.HttpContext.Connection.RemoteIpAddress.ToString();
-					}
+				if ((HttpContextAccessor != null) &&
+					(HttpContextAccessor.HttpContext != null) &&
+					(HttpContextAccessor.HttpContext.Connection != null) &&
+					(HttpContextAccessor.HttpContext.Connection.LocalIpAddress != null))
+				{
+					logModel.LocalIP =
+						HttpContextAccessor.HttpContext.Connection.LocalIpAddress.ToString();
+				}
 
-					if ((HttpContextAccessor != null) &&
-						(HttpContextAccessor.HttpContext != null) &&
-						(HttpContextAccessor.HttpContext.Connection != null) &&
-						(HttpContextAccessor.HttpContext.Connection.LocalIpAddress != null))
-					{
-						logModel.LocalIP =
-							HttpContextAccessor.HttpContext.Connection.LocalIpAddress.ToString();
-					}
+				if ((HttpContextAccessor != null) &&
+					(HttpContextAccessor.HttpContext != null) &&
+					(HttpContextAccessor.HttpContext.Connection != null))
+				{
+					logModel.LocalPort =
+						HttpContextAccessor.HttpContext.Connection.LocalPort.ToString();
+				}
 
-					if ((HttpContextAccessor != null) &&
-						(HttpContextAccessor.HttpContext != null) &&
-						(HttpContextAccessor.HttpContext.Connection != null))
-					{
-						logModel.LocalPort =
-							HttpContextAccessor.HttpContext.Connection.LocalPort.ToString();
-					}
+				if ((HttpContextAccessor != null) &&
+					(HttpContextAccessor.HttpContext != null) &&
+					(HttpContextAccessor.HttpContext.User != null) &&
+					(HttpContextAccessor.HttpContext.User.Identity != null))
+				{
+					logModel.Username =
+						HttpContextAccessor.HttpContext.User.Identity.Name;
+				}
 
-					if ((HttpContextAccessor != null) &&
-						(HttpContextAccessor.HttpContext != null) &&
-						(HttpContextAccessor.HttpContext.User != null) &&
-						(HttpContextAccessor.HttpContext.User.Identity != null))
-					{
-						logModel.Username =
-							HttpContextAccessor.HttpContext.User.Identity.Name;
-					}
+				if ((HttpContextAccessor != null) &&
+					(HttpContextAccessor.HttpContext != null) &&
+					(HttpContextAccessor.HttpContext.Request != null))
+				{
+					logModel.RequestPath =
+						HttpContextAccessor.HttpContext.Request.Path;
 
-					if ((HttpContextAccessor != null) &&
-						(HttpContextAccessor.HttpContext != null) &&
-						(HttpContextAccessor.HttpContext.Request != null))
-					{
-						logModel.RequestPath =
-							HttpContextAccessor.HttpContext.Request.Path;
+					logModel.HttpReferrer =
+						HttpContextAccessor.HttpContext.Request.Headers["Referer"];
+				}
 
-						logModel.HttpReferrer =
-							HttpContextAccessor.HttpContext.Request.Headers["Referer"];
-					}
+				logModel.ApplicationName =
+					classType?.Assembly.FullName?.Split(",")?[0] ??
+						typeof(T).GetTypeInfo().Assembly.FullName?.Split(",")?[0];
 
-					logModel.ApplicationName =
-						typeof(T).GetTypeInfo().Assembly.FullName.ToString();
+				logModel.ClassName = classType?.Name ?? typeof(T).Name;
 
-					logModel.ClassName = typeof(T).Name;
+				if (!string.IsNullOrWhiteSpace(methodName))
+					logModel.MethodName = methodName;
 
-					if (!string.IsNullOrWhiteSpace(methodName))
-						logModel.MethodName = methodName;
+				logModel.Namespace = classType?.Namespace ?? typeof(T).Namespace;
 
-					logModel.Namespace = typeof(T).Namespace;
+				logModel.Message = message;
 
-					logModel.Message = message;
+				logModel.Exceptions =
+					GetExceptions(exception: exception);
 
-					logModel.Exceptions =
-						GetExceptions(exception: exception);
+				logModel.Parameters =
+					GetParameters(parameters: parameters);
 
-					logModel.Parameters =
-						GetParameters(parameters: parameters);
+				logModel.Username = GetUsername();
 
+				LogByFavoriteLibrary(logModel: logModel, exception: exception);
 
+				// **************************************************
+				Thread.CurrentThread.CurrentCulture = currentCultureInfo;
+				// **************************************************
 
-					LogByFavoriteLibrary(logModel: logModel, exception: exception);
-
-
-
-					// **************************************************
-					Thread.CurrentThread.CurrentCulture = currentCultureInfo;
-					// **************************************************
-				});
 
 				return true;
 			}
@@ -226,10 +201,11 @@ namespace Dtat.Logging
 		protected abstract void LogByFavoriteLibrary(LogModel logModel, Exception exception);
 
 		#region LogTrace
-		public async virtual Task<bool> LogTrace
+		public virtual bool LogTrace
 			(string message,
 			[CallerMemberName] string methodName = null,
-			Hashtable parameters = null)
+			Type classType = null,
+			List<object> parameters = null)
 		{
 			if (string.IsNullOrWhiteSpace(message))
 			{
@@ -237,11 +213,11 @@ namespace Dtat.Logging
 			}
 
 			bool result =
-				await
 					Log(methodName: methodName,
-						level: LogLevel.Trace,
+						logLevel: "Trace",
 						message: message,
 						exception: null,
+						classType: classType,
 						parameters: parameters);
 
 			return result;
@@ -249,10 +225,11 @@ namespace Dtat.Logging
 		#endregion /LogTrace
 
 		#region LogDebug
-		public async virtual Task<bool> LogDebug
+		public virtual bool LogDebug
 			(string message,
 			[CallerMemberName] string methodName = null,
-			Hashtable parameters = null)
+			Type classType = null,
+			List<object> parameters = null)
 		{
 			if (string.IsNullOrWhiteSpace(message))
 			{
@@ -260,11 +237,11 @@ namespace Dtat.Logging
 			}
 
 			bool result =
-				await
 					Log(methodName: methodName,
-					level: LogLevel.Debug,
+					logLevel: "Debug",
 					message: message,
 					exception: null,
+					classType: classType,
 					parameters: parameters);
 
 			return result;
@@ -272,10 +249,11 @@ namespace Dtat.Logging
 		#endregion /LogDebug
 
 		#region LogInformation
-		public async virtual Task<bool> LogInformation
+		public virtual bool LogInformation
 			(string message,
 			[CallerMemberName] string methodName = null,
-			Hashtable parameters = null)
+			Type classType = null,
+			List<object> parameters = null)
 		{
 			if (string.IsNullOrWhiteSpace(message))
 			{
@@ -283,11 +261,11 @@ namespace Dtat.Logging
 			}
 
 			bool result =
-				await
 					Log(methodName: methodName,
-					level: LogLevel.Information,
+					logLevel: "Information",
 					message: message,
 					exception: null,
+					classType: classType,
 					parameters: parameters);
 
 			return result;
@@ -295,10 +273,11 @@ namespace Dtat.Logging
 		#endregion /LogInformation
 
 		#region LogWarning
-		public async virtual Task<bool> LogWarning
+		public virtual bool LogWarning
 			(string message,
 			[CallerMemberName] string methodName = null,
-			Hashtable parameters = null)
+			Type classType = null,
+			List<object> parameters = null)
 		{
 			if (string.IsNullOrWhiteSpace(message))
 			{
@@ -306,11 +285,11 @@ namespace Dtat.Logging
 			}
 
 			bool result =
-				await
 					Log(methodName: methodName,
-					level: LogLevel.Warning,
+					logLevel: "Warning",
 					message: message,
 					exception: null,
+					classType: classType,
 					parameters: parameters);
 
 			return result;
@@ -318,11 +297,12 @@ namespace Dtat.Logging
 		#endregion /LogWarning
 
 		#region LogError
-		public async virtual Task<bool> LogError
+		public virtual bool LogError
 			(Exception exception,
 			string message = null,
 			[CallerMemberName] string methodName = null,
-			Hashtable parameters = null)
+			Type classType = null,
+			List<object> parameters = null)
 		{
 			if (exception == null)
 			{
@@ -330,11 +310,11 @@ namespace Dtat.Logging
 			}
 
 			bool result =
-				await
 					Log(methodName: methodName,
-					level: LogLevel.Error,
+					logLevel: "Error",
 					message: message,
 					exception: exception,
+					classType: classType,
 					parameters: parameters);
 
 			return result;
@@ -342,11 +322,12 @@ namespace Dtat.Logging
 		#endregion /LogError
 
 		#region LogCritical
-		public async virtual Task<bool> LogCritical
+		public virtual bool LogCritical
 			(Exception exception,
 			string message = null,
 			[CallerMemberName] string methodName = null,
-			Hashtable parameters = null)
+			Type classType = null,
+			List<object> parameters = null)
 		{
 			if (exception == null)
 			{
@@ -354,11 +335,11 @@ namespace Dtat.Logging
 			}
 
 			bool result =
-				await
 					Log(methodName: methodName,
-					level: LogLevel.Critical,
+					logLevel: "Critical",
 					message: message,
 					exception: exception,
+					classType: classType,
 					parameters: parameters);
 
 			return result;
