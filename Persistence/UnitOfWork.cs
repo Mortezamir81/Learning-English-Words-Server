@@ -1,10 +1,11 @@
 ﻿using Persistence.Repositories;
+using Shared.DICommon;
 using System.Threading.Tasks;
 
 namespace Persistence
 {
 	public class UnitOfWork :
-		Dtat.Data.EntityFrameworkCore.UnitOfWork<DatabaseContext>, IUnitOfWork
+		Dtat.Data.EntityFrameworkCore.UnitOfWork<DatabaseContext>, IUnitOfWork, IRegisterAsTransient
 	{
 		public UnitOfWork(DatabaseContext databaseContext) : base(databaseContext)
 		{

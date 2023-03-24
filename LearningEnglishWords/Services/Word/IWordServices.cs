@@ -2,31 +2,31 @@
 {
 	public interface IWordServices
 	{
-		Task<Result> RemoveWord(string word);
+		Task<Result> RemoveWord(string word, Guid userId);
 
 
 		Task<Result> AddNewWord
-			(AddWordRequestViewModel addWordRequestViewModel);
+			(AddWordRequestViewModel addWordRequestViewModel, Guid userId);
 
 
 		Task<Result<List<GetExamResponseViewModel>>>
-			GetExam(GetExamRequestViewModel getExamRequestViewModel);
+			GetExam(GetExamRequestViewModel getExamRequestViewModel, Guid userId);
 
 
-		Task<Result> UpdateWord(AddWordRequestViewModel word);
+		Task<Result> UpdateWord(AddWordRequestViewModel word, Guid userId);
 
 
 		Task<Result<List<GetWordResponseViewModel>>>
-			GetAllWords(GetAllWordsRequestViewModel getAllWordsRequestViewModel);
+			GetAllWords(GetAllWordsRequestViewModel getAllWordsRequestViewModel, Guid userId);
 
 
-		Task<Result<GetWordResponseViewModel>> GetWord(string word);
+		Task<Result<GetWordResponseViewModel>> GetWord(string word, Guid userId);
 
 
-		Task<Result<RecentLearnedResponseViewModel>> GetRecentLearningWords();
+		Task<Result<RecentLearnedResponseViewModel>> GetRecentLearningWords(Guid userId);
 
 
 		Task<Result<ExamProcessingResponseViewModel>>
-			ExamProcessing(List<ExamProcessingRequestViewModel> examProcessingRequestViewModels);
+			ExamProcessing(List<ExamProcessingRequestViewModel> examProcessingRequestViewModels, Guid userId);
 	}
 }

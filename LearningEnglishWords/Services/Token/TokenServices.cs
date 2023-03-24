@@ -1,137 +1,21 @@
-﻿using EasyCaching.Core;
-
-namespace Services
+﻿namespace Services
 {
-	public class TokenServices : ITokenServices
+	public class TokenServices : ITokenServices, IRegisterAsScoped
 	{
-		#region Constractor
-		public TokenServices
-			(ILogger<TokenServices> logger,
-			DatabaseContext databaseContext,
-			IEasyCachingProvider cache)
-		{
-			Cache = cache;
-			Logger = logger;
-			DatabaseContext = databaseContext;
-		}
-		#endregion /Constractor
-
-		#region Properties
-		public IEasyCachingProvider Cache { get; }
-		private ILogger<TokenServices> Logger { get; }
-		public DatabaseContext DatabaseContext { get; }
-		#endregion /Properties
-
 		#region MainMethods
-		public async Task AttachUserToContextByToken
-			(HttpContext context, string token, string secretKey)
-		{
-			try
-			{
-				var key =
-					Encoding.ASCII.GetBytes(secretKey);
-
-				var tokenHandler =
-					new JwtSecurityTokenHandler();
-
-				tokenHandler.ValidateToken(token: token,
-					validationParameters: new TokenValidationParameters()
-					{
-						ValidateIssuer = false,
-						ValidateAudience = false,
-						ValidateIssuerSigningKey = true,
-
-						IssuerSigningKey =
-							new SymmetricSecurityKey(key: key),
-
-						ClockSkew =
-							TimeSpan.Zero
-					}, out SecurityToken validatedToken);
-
-				var jwtToken =
-					validatedToken as JwtSecurityToken;
-
-				if (jwtToken == null)
-					return;
-
-				Claim securityStampClaim =
-					jwtToken.Claims
-					.Where(current => current.Type.ToLower() == nameof(User.SecurityStamp).ToLower())
-					.FirstOrDefault();
-
-				Claim roleIdClaim =
-					jwtToken.Claims
-					.Where(current => current.Type.ToLower() == nameof(User.RoleId).ToLower())
-					.FirstOrDefault();
-
-				Claim userIdClaim =
-					jwtToken.Claims
-					.Where(current => current.Type.ToLower() == nameof(User.Id).ToLower())
-					.FirstOrDefault();
-
-				Claim usernameClaim =
-					jwtToken.Claims
-					.Where(current => current.Type.ToLower() == nameof(User.Username).ToLower())
-					.FirstOrDefault();
-
-
-				if (securityStampClaim == null)
-					return;
-
-				if (!Guid.TryParse(securityStampClaim.Value, out var securityStamp))
-					return;
-
-				if (!Guid.TryParse(userIdClaim.Value, out var userId))
-					return;
-
-				if (!int.TryParse(roleIdClaim.Value, out var roleId))
-					return;
-
-				var userInCache =
-					await Cache.GetAsync<bool>($"userId-{userId}-exist");
-
-				if (!userInCache.HasValue)
-				{
-					bool isExistSecurityStamp =
-						await CheckUserSecurityStampAsync(securityStamp, userId);
-
-					if (isExistSecurityStamp == false)
-						return;
-				}
-
-				var userInformationInToken = new UserInformationInToken()
-				{
-					Id = userId,
-					RoleId = roleId,
-					Username = usernameClaim?.Value,
-				};
-
-				context.Items["User"] = userInformationInToken;
-				context.Items["Username"] = userInformationInToken.Username;
-			}
-			catch (Exception ex)
-			{
-				if (ex.Message.Contains("Lifetime"))
-				{
-					return;
-				}
-
-				string errorMessage = string.Format
-					(Resources.Messages.ErrorMessages.InvalidJwtToken);
-
-				Logger.LogError(ex, errorMessage);
-			}
-		}
-
-
+		/// <summary>
+		/// Generate jwt access token
+		/// </summary>
 		public string GenerateJwtToken
 			(string securityKey, ClaimsIdentity claimsIdentity, DateTime dateTime)
 		{
+			Assert.NotEmpty(securityKey, nameof(securityKey));
+
 			var signingCredentional =
-				GetSigningCredentional(securityKey);
+				GenerateSigningCredentional(securityKey!);
 
 			var tokenDescriptor =
-				GetTokenDescriptor(claimsIdentity, dateTime, signingCredentional);
+				GenerateTokenDescriptor(claimsIdentity, dateTime, signingCredentional);
 
 			var tokenHandler = new JwtSecurityTokenHandler();
 
@@ -146,7 +30,7 @@ namespace Services
 		#endregion /MainMethods
 
 		#region SubMethods
-		private SigningCredentials GetSigningCredentional(string securityKey)
+		private SigningCredentials GenerateSigningCredentional(string securityKey)
 		{
 			byte[] key =
 				Encoding.ASCII.GetBytes(securityKey);
@@ -164,21 +48,7 @@ namespace Services
 		}
 
 
-		private async Task<bool> CheckUserSecurityStampAsync(Guid securityStamp, Guid userId)
-		{
-			var result =
-				await DatabaseContext.Users
-					.AsNoTracking()
-					.Select(current => new { current.Id, current.SecurityStamp })
-					.Where(current => current.SecurityStamp == securityStamp && current.Id == userId)
-					.AnyAsync()
-					;
-
-			return result;
-		}
-
-
-		private SecurityTokenDescriptor GetTokenDescriptor
+		private SecurityTokenDescriptor GenerateTokenDescriptor
 			(ClaimsIdentity claimsIdentity, DateTime dateTime, SigningCredentials signingCredentional)
 		{
 			var tokenDescriptor =
@@ -190,7 +60,7 @@ namespace Services
 					//Audience = "",
 
 					Expires = dateTime,
-					SigningCredentials = signingCredentional
+					SigningCredentials = signingCredentional,
 				};
 
 			return tokenDescriptor;

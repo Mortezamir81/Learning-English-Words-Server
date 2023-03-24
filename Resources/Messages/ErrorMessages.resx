@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AccessDeniedForChangeRole" xml:space="preserve">
+    <value>You can not change the role of this user</value>
+  </data>
+  <data name="AccessDeniedForChangeThisRole" xml:space="preserve">
+    <value>You can not add this role to other user!</value>
+  </data>
   <data name="AccessModifireNotFound" xml:space="preserve">
     <value>The AccessModifre not found</value>
   </data>
@@ -159,11 +165,14 @@
   <data name="InvalidQuestionCountValue" xml:space="preserve">
     <value>The question count must between 1 and 100</value>
   </data>
+  <data name="InvalidRefreshToken" xml:space="preserve">
+    <value>The refresh token is invalid</value>
+  </data>
   <data name="InvalidRoleId" xml:space="preserve">
     <value>RoleId value is invalid</value>
   </data>
   <data name="InvalidUserAndOrPass" xml:space="preserve">
-    <value>Invalid Username and/or Password</value>
+    <value>Invalid UserName and/or Password</value>
   </data>
   <data name="InvalidVerbTenseValue" xml:space="preserve">
     <value>The verb tense id must between 1 and 17</value>
@@ -207,10 +216,13 @@
   <data name="UnkonwnError" xml:space="preserve">
     <value>An unknown error occurred</value>
   </data>
+  <data name="UserBanned" xml:space="preserve">
+    <value>This account has been blocked please contact support</value>
+  </data>
   <data name="UserListEmpty" xml:space="preserve">
     <value>The users list is empty</value>
   </data>
-  <data name="UsernameExist" xml:space="preserve">
+  <data name="UserNameExist" xml:space="preserve">
     <value>This username has already been registered</value>
   </data>
   <data name="UserNotFound" xml:space="preserve">

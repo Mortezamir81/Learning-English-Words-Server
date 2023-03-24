@@ -2,7 +2,7 @@
 {
 	public interface INotificationServices
 	{
-		Task<Result> RemoveNotificationAsync(Guid notificationId);
+		Task<Result> RemoveNotificationAsync(Guid notificationId, Guid userId);
 
 
 		Task<Result<ApplicationVersion>> GetLastVersionOfWPFAsync();
@@ -12,10 +12,10 @@
 			(SendNotificationForAllUserRequestViewModel sendNotificationForAllUserRequestViewModel);
 
 
-		Task<Result> AddTicketAsync(AddTicketRequestViewModel addTicketRequestViewModel);
+		Task<Result> AddTicketAsync(AddTicketRequestViewModel addTicketRequestViewModel, Guid userId);
 
 
-		Task<Result<List<GetAllNotificationResponseViewModel>>> GetAllNotificationsAsync();
+		Task<Result<List<GetAllNotificationResponseViewModel>>> GetAllNotificationsAsync(Guid userId);
 
 
 		Task<Result> SendNotificationForSpeceficUserAsync

@@ -150,11 +150,11 @@
 				}
 			}
 
-			if (string.IsNullOrWhiteSpace(sendNotificationForSpeceficUserRequestViewModel.Username))
+			if (string.IsNullOrWhiteSpace(sendNotificationForSpeceficUserRequestViewModel.UserName))
 			{
 				string errorMessage = string.Format
 					(Resources.Messages.ErrorMessages.MostNotBeNullWithIn,
-					nameof(sendNotificationForSpeceficUserRequestViewModel.Username), nameof(sendNotificationForSpeceficUserRequestViewModel));
+					nameof(sendNotificationForSpeceficUserRequestViewModel.UserName), nameof(sendNotificationForSpeceficUserRequestViewModel));
 
 				result.AddErrorMessage(errorMessage);
 			}

@@ -1,20 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Text.Json.Serialization;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 
 namespace Domain.Entities
 {
-	public class Role
+	public class Role : IdentityRole<Guid>
 	{
-		public Role() : base()
+		public Role(string name)
 		{
+			Name = name;
 		}
-
-
-		public int Id {  get; set; }
-
-		public string RoleName {  get; set; }
-
-		[JsonIgnore]
-		public IList<User> Users {  get; set; }
 	}
 }

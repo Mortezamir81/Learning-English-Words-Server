@@ -1,18 +1,22 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Domain.Entities;
+﻿using Domain.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
 
 namespace Persistence
 {
-	public class DatabaseContext : DbContext
+	public class DatabaseContext : IdentityDbContext<User, Role, Guid>
 	{
 		public DatabaseContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
 		{
+#if DEBUG
+			Database.EnsureCreated();
+#endif
 		}
 
 
-		public DbSet<Role> Roles { get; set; }
 		public DbSet<Exam> Exams { get; set; }
-		public DbSet<User> Users { get; set; }
 		public DbSet<Ticket> Tickets { get; set; }
 		public DbSet<WordType> WordTypes { get; set; }
 		public DbSet<UserLogin> UserLogins { get; set; }
@@ -25,6 +29,18 @@ namespace Persistence
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
+			var entitiesWithForeignKeys =
+				modelBuilder.Model
+				.GetEntityTypes()
+				.SelectMany(currrent => currrent.GetForeignKeys());
+
+			foreach (var entity in entitiesWithForeignKeys)
+			{
+				entity.DeleteBehavior = DeleteBehavior.Cascade;
+			}
+
+			base.OnModelCreating(modelBuilder);
+
 			modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
 		}
 	}

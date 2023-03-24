@@ -1,26 +1,17 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Persistence.Configurations
 {
 	internal class ApplicationVersionConfiguration : IEntityTypeConfiguration<ApplicationVersion>
 	{
-        public ApplicationVersionConfiguration():base()
-        {
-        }
+		public ApplicationVersionConfiguration() : base()
+		{
+		}
 
 		public void Configure(EntityTypeBuilder<ApplicationVersion> builder)
 		{
-			builder.ToTable
-				("ApplicationVersions", "LE")
-					.HasKey(current => current.Id);
-
 			builder.Property
 				(current => current.Version)
 					.IsRequired();

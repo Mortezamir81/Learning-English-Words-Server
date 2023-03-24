@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Domain.Entities;
 
 namespace Persistence.Repositories
 {
@@ -43,13 +43,13 @@ namespace Persistence.Repositories
 		}
 
 
-		public async Task<bool> CheckUsernameExist(string username)
+		public async Task<bool> CheckUserNameExist(string userName)
 		{
 			var result =
 				await DbSet
 					.AsNoTracking()
-					.Select(current => current.Username)
-					.Where(current => current == username)
+					.Select(current => current.UserName)
+					.Where(current => current == userName)
 					.AnyAsync()
 					;
 
@@ -57,9 +57,9 @@ namespace Persistence.Repositories
 		}
 
 
-		public async Task<User> LoginAsync(string username, string password)
+		public async Task<User> LoginAsync(string userName, string password)
 		{
-			if (string.IsNullOrWhiteSpace(username))
+			if (string.IsNullOrWhiteSpace(userName))
 			{
 				return null;
 			}
@@ -72,7 +72,7 @@ namespace Persistence.Repositories
 			var result =
 				await DbSet
 					.AsNoTracking()
-					.Where(current => current.Username.ToLower() == username.ToLower())
+					.Where(current => current.UserName.ToLower() == userName.ToLower())
 					.Where(current => current.Password == password)
 					.Include(current => current.UserLogins)
 					.SingleOrDefaultAsync()
@@ -82,7 +82,7 @@ namespace Persistence.Repositories
 		}
 
 
-		public async Task<bool> CheckUserSecurityStampAsync(Guid securityStamp)
+		public async Task<bool> CheckUserSecurityStampAsync(string securityStamp)
 		{
 			var result =
 				await DbSet

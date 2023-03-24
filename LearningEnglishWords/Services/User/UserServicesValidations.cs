@@ -43,7 +43,7 @@
 		public Result<LoginResponseViewModel>
 			RefreshTokenValidation(string token, string ipAddress)
 		{
-			var result = 
+			var result =
 				new Result<LoginResponseViewModel>();
 
 			if (string.IsNullOrWhiteSpace(token))
@@ -81,11 +81,11 @@
 				return result;
 			}
 
-			if (string.IsNullOrWhiteSpace(updateUserRequestViewModel.Username))
+			if (string.IsNullOrWhiteSpace(updateUserRequestViewModel.UserName))
 			{
 				string errorMessage = string.Format
 					(Resources.Messages.ErrorMessages.MostNotBeNullWithIn,
-					nameof(updateUserRequestViewModel.Username), nameof(updateUserRequestViewModel));
+					nameof(updateUserRequestViewModel.UserName), nameof(updateUserRequestViewModel));
 
 				result.AddErrorMessage(errorMessage);
 			}
@@ -110,11 +110,11 @@
 				return result;
 			}
 
-			if (string.IsNullOrWhiteSpace(loginRequestViewModel.Username))
+			if (string.IsNullOrWhiteSpace(loginRequestViewModel.UserName))
 			{
 				string errorMessage = string.Format
 					(Resources.Messages.ErrorMessages.MostNotBeNullWithIn,
-					nameof(loginRequestViewModel.Username), nameof(loginRequestViewModel));
+					nameof(loginRequestViewModel.UserName), nameof(loginRequestViewModel));
 
 				result.AddErrorMessage(errorMessage);
 			}
@@ -157,11 +157,11 @@
 				result.AddErrorMessage(errorMessage);
 			}
 
-			if (string.IsNullOrWhiteSpace(updateUserRequestViewModel.Username))
+			if (string.IsNullOrWhiteSpace(updateUserRequestViewModel.UserName))
 			{
 				string errorMessage = string.Format
 					(Resources.Messages.ErrorMessages.MostNotBeNullWithIn,
-					nameof(updateUserRequestViewModel.Username), nameof(updateUserRequestViewModel));
+					nameof(updateUserRequestViewModel.UserName), nameof(updateUserRequestViewModel));
 
 				result.AddErrorMessage(errorMessage);
 			}
@@ -194,11 +194,11 @@
 				return result;
 			}
 
-			if (string.IsNullOrWhiteSpace(registerRequestViewModel.Username))
+			if (string.IsNullOrWhiteSpace(registerRequestViewModel.UserName))
 			{
 				string errorMessage = string.Format
 					(Resources.Messages.ErrorMessages.MostNotBeNullWithIn,
-					nameof(registerRequestViewModel.Username), nameof(registerRequestViewModel));
+					nameof(registerRequestViewModel.UserName), nameof(registerRequestViewModel));
 
 				result.AddErrorMessage(errorMessage);
 			}
@@ -231,7 +231,7 @@
 				}
 			}
 
-			if (result.IsFailed == true)
+			if (!result.IsSuccess == true)
 				return result;
 
 			var isEmailExist =
@@ -245,13 +245,13 @@
 				result.AddErrorMessage(errorMessage);
 			}
 
-			var isUsernameExist =
-				await UnitOfWork.UserRepository.CheckUsernameExist(registerRequestViewModel.Username);
+			var isUserNameExist =
+				await UnitOfWork.UserRepository.CheckUserNameExist(registerRequestViewModel.UserName);
 
-			if (isUsernameExist == true)
+			if (isUserNameExist == true)
 			{
 				string errorMessage = string.Format
-					(Resources.Messages.ErrorMessages.UsernameExist);
+					(Resources.Messages.ErrorMessages.UserNameExist);
 
 				result.AddErrorMessage(errorMessage);
 			}
@@ -276,30 +276,13 @@
 				return result;
 			}
 
-			if (string.IsNullOrWhiteSpace(changeUserRoleRequestViewModel.Username))
-			{
-				string errorMessage = string.Format
-					(Resources.Messages.ErrorMessages.MostNotBeNullWithIn,
-					nameof(changeUserRoleRequestViewModel.Username), nameof(changeUserRoleRequestViewModel));
-
-				result.AddErrorMessage(errorMessage);
-			}
-
-			if (changeUserRoleRequestViewModel.RoleId <= 0)
-			{
-				string errorMessage = string.Format
-					(Resources.Messages.ErrorMessages.InvalidRoleId);
-
-				result.AddErrorMessage(errorMessage);
-			}
-
 			return result;
 		}
 
 
 		public Result<UpdateUserProfileResponseViewModel> CheckFileValidation(IFormFile file)
 		{
-			var result = 
+			var result =
 				new Result<UpdateUserProfileResponseViewModel>();
 
 			if (file == null)

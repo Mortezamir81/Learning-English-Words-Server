@@ -1,6 +1,6 @@
 ﻿namespace Services
 {
-	public partial class NotificationServices : INotificationServices
+	public partial class NotificationServices : INotificationServices, IRegisterAsScoped
 	{
 		#region Constractor
 		public NotificationServices
@@ -31,26 +31,13 @@
 
 		#region Methods
 		public async Task<Result<List
-			<GetAllNotificationResponseViewModel>>> GetAllNotificationsAsync()
+			<GetAllNotificationResponseViewModel>>> GetAllNotificationsAsync(Guid userId)
 		{
 			var result =
 				new Result<List<GetAllNotificationResponseViewModel>>();
 
-			var user =
-				HttpContextAccessor?.HttpContext?.Items["User"] as UserInformationInToken;
-
-			if (user == null)
-			{
-				string errorMessage = string.Format
-					(Resources.Messages.ErrorMessages.UserNotFound);
-
-				result.AddErrorMessage(errorMessage);
-
-				return result;
-			}
-
 			var notifications =
-				await UnitOfWork.NotificationsRepository.GetAllNotification(userId: user.Id);
+				await UnitOfWork.NotificationsRepository.GetAllNotification(userId: userId);
 
 			if (notifications == null || notifications.Count == 0)
 			{
@@ -78,25 +65,12 @@
 		}
 
 
-		public async Task<Result> RemoveNotificationAsync(Guid notificationId)
+		public async Task<Result> RemoveNotificationAsync(Guid notificationId, Guid userId)
 		{
 			var result = new Result();
 
-			var user =
-				HttpContextAccessor?.HttpContext?.Items["User"] as UserInformationInToken;
-
-			if (user == null)
-			{
-				string errorMessage = string.Format
-					(Resources.Messages.ErrorMessages.UserNotFound);
-
-				result.AddErrorMessage(errorMessage);
-
-				return result;
-			}
-
 			var response =
-				await UnitOfWork.NotificationsRepository.GetNotification(notificationId: notificationId, userId: user.Id);
+				await UnitOfWork.NotificationsRepository.GetNotification(notificationId: notificationId, userId: userId);
 
 			if (response == null)
 			{
@@ -150,7 +124,7 @@
 			var result =
 				 SendNotificationForAllUserValidation(sendNotificationForAllUserRequestViewModel);
 
-			if (result.IsFailed)
+			if (!result.IsSuccess)
 				return result;
 
 			var allUsersId =
@@ -178,7 +152,7 @@
 					Title = sendNotificationForAllUserRequestViewModel.Title,
 					Message = sendNotificationForAllUserRequestViewModel.Message,
 					Direction = sendNotificationForAllUserRequestViewModel.Direction,
-					UserId = userId.Value
+					UserId = userId
 				});
 			}
 
@@ -201,12 +175,12 @@
 			var result =
 				 SendNotificationForSpeceficUserValidation(sendNotificationForSpeceficUserRequestViewModel);
 
-			if (result.IsFailed)
+			if (!result.IsSuccess)
 				return result;
 
 			var user =
 				await DatabaseContext.Users
-					.Where(current => current.Username.ToLower() == sendNotificationForSpeceficUserRequestViewModel.Username.ToLower())
+					.Where(current => current.UserName.ToLower() == sendNotificationForSpeceficUserRequestViewModel.UserName.ToLower())
 					.FirstOrDefaultAsync()
 					;
 
@@ -226,12 +200,12 @@
 				Title = sendNotificationForSpeceficUserRequestViewModel.Title,
 				Message = sendNotificationForSpeceficUserRequestViewModel.Message,
 				Direction = sendNotificationForSpeceficUserRequestViewModel.Direction,
-				UserId = user.Id.Value,
+				UserId = user.Id,
 			});
 
 			await DatabaseContext.SaveChangesAsync();
 
-			await HubContext.Clients.Group(user.Username.ToLower()).SendAsync("RefreshNotificationPanel");
+			await HubContext.Clients.Group(user.UserName.ToLower()).SendAsync("RefreshNotificationPanel");
 
 			string successMessage = string.Format
 				(Resources.Messages.SuccessMessages.NotificationSentSuccessful);
@@ -242,33 +216,20 @@
 		}
 
 
-		public async Task<Result> AddTicketAsync(AddTicketRequestViewModel addTicketRequestViewModel)
+		public async Task<Result> AddTicketAsync(AddTicketRequestViewModel addTicketRequestViewModel, Guid userId)
 		{
 			var result =
 				AddTicketValidation(addTicketRequestViewModel);
 
-			if (result.IsFailed)
+			if (!result.IsSuccess)
 				return result;
-
-			var user =
-				HttpContextAccessor?.HttpContext?.Items["User"] as UserInformationInToken;
-
-			if (user == null)
-			{
-				string errorMessage = string.Format
-					(Resources.Messages.ErrorMessages.UserNotFound);
-
-				result.AddErrorMessage(errorMessage);
-
-				return result;
-			}
 
 			var response =
 				await DatabaseContext.Tickets.AddAsync(new Ticket()
 				{
 					Message = addTicketRequestViewModel.Message,
 					Method = addTicketRequestViewModel.Method,
-					UserId = user.Id
+					UserId = userId
 				});
 
 			await DatabaseContext.SaveChangesAsync();

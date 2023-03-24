@@ -1,6 +1,5 @@
-﻿using System;
+﻿using Domain.Entities;
 using System.Threading.Tasks;
-using Domain.Entities;
 
 namespace Persistence.Repositories
 {
@@ -10,10 +9,10 @@ namespace Persistence.Repositories
 
 		Task<bool> CheckEmailExist(string email);
 
-		Task<bool> CheckUsernameExist(string username);
+		Task<bool> CheckUserNameExist(string userName);
 
-		Task<User> LoginAsync(string username, string password);
+		Task<User> LoginAsync(string userName, string password);
 
-		Task<bool> CheckUserSecurityStampAsync(Guid securityStamp);
+		Task<bool> CheckUserSecurityStampAsync(string securityStamp);
 	}
 }

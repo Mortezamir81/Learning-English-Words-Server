@@ -1717,7 +1717,7 @@
         </xs:attribute>
         <xs:attribute name="userName" type="xs:string">
           <xs:annotation>
-            <xs:documentation>Username to change context to.</xs:documentation>
+            <xs:documentation>UserName to change context to.</xs:documentation>
           </xs:annotation>
         </xs:attribute>
         <xs:attribute name="optimizeBufferReuse" type="xs:boolean">
@@ -1996,7 +1996,7 @@
         </xs:attribute>
         <xs:attribute name="smtpUserName" type="SimpleLayoutAttribute">
           <xs:annotation>
-            <xs:documentation>Username used to connect to SMTP server (used when SmtpAuthentication is set to "basic").</xs:documentation>
+            <xs:documentation>UserName used to connect to SMTP server (used when SmtpAuthentication is set to "basic").</xs:documentation>
           </xs:annotation>
         </xs:attribute>
         <xs:attribute name="smtpPassword" type="SimpleLayoutAttribute">

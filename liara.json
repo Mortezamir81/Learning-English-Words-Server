@@ -1,0 +1,7 @@
+{
+  "platform": "netcore",
+  "app": "mytestapp",
+  "netcore": {
+    "version": "6.0"
+  }
+}

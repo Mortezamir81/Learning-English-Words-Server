@@ -1,6 +1,6 @@
 ﻿namespace Services
 {
-	public partial class WordServices : IWordServices
+	public partial class WordServices : IWordServices, IRegisterAsScoped
 	{
 		#region Constractor
 		public WordServices
@@ -28,25 +28,12 @@
 		#endregion /Properties
 
 		#region Methods
-		public async Task<Result> RemoveWord(string word)
+		public async Task<Result> RemoveWord(string word, Guid userId)
 		{
 			var result = new Result();
 
-			var user =
-					HttpContextAccessor?.HttpContext?.Items["User"] as UserInformationInToken;
-
-			if (user == null)
-			{
-				string errorMessage = string.Format
-					(Resources.Messages.ErrorMessages.UserNotFound);
-
-				result.AddErrorMessage(errorMessage);
-
-				return result;
-			}
-
 			var foundedWord =
-				await UnitOfWork.WordsRepository.GetWordInformationAsync(word: word, userId: user.Id);
+				await UnitOfWork.WordsRepository.GetWordInformationAsync(word: word, userId: userId);
 
 			if (foundedWord == null)
 			{
@@ -71,28 +58,16 @@
 
 
 		public async Task<Result<List<GetExamResponseViewModel>>>
-			GetExam(GetExamRequestViewModel getExamRequestViewModel)
+			GetExam(GetExamRequestViewModel getExamRequestViewModel, Guid userId)
 		{
 			var result = GetExamValidation(getExamRequestViewModel: getExamRequestViewModel);
 
-			if (result.IsFailed)
+			if (!result.IsSuccess)
 				return result;
-
-			var user =
-				HttpContextAccessor?.HttpContext?.Items["User"] as UserInformationInToken;
-
-			if (user == null)
-			{
-				string errorMessage = string.Format
-					(Resources.Messages.ErrorMessages.UserNotFound);
-
-				result.AddErrorMessage(errorMessage);
-
-				return result;
-			}
 
 			var respone =
-				await UnitOfWork.WordsRepository.CreateExamAsync(getExamRequestViewModel: getExamRequestViewModel, userId: user.Id);
+				await UnitOfWork.WordsRepository.CreateExamAsync
+					(getExamRequestViewModel: getExamRequestViewModel, userId: userId);
 
 			if (respone == null || respone.Count == 0)
 			{
@@ -115,7 +90,7 @@
 		}
 
 
-		public async Task<Result> UpdateWord(AddWordRequestViewModel word)
+		public async Task<Result> UpdateWord(AddWordRequestViewModel word, Guid userId)
 		{
 			var result =
 				UpdateWordValidation(word: word);
@@ -123,7 +98,7 @@
 			Word responseWord =
 				Mapper.Map<Word>(source: word);
 
-			if (result.IsFailed == true)
+			if (!result.IsSuccess == true)
 				return result;
 
 			if (responseWord.WordTypeId == 5)
@@ -156,21 +131,8 @@
 				responseWord.IsVerb = false;
 			}
 
-			var user =
-				HttpContextAccessor?.HttpContext?.Items["User"] as UserInformationInToken;
-
-			if (user == null)
-			{
-				string errorMessage = string.Format
-					(Resources.Messages.ErrorMessages.UserNotFound);
-
-				result.AddErrorMessage(errorMessage);
-
-				return result;
-			}
-
 			var wordId =
-				await UnitOfWork.WordsRepository.GetWordIdAsync(word: responseWord.Content, userId: user.Id);
+				await UnitOfWork.WordsRepository.GetWordIdAsync(word: responseWord.Content, userId: userId);
 
 			if (wordId == null)
 			{
@@ -182,7 +144,7 @@
 				return result;
 			}
 
-			responseWord.Id = wordId;
+			responseWord.Id = wordId.Value;
 			responseWord.EditDate = DateTime.UtcNow;
 
 			await UnitOfWork.WordsRepository.UpdateWordAsync(responseWord);
@@ -197,28 +159,15 @@
 		}
 
 
-		public async Task<Result<GetWordResponseViewModel>> GetWord(string word)
+		public async Task<Result<GetWordResponseViewModel>> GetWord(string word, Guid userId)
 		{
 			var result = GetWordValidation(word: word);
 
-			if (result.IsFailed == true)
+			if (!result.IsSuccess == true)
 				return result;
-
-			var user =
-				HttpContextAccessor?.HttpContext?.Items["User"] as UserInformationInToken;
-
-			if (user == null)
-			{
-				string errorMessage = string.Format
-					(Resources.Messages.ErrorMessages.UserNotFound);
-
-				result.AddErrorMessage(errorMessage);
-
-				return result;
-			}
 
 			var foundedWord =
-				await UnitOfWork.WordsRepository.GetWordInformationAsync(word: word, userId: user.Id);
+				await UnitOfWork.WordsRepository.GetWordInformationAsync(word: word, userId: userId);
 
 			if (foundedWord == null)
 			{
@@ -245,25 +194,12 @@
 
 
 		public async Task<Result<List<GetWordResponseViewModel>>>
-			GetAllWords(GetAllWordsRequestViewModel getAllWordsRequestViewModel)
+			GetAllWords(GetAllWordsRequestViewModel getAllWordsRequestViewModel, Guid userId)
 		{
 			var result = new Result<List<GetWordResponseViewModel>>();
 
-			var user =
-				HttpContextAccessor?.HttpContext?.Items["User"] as UserInformationInToken;
-
-			if (user == null)
-			{
-				string errorMessage = string.Format
-					(Resources.Messages.ErrorMessages.UserNotFound);
-
-				result.AddErrorMessage(errorMessage);
-
-				return result;
-			}
-
 			var foundedWords =
-				await UnitOfWork.WordsRepository.GetAllWordAsync(getAllWordsRequestViewModel, user.Id);
+				await UnitOfWork.WordsRepository.GetAllWordAsync(getAllWordsRequestViewModel, userId);
 
 			if (foundedWords == null || foundedWords.Count <= 0)
 			{
@@ -296,26 +232,13 @@
 		}
 
 
-		public async Task<Result<RecentLearnedResponseViewModel>> GetRecentLearningWords()
+		public async Task<Result<RecentLearnedResponseViewModel>> GetRecentLearningWords(Guid userId)
 		{
 			var result =
 				new Result<RecentLearnedResponseViewModel>();
 
-			var user =
-				HttpContextAccessor?.HttpContext?.Items["User"] as UserInformationInToken;
-
-			if (user == null)
-			{
-				string errorMessage = string.Format
-					(Resources.Messages.ErrorMessages.UserNotFound);
-
-				result.AddErrorMessage(errorMessage);
-
-				return result;
-			}
-
 			var recentLearnedWords =
-				await UnitOfWork.WordsRepository.GetRecentLearnedWordsAsync(userId: user.Id);
+				await UnitOfWork.WordsRepository.GetRecentLearnedWordsAsync(userId: userId);
 
 			if (recentLearnedWords == null || recentLearnedWords.RecentLearned == null || recentLearnedWords.RecentLearned.Count == 0)
 			{
@@ -342,12 +265,12 @@
 		}
 
 
-		public async Task<Result> AddNewWord(AddWordRequestViewModel addWordRequestViewModel)
+		public async Task<Result> AddNewWord(AddWordRequestViewModel addWordRequestViewModel, Guid userId)
 		{
 			var result =
 				AddNewWordValidation(addWordRequestViewModel: addWordRequestViewModel);
 
-			if (result.IsFailed == true)
+			if (!result.IsSuccess == true)
 				return result;
 
 			Word wordModel =
@@ -378,23 +301,10 @@
 				return result;
 			}
 
-			var user =
-				HttpContextAccessor?.HttpContext?.Items["User"] as UserInformationInToken;
-
-			if (user == null)
-			{
-				string errorMessage = string.Format
-					(Resources.Messages.ErrorMessages.UserNotFound);
-
-				result.AddErrorMessage(errorMessage);
-
-				return result;
-			}
-
-			wordModel.UserId = user.Id;
+			wordModel.UserId = userId;
 
 			var isWordExist =
-				await UnitOfWork.WordsRepository.CheckWordExistAsync(word: wordModel.Content, userId: user.Id);
+				await UnitOfWork.WordsRepository.CheckWordExistAsync(word: wordModel.Content, userId: userId);
 
 			if (isWordExist == true)
 			{
@@ -419,7 +329,7 @@
 
 
 		public async Task<Result<ExamProcessingResponseViewModel>>
-			ExamProcessing(List<ExamProcessingRequestViewModel> examProcessingRequestViewModels)
+			ExamProcessing(List<ExamProcessingRequestViewModel> examProcessingRequestViewModels, Guid userId)
 		{
 			var responseValue =
 				new ExamProcessingResponseViewModel();
@@ -431,21 +341,8 @@
 			var result =
 				ExamProcessingValidation(examProcessingRequestViewModels);
 
-			if (result.IsFailed)
+			if (!result.IsSuccess)
 				return result;
-
-			var user =
-				HttpContextAccessor?.HttpContext?.Items["User"] as UserInformationInToken;
-
-			if (user == null)
-			{
-				string errorMessage = string.Format
-					(Resources.Messages.ErrorMessages.UserNotFound);
-
-				result.AddErrorMessage(errorMessage);
-
-				return result;
-			}
 
 			var respone =
 				await UnitOfWork.WordsRepository.ExamProcessingAsync(examProcessingRequestViewModels);
@@ -494,7 +391,7 @@
 			{
 				PrimitiveResults = responseValue.PrimitiveResults,
 				CompleteResult = responseValue.CompleteResult,
-				UserId = user.Id
+				UserId = userId
 			};
 
 			await DatabaseContext.Exams.AddAsync(exams);

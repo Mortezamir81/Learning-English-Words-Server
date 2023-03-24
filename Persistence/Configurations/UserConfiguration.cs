@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Domain.Entities;
 
 namespace Persistence.Configuration
 {
@@ -10,30 +10,8 @@ namespace Persistence.Configuration
 		{
 		}
 
-
 		public void Configure(EntityTypeBuilder<User> builder)
 		{
-			builder.ToTable
-				("Users", "LE")
-				.HasKey(current => current.Id);
-
-			builder.HasIndex
-				(current => current.Email)
-				.IsUnique();
-
-			builder.Property
-				(current => current.Email)
-				 .IsRequired();
-
-			builder.HasOne(e => e.Role)
-				.WithMany(c => c.Users)
-				.IsRequired();
-
-			builder.Property
-				(current => current.RoleId)
-				.HasDefaultValue(3)
-				.IsRequired();
-
 			builder.Property
 				(current => current.IsActive)
 				.HasDefaultValue(false)
@@ -43,10 +21,6 @@ namespace Persistence.Configuration
 				(current => current.IsDeleted)
 				.HasDefaultValue(false)
 				.IsRequired();
-
-			builder.Property
-				(current => current.SecurityStamp)
-				.IsRequired(false);
 
 			builder.Property
 				(current => current.PhoneNumber)

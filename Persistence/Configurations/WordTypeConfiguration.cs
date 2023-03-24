@@ -1,11 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Domain.Entities;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Persistence.Configurations
 {
@@ -18,10 +14,6 @@ namespace Persistence.Configurations
 
 		public void Configure(EntityTypeBuilder<WordType> builder)
 		{
-			builder.ToTable
-				("WordTypes", "LE")
-					.HasKey(current => current.Id);
-
 			builder.Property
 				(current => current.Type)
 				.IsRequired();

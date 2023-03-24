@@ -61,6 +61,24 @@ namespace Resources.Messages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You can not change the role of this user.
+        /// </summary>
+        public static string AccessDeniedForChangeRole {
+            get {
+                return ResourceManager.GetString("AccessDeniedForChangeRole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You can not add this role to other user!.
+        /// </summary>
+        public static string AccessDeniedForChangeThisRole {
+            get {
+                return ResourceManager.GetString("AccessDeniedForChangeThisRole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The AccessModifre not found.
         /// </summary>
         public static string AccessModifireNotFound {
@@ -187,6 +205,15 @@ namespace Resources.Messages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The refresh token is invalid.
+        /// </summary>
+        public static string InvalidRefreshToken {
+            get {
+                return ResourceManager.GetString("InvalidRefreshToken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to RoleId value is invalid.
         /// </summary>
         public static string InvalidRoleId {
@@ -196,7 +223,7 @@ namespace Resources.Messages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid Username and/or Password.
+        ///   Looks up a localized string similar to Invalid UserName and/or Password.
         /// </summary>
         public static string InvalidUserAndOrPass {
             get {
@@ -331,6 +358,15 @@ namespace Resources.Messages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This account has been blocked please contact support.
+        /// </summary>
+        public static string UserBanned {
+            get {
+                return ResourceManager.GetString("UserBanned", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The users list is empty.
         /// </summary>
         public static string UserListEmpty {
@@ -342,9 +378,9 @@ namespace Resources.Messages {
         /// <summary>
         ///   Looks up a localized string similar to This username has already been registered.
         /// </summary>
-        public static string UsernameExist {
+        public static string UserNameExist {
             get {
-                return ResourceManager.GetString("UsernameExist", resourceCulture);
+                return ResourceManager.GetString("UserNameExist", resourceCulture);
             }
         }
         

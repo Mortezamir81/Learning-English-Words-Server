@@ -1,6 +1,6 @@
 ﻿//using AutoMapper;
 //using Persistence;
-//using Infrustructrue.Settings;
+//using Infrastructure.Settings;
 //using Services;
 //using ViewModels.Requests;
 //using ViewModels.Responses;
@@ -34,7 +34,7 @@
 //			ILogger<UserServices> loggerForUserServices = new NLogAdapter<UserServices>(null);
 
 //			var config = new MapperConfiguration(cfg => {
-//				cfg.AddProfile<Infrustructrue.AutoMapperProfiles.UserProfile>();
+//				cfg.AddProfile<Infrastructure.AutoMapperProfiles.UserProfile>();
 //			});
 
 //			Mapper mapper = new Mapper(config);
@@ -70,17 +70,17 @@
 
 //		#region Login
 //		[Fact]
-//		public async Task TestLoginWithNullUsername()
+//		public async Task TestLoginWithNullUserName()
 //		{
 //			//Arrange
 //			LoginRequestViewModel loginRequestViewModel = new LoginRequestViewModel()
 //			{
-//				Username = null
+//				UserName = null
 //			};
 
 //			string errorMessage = string.Format
 //				(Resources.Messages.ErrorMessages.MostNotBeNullWithIn,
-//				nameof(loginRequestViewModel.Username), nameof(loginRequestViewModel));
+//				nameof(loginRequestViewModel.UserName), nameof(loginRequestViewModel));
 
 //			//Act
 //			var result =
@@ -91,17 +91,17 @@
 //		}
 
 //		[Fact]
-//		public async Task TestLoginWithNullStringUsername()
+//		public async Task TestLoginWithNullStringUserName()
 //		{
 //			//Arrange
 //			LoginRequestViewModel loginRequestViewModel = new LoginRequestViewModel()
 //			{
-//				Username = ""
+//				UserName = ""
 //			};
 
 //			string errorMessage = string.Format
 //				(Resources.Messages.ErrorMessages.MostNotBeNullWithIn,
-//				nameof(loginRequestViewModel.Username), nameof(loginRequestViewModel));
+//				nameof(loginRequestViewModel.UserName), nameof(loginRequestViewModel));
 
 //			//Act
 //			var result =
@@ -117,7 +117,7 @@
 //			//Arrange
 //			LoginRequestViewModel loginRequestViewModel = new LoginRequestViewModel()
 //			{
-//				Username = "Test",
+//				UserName = "Test",
 //				Password = null
 //			};
 
@@ -139,7 +139,7 @@
 //			//Arrange
 //			LoginRequestViewModel loginRequestViewModel = new LoginRequestViewModel()
 //			{
-//				Username = "Test",
+//				UserName = "Test",
 //				Password = ""
 //			};
 
@@ -161,13 +161,13 @@
 //			//Arrange
 //			LoginRequestViewModel loginRequestViewModel = new LoginRequestViewModel()
 //			{
-//				Username = null,
+//				UserName = null,
 //				Password = null
 //			};
 
-//			string usernameErrorMessage = string.Format
+//			string userNameErrorMessage = string.Format
 //				(Resources.Messages.ErrorMessages.MostNotBeNullWithIn,
-//				nameof(loginRequestViewModel.Username), nameof(loginRequestViewModel));
+//				nameof(loginRequestViewModel.UserName), nameof(loginRequestViewModel));
 
 
 //			string passwordErrorMessage = string.Format
@@ -178,24 +178,24 @@
 //			var result =
 //				await UserServices.LoginAsync(loginRequestViewModel: loginRequestViewModel, null);
 
-//			var usernameErrorResult =
-//				result.Errors.Where(current => current == usernameErrorMessage).SingleOrDefault();
+//			var userNameErrorResult =
+//				result.Errors.Where(current => current == userNameErrorMessage).SingleOrDefault();
 
 //			var passwordErrorResult =
 //				result.Errors.Where(current => current == passwordErrorMessage).SingleOrDefault();
 
 //			//Assert
-//			Assert.Equal(expected: usernameErrorMessage, actual: usernameErrorResult);
+//			Assert.Equal(expected: userNameErrorMessage, actual: userNameErrorResult);
 //			Assert.Equal(expected: passwordErrorResult, actual: passwordErrorResult);
 //		}
 
 //		[Fact]
-//		public async Task TestLoginWithInvalidUsername()
+//		public async Task TestLoginWithInvalidUserName()
 //		{
 //			//Arrange
 //			LoginRequestViewModel loginRequestViewModel = new LoginRequestViewModel()
 //			{
-//				Username = Guid.NewGuid().ToString(),
+//				UserName = Guid.NewGuid().ToString(),
 //				Password = "1234"
 //			};
 
@@ -215,15 +215,15 @@
 //		{
 //			//Arrange
 
-//			string username = Guid.NewGuid().ToString();
+//			string userName = Guid.NewGuid().ToString();
 
-//			string random = username.Replace("-", "");
+//			string random = userName.Replace("-", "");
 
 //			string random1 = random.Remove(0, 15);
 
 //			RegisterRequestViewModel registerRequestViewModel = new RegisterRequestViewModel()
 //			{
-//				Username = username,
+//				UserName = userName,
 //				Password = Guid.NewGuid().ToString(),
 //				Email = $"Test{random1}@gmail.com"
 //			};
@@ -233,7 +233,7 @@
 
 //			LoginRequestViewModel loginRequestViewModel = new LoginRequestViewModel()
 //			{
-//				Username = username,
+//				UserName = userName,
 //				Password = "1234"
 //			};
 
@@ -249,12 +249,12 @@
 //		}
 
 //		[Fact]
-//		public async Task TestLoginWithInvalidUsernameAndPassword()
+//		public async Task TestLoginWithInvalidUserNameAndPassword()
 //		{
 //			//Arrange
 //			LoginRequestViewModel loginRequestViewModel = new LoginRequestViewModel()
 //			{
-//				Username = Guid.NewGuid().ToString(),
+//				UserName = Guid.NewGuid().ToString(),
 //				Password = Guid.NewGuid().ToString()
 //			};
 
@@ -274,9 +274,9 @@
 //		{
 //			//Arrange
 
-//			string username = Guid.NewGuid().ToString();
+//			string userName = Guid.NewGuid().ToString();
 
-//			string random = username.Replace("-", "");
+//			string random = userName.Replace("-", "");
 
 //			string random1 = random.Remove(0, 15);
 
@@ -284,7 +284,7 @@
 
 //			RegisterRequestViewModel registerRequestViewModel = new RegisterRequestViewModel()
 //			{
-//				Username = username,
+//				UserName = userName,
 //				Password = password,
 //				Email = $"Test{random1}@gmail.com"
 //			};
@@ -294,7 +294,7 @@
 
 //			LoginRequestViewModel loginRequestViewModel = new LoginRequestViewModel()
 //			{
-//				Username = username,
+//				UserName = userName,
 //				Password = password
 //			};
 
@@ -305,8 +305,8 @@
 //			var result2 =
 //				await UserServices.LoginAsync(loginRequestViewModel: loginRequestViewModel, null);
 
-//			var loginUsername =
-//				result2.Value.Username == registerRequestViewModel.Username;
+//			var loginUserName =
+//				result2.Value.UserName == registerRequestViewModel.UserName;
 
 //			var loginEmail =
 //				result2.Value.Email == registerRequestViewModel.Email;
@@ -315,7 +315,7 @@
 
 //			//Assert
 //			Assert.Equal(expected: successMessage, actual: result2.Successes[0]);
-//			Assert.True(loginUsername);
+//			Assert.True(loginUserName);
 //			Assert.True(loginEmail);
 //			Assert.NotNull(loginToken);
 //			Assert.NotEmpty(loginToken);
@@ -324,19 +324,19 @@
 
 //		#region Register
 //		[Fact]
-//		public async Task TestRegisterWithNullUsername()
+//		public async Task TestRegisterWithNullUserName()
 //		{
 //			//Arrange
 //			RegisterRequestViewModel registerRequestViewModel = new RegisterRequestViewModel()
 //			{
-//				Username = null,
+//				UserName = null,
 //				Email = "Test@gmail.com",
 //				Password = "Test"
 //			};
 
 //			string errorMessage = string.Format
 //				(Resources.Messages.ErrorMessages.MostNotBeNullWithIn,
-//				nameof(registerRequestViewModel.Username), nameof(registerRequestViewModel));
+//				nameof(registerRequestViewModel.UserName), nameof(registerRequestViewModel));
 
 //			//Act
 //			var result =
@@ -347,19 +347,19 @@
 //		}
 
 //		[Fact]
-//		public async Task TestRegisterWithNullStringUsername()
+//		public async Task TestRegisterWithNullStringUserName()
 //		{
 //			//Arrange
 //			RegisterRequestViewModel registerRequestViewModel = new RegisterRequestViewModel()
 //			{
-//				Username = "",
+//				UserName = "",
 //				Email = "Test@gmail.com",
 //				Password = Guid.NewGuid().ToString()
 //			};
 
 //			string errorMessage = string.Format
 //				(Resources.Messages.ErrorMessages.MostNotBeNullWithIn,
-//				nameof(registerRequestViewModel.Username), nameof(registerRequestViewModel));
+//				nameof(registerRequestViewModel.UserName), nameof(registerRequestViewModel));
 
 //			//Act
 //			var result =
@@ -375,7 +375,7 @@
 //			//Arrange
 //			RegisterRequestViewModel registerRequestViewModel = new RegisterRequestViewModel()
 //			{
-//				Username = "Test",
+//				UserName = "Test",
 //				Email = "Test@gmail.com",
 //				Password = null
 //			};
@@ -398,7 +398,7 @@
 //			//Arrange
 //			RegisterRequestViewModel registerRequestViewModel = new RegisterRequestViewModel()
 //			{
-//				Username = "Test",
+//				UserName = "Test",
 //				Email = "Test@gmail.com",
 //				Password = ""
 //			};
@@ -421,7 +421,7 @@
 //			//Arrange
 //			RegisterRequestViewModel registerRequestViewModel = new RegisterRequestViewModel()
 //			{
-//				Username = "Test",
+//				UserName = "Test",
 //				Email = null,
 //				Password = Guid.NewGuid().ToString()
 //			};
@@ -444,7 +444,7 @@
 //			//Arrange
 //			RegisterRequestViewModel registerRequestViewModel = new RegisterRequestViewModel()
 //			{
-//				Username = "Test",
+//				UserName = "Test",
 //				Email = "",
 //				Password = "Test"
 //			};
@@ -467,14 +467,14 @@
 //			//Arrange
 //			RegisterRequestViewModel registerRequestViewModel = new RegisterRequestViewModel()
 //			{
-//				Username = null,
+//				UserName = null,
 //				Email = null,
 //				Password = null
 //			};
 
-//			string usernameErrorMessage = string.Format
+//			string userNameErrorMessage = string.Format
 //				(Resources.Messages.ErrorMessages.MostNotBeNullWithIn,
-//					nameof(registerRequestViewModel.Username), nameof(registerRequestViewModel));
+//					nameof(registerRequestViewModel.UserName), nameof(registerRequestViewModel));
 
 //			string emailErrorMessage = string.Format
 //				(Resources.Messages.ErrorMessages.MostNotBeNullWithIn,
@@ -488,8 +488,8 @@
 //			var result =
 //				await UserServices.RegisterAsync(registerRequestViewModel: registerRequestViewModel);
 
-//			var usernameErrorResult =
-//				result.Errors.Where(current => current == usernameErrorMessage).SingleOrDefault();
+//			var userNameErrorResult =
+//				result.Errors.Where(current => current == userNameErrorMessage).SingleOrDefault();
 
 //			var emailErrorResult =
 //				result.Errors.Where(current => current == emailErrorMessage).SingleOrDefault();
@@ -498,7 +498,7 @@
 //				result.Errors.Where(current => current == passwordErrorMessage).SingleOrDefault();
 
 //			//Assert
-//			Assert.Equal(expected: usernameErrorMessage, actual: usernameErrorResult);
+//			Assert.Equal(expected: userNameErrorMessage, actual: userNameErrorResult);
 //			Assert.Equal(expected: emailErrorMessage, actual: emailErrorResult);
 //			Assert.Equal(expected: passwordErrorResult, actual: passwordErrorResult);
 //		}
@@ -509,7 +509,7 @@
 //			//Arrange
 //			RegisterRequestViewModel registerRequestViewModel = new RegisterRequestViewModel()
 //			{
-//				Username = "Test",
+//				UserName = "Test",
 //				Email = "Test",
 //				Password = Guid.NewGuid().ToString()
 //			};
@@ -532,9 +532,9 @@
 //		public async Task TestRegisterWithDuplicateEmail()
 //		{
 //			//Arrange
-//			string username = Guid.NewGuid().ToString();
+//			string userName = Guid.NewGuid().ToString();
 
-//			string random = username.Replace("-", "");
+//			string random = userName.Replace("-", "");
 
 //			string random1 = random.Remove(0, 15);
 
@@ -542,7 +542,7 @@
 
 //			RegisterRequestViewModel registerRequestViewModel = new RegisterRequestViewModel()
 //			{
-//				Username = username,
+//				UserName = userName,
 //				Password = password,
 //				Email = $"Test{random1}@gmail.com"
 //			};
@@ -552,13 +552,13 @@
 
 //			RegisterRequestViewModel registerRequestViewModel2 = new RegisterRequestViewModel()
 //			{
-//				Username = username,
+//				UserName = userName,
 //				Email = registerRequestViewModel.Email,
 //				Password = Guid.NewGuid().ToString()
 //			};
 
 //			string errorMessage = string.Format
-//				(Resources.Messages.ErrorMessages.UsernameExist);
+//				(Resources.Messages.ErrorMessages.UserNameExist);
 
 //			//Act
 //			var result2 =
@@ -572,12 +572,12 @@
 //		}
 
 //		[Fact]
-//		public async Task TestRegisterWithDuplicateUsername()
+//		public async Task TestRegisterWithDuplicateUserName()
 //		{
 //			//Arrange
-//			string username = Guid.NewGuid().ToString();
+//			string userName = Guid.NewGuid().ToString();
 
-//			string random = username.Replace("-", "");
+//			string random = userName.Replace("-", "");
 
 //			string random1 = random.Remove(0, 15);
 
@@ -585,7 +585,7 @@
 
 //			RegisterRequestViewModel registerRequestViewModel = new RegisterRequestViewModel()
 //			{
-//				Username = username,
+//				UserName = userName,
 //				Password = password,
 //				Email = $"Test{random1}@gmail.com"
 //			};
@@ -595,7 +595,7 @@
 
 //			RegisterRequestViewModel registerRequestViewModel2 = new RegisterRequestViewModel()
 //			{
-//				Username = Guid.NewGuid().ToString(),
+//				UserName = Guid.NewGuid().ToString(),
 //				Email = registerRequestViewModel.Email,
 //				Password = Guid.NewGuid().ToString()
 //			};
@@ -618,9 +618,9 @@
 //		public async Task TestRegisterWithCorrectValues()
 //		{
 //			//Arrange
-//			string username = Guid.NewGuid().ToString();
+//			string userName = Guid.NewGuid().ToString();
 
-//			string random = username.Replace("-", "");
+//			string random = userName.Replace("-", "");
 
 //			string random1 = random.Remove(0, 15);
 
@@ -628,7 +628,7 @@
 
 //			RegisterRequestViewModel registerRequestViewModel = new RegisterRequestViewModel()
 //			{
-//				Username = username,
+//				UserName = userName,
 //				Password = password,
 //				Email = $"Test{random1}@gmail.com"
 //			};
@@ -644,7 +644,7 @@
 //				result.Successes.Where(current => current == successMessage).SingleOrDefault();
 
 //			var createdUser =
-//				await UserServices.GetByUsernameAsync(username: username);
+//				await UserServices.GetByUserNameAsync(userName: userName);
 
 //			//Assert
 //			Assert.Equal(expected: successMessage, actual: errorResult);
@@ -686,9 +686,9 @@
 //		public async Task TestGetAllUsersWhenUserExistInDatabase()
 //		{
 //			//Arrange
-//			string username = Guid.NewGuid().ToString();
+//			string userName = Guid.NewGuid().ToString();
 
-//			string random = username.Replace("-", "");
+//			string random = userName.Replace("-", "");
 
 //			string random1 = random.Remove(0, 15);
 
@@ -696,7 +696,7 @@
 
 //			RegisterRequestViewModel registerRequestViewModel = new RegisterRequestViewModel()
 //			{
-//				Username = username,
+//				UserName = userName,
 //				Password = password,
 //				Email = $"Test{random1}@gmail.com"
 //			};
@@ -744,17 +744,17 @@
 //		}
 
 //		[Fact]
-//		public async Task TestUpdateUserWithNullUsername()
+//		public async Task TestUpdateUserWithNullUserName()
 //		{
 //			//Arrange
 //			var updateUserRequestViewModel = new UpdateUserByAdminRequestViewModel()
 //			{
-//				Username = null
+//				UserName = null
 //			};
 
 //			string errorMessage = string.Format
 //				(Resources.Messages.ErrorMessages.MostNotBeNullWithIn,
-//				nameof(updateUserRequestViewModel.Username), nameof(updateUserRequestViewModel));
+//				nameof(updateUserRequestViewModel.UserName), nameof(updateUserRequestViewModel));
 
 //			//Act
 //			var result =
@@ -798,7 +798,7 @@
 //			var updateUserRequestViewModel = new UpdateUserByAdminRequestViewModel()
 //			{
 //				Email = null,
-//				Username = null,
+//				UserName = null,
 //				Id = null
 //			};
 
@@ -806,9 +806,9 @@
 //				(Resources.Messages.ErrorMessages.MostNotBeNullWithIn,
 //					nameof(updateUserRequestViewModel.Email), nameof(updateUserRequestViewModel));
 
-//			string usernameErrorMessage = string.Format
+//			string userNameErrorMessage = string.Format
 //				(Resources.Messages.ErrorMessages.MostNotBeNullWithIn,
-//					nameof(updateUserRequestViewModel.Username), nameof(updateUserRequestViewModel));
+//					nameof(updateUserRequestViewModel.UserName), nameof(updateUserRequestViewModel));
 
 //			string idErrorMessage = string.Format
 //				(Resources.Messages.ErrorMessages.MostNotBeNullWithIn,
@@ -818,8 +818,8 @@
 //			var result =
 //				await UserServices.UpdateUserByAdminAsync(updateUserRequestViewModel: updateUserRequestViewModel);
 
-//			var usernameErrorResult =
-//				result.Errors.Where(current => current == usernameErrorMessage).SingleOrDefault();
+//			var userNameErrorResult =
+//				result.Errors.Where(current => current == userNameErrorMessage).SingleOrDefault();
 
 //			var emailErrorResult =
 //				result.Errors.Where(current => current == emailErrorMessage).SingleOrDefault();
@@ -828,7 +828,7 @@
 //				result.Errors.Where(current => current == idErrorMessage).SingleOrDefault();
 
 //			//Assert
-//			Assert.Equal(expected: usernameErrorMessage, actual: usernameErrorResult);
+//			Assert.Equal(expected: userNameErrorMessage, actual: userNameErrorResult);
 //			Assert.Equal(expected: emailErrorMessage, actual: emailErrorResult);
 //			Assert.Equal(expected: idErrorMessage, actual: idErrorResult);
 //		}
@@ -837,9 +837,9 @@
 //		public async Task TestUpdateUserWithInvalidEmailStructure()
 //		{
 //			//Arrange
-//			string username = Guid.NewGuid().ToString();
+//			string userName = Guid.NewGuid().ToString();
 
-//			string random = username.Replace("-", "");
+//			string random = userName.Replace("-", "");
 
 //			string random1 = random.Remove(0, 15);
 
@@ -847,7 +847,7 @@
 
 //			RegisterRequestViewModel registerRequestViewModel = new RegisterRequestViewModel()
 //			{
-//				Username = username,
+//				UserName = userName,
 //				Password = password,
 //				Email = $"Test{random1}@gmail.com"
 //			};
@@ -856,12 +856,12 @@
 //				await UserServices.RegisterAsync(registerRequestViewModel: registerRequestViewModel);
 
 //			var createdUser =
-//				await UserServices.GetByUsernameAsync(username: username);
+//				await UserServices.GetByUserNameAsync(userName: userName);
 
 //			var updateUserRequestViewModel = new UpdateUserByAdminRequestViewModel()
 //			{
 //				Id = createdUser.Id,
-//				Username = createdUser.Username,
+//				UserName = createdUser.UserName,
 //				Email = "Test"
 //			};
 
@@ -883,9 +883,9 @@
 //		public async Task TestUpdateUserWithInvalidRoleId()
 //		{
 //			//Arrange
-//			string username = Guid.NewGuid().ToString();
+//			string userName = Guid.NewGuid().ToString();
 
-//			string random = username.Replace("-", "");
+//			string random = userName.Replace("-", "");
 
 //			string random1 = random.Remove(0, 15);
 
@@ -893,7 +893,7 @@
 
 //			RegisterRequestViewModel registerRequestViewModel = new RegisterRequestViewModel()
 //			{
-//				Username = username,
+//				UserName = userName,
 //				Password = password,
 //				Email = $"Test{random1}@gmail.com"
 //			};
@@ -902,12 +902,12 @@
 //				await UserServices.RegisterAsync(registerRequestViewModel: registerRequestViewModel);
 
 //			var createdUser =
-//				await UserServices.GetByUsernameAsync(username: username);
+//				await UserServices.GetByUserNameAsync(userName: userName);
 
 //			var updateUserRequestViewModel = new UpdateUserByAdminRequestViewModel()
 //			{
 //				Id = createdUser.Id,
-//				Username = createdUser.Username,
+//				UserName = createdUser.UserName,
 //				Email = "Test",
 //				RoleId = 5
 //			};
@@ -930,9 +930,9 @@
 //		public async Task TestUpdateUserWithExistingEmail()
 //		{
 //			//Arrange
-//			string username = Guid.NewGuid().ToString();
+//			string userName = Guid.NewGuid().ToString();
 
-//			string random = username.Replace("-", "");
+//			string random = userName.Replace("-", "");
 
 //			string random1 = random.Remove(0, 15);
 
@@ -940,7 +940,7 @@
 
 //			RegisterRequestViewModel registerRequestViewModel = new RegisterRequestViewModel()
 //			{
-//				Username = username,
+//				UserName = userName,
 //				Password = password,
 //				Email = $"Test{random1}@gmail.com"
 //			};
@@ -949,11 +949,11 @@
 //				await UserServices.RegisterAsync(registerRequestViewModel: registerRequestViewModel);
 
 //			var createdUser1 =
-//				await UserServices.GetByUsernameAsync(username: username);
+//				await UserServices.GetByUserNameAsync(userName: userName);
 
 //			RegisterRequestViewModel registerRequestViewModel2 = new RegisterRequestViewModel()
 //			{
-//				Username = username + "Test",
+//				UserName = userName + "Test",
 //				Password = password,
 //				Email = $"Test1{random1}@gmail.com"
 //			};
@@ -962,13 +962,13 @@
 //				await UserServices.RegisterAsync(registerRequestViewModel: registerRequestViewModel2);
 
 //			var createdUser2 =
-//				await UserServices.GetByUsernameAsync(username: registerRequestViewModel2.Username);
+//				await UserServices.GetByUserNameAsync(userName: registerRequestViewModel2.UserName);
 
 //			//Arrange
 //			var updateUserRequestViewModel = new UpdateUserByAdminRequestViewModel()
 //			{
 //				Id = createdUser1.Id,
-//				Username = createdUser1.Username,
+//				UserName = createdUser1.UserName,
 //				Email = createdUser2.Email
 //			};
 
@@ -987,12 +987,12 @@
 //		}
 
 //		[Fact]
-//		public async Task TestUpdateUserWithExistingUsername()
+//		public async Task TestUpdateUserWithExistingUserName()
 //		{
 //			//Arrange
-//			string username = Guid.NewGuid().ToString();
+//			string userName = Guid.NewGuid().ToString();
 
-//			string random = username.Replace("-", "");
+//			string random = userName.Replace("-", "");
 
 //			string random1 = random.Remove(0, 15);
 
@@ -1000,7 +1000,7 @@
 
 //			RegisterRequestViewModel registerRequestViewModel = new RegisterRequestViewModel()
 //			{
-//				Username = username,
+//				UserName = userName,
 //				Password = password,
 //				Email = $"Test{random1}@gmail.com"
 //			};
@@ -1009,11 +1009,11 @@
 //				await UserServices.RegisterAsync(registerRequestViewModel: registerRequestViewModel);
 
 //			var createdUser1 =
-//				await UserServices.GetByUsernameAsync(username: username);
+//				await UserServices.GetByUserNameAsync(userName: userName);
 
 //			RegisterRequestViewModel registerRequestViewModel2 = new RegisterRequestViewModel()
 //			{
-//				Username = username + "Test",
+//				UserName = userName + "Test",
 //				Password = password,
 //				Email = $"Test1{random1}@gmail.com"
 //			};
@@ -1022,18 +1022,18 @@
 //				await UserServices.RegisterAsync(registerRequestViewModel: registerRequestViewModel2);
 
 //			var createdUser2 =
-//				await UserServices.GetByUsernameAsync(username: registerRequestViewModel2.Username);
+//				await UserServices.GetByUserNameAsync(userName: registerRequestViewModel2.UserName);
 
 //			//Arrange
 //			var updateUserRequestViewModel = new UpdateUserByAdminRequestViewModel()
 //			{
 //				Id = createdUser1.Id,
-//				Username = createdUser2.Username,
+//				UserName = createdUser2.UserName,
 //				Email = createdUser1.Email
 //			};
 
 //			string errorMessage = string.Format
-//				(Resources.Messages.ErrorMessages.UsernameExist);
+//				(Resources.Messages.ErrorMessages.UserNameExist);
 
 //			//Act
 //			var result3 =
@@ -1050,9 +1050,9 @@
 //		public async Task TestUpdateUserWithInvalidValues()
 //		{
 //			//Arrange
-//			string username = Guid.NewGuid().ToString();
+//			string userName = Guid.NewGuid().ToString();
 
-//			string random = username.Replace("-", "");
+//			string random = userName.Replace("-", "");
 
 //			string random1 = random.Remove(0, 15);
 
@@ -1060,7 +1060,7 @@
 
 //			var registerRequestViewModel = new RegisterRequestViewModel()
 //			{
-//				Username = username,
+//				UserName = userName,
 //				Password = password,
 //				Email = $"Test{random1}@gmail.com"
 //			};
@@ -1070,7 +1070,7 @@
 
 //			var registerRequestViewModel2 = new RegisterRequestViewModel()
 //			{
-//				Username = username + "Test",
+//				UserName = userName + "Test",
 //				Password = password,
 //				Email = $"Test1{random1}@gmail.com"
 //			};
@@ -1079,17 +1079,17 @@
 //				await UserServices.RegisterAsync(registerRequestViewModel: registerRequestViewModel2);
 
 //			var createdUser =
-//				await UserServices.GetByUsernameAsync(username: username);
+//				await UserServices.GetByUserNameAsync(userName: userName);
 
 //			var createdUser2 =
-//				await UserServices.GetByUsernameAsync(username: registerRequestViewModel2.Username);
+//				await UserServices.GetByUserNameAsync(userName: registerRequestViewModel2.UserName);
 
 //			var updateUserRequestViewModel = new UpdateUserByAdminRequestViewModel()
 //			{
 //				Id = createdUser.Id,
 //				Email = "Test",
 //				RoleId = -1,
-//				Username = createdUser2.Username
+//				UserName = createdUser2.UserName
 //			};
 
 //			string emailErrorMessage = string.Format
@@ -1099,13 +1099,13 @@
 //				(Resources.Messages.ErrorMessages.RoleNotFound);
 
 //			string userErrorMessage = string.Format
-//				(Resources.Messages.ErrorMessages.UsernameExist);
+//				(Resources.Messages.ErrorMessages.UserNameExist);
 
 //			//Act
 //			var result3 =
 //				await UserServices.UpdateUserByAdminAsync(updateUserRequestViewModel: updateUserRequestViewModel);
 
-//			var usernameErrorResult =
+//			var userNameErrorResult =
 //				result3.Errors.Where(current => current == userErrorMessage).SingleOrDefault();
 
 //			var emailErrorResult =
@@ -1115,7 +1115,7 @@
 //				result3.Errors.Where(current => current == roleErrorMessage).SingleOrDefault();
 
 //			//Assert
-//			Assert.Equal(expected: userErrorMessage, actual: usernameErrorResult);
+//			Assert.Equal(expected: userErrorMessage, actual: userNameErrorResult);
 //			Assert.Equal(expected: emailErrorMessage, actual: emailErrorResult);
 //			Assert.Equal(expected: roleErrorMessage, actual: roleErrorResult);
 //		}
@@ -1124,9 +1124,9 @@
 //		public async Task TestUpdateUserWithCorrectValues()
 //		{
 //			//Arrange
-//			string username = Guid.NewGuid().ToString();
+//			string userName = Guid.NewGuid().ToString();
 
-//			string random = username.Replace("-", "");
+//			string random = userName.Replace("-", "");
 
 //			string random1 = random.Remove(0, 15);
 
@@ -1134,7 +1134,7 @@
 
 //			RegisterRequestViewModel registerRequestViewModel = new RegisterRequestViewModel()
 //			{
-//				Username = username,
+//				UserName = userName,
 //				Password = password,
 //				Email = $"Test{random1}@gmail.com"
 //			};
@@ -1143,12 +1143,12 @@
 //				await UserServices.RegisterAsync(registerRequestViewModel: registerRequestViewModel);
 
 //			var createdUser =
-//				await UserServices.GetByUsernameAsync(username: username);
+//				await UserServices.GetByUserNameAsync(userName: userName);
 
 //			var updateUserRequestViewModel = new UpdateUserByAdminRequestViewModel()
 //			{
 //				Id = createdUser.Id,
-//				Username = createdUser.Username,
+//				UserName = createdUser.UserName,
 //				Email = $"Test1{random1}@gmail.com",
 //				RoleId = createdUser.RoleId,
 //				IsDeleted = true
@@ -1166,7 +1166,7 @@
 
 //			var updatedUser =
 //				users.Where(current => current.Id == updateUserRequestViewModel.Id &&
-//				current.Username == updateUserRequestViewModel.Username &&
+//				current.UserName == updateUserRequestViewModel.UserName &&
 //				current.Email == updateUserRequestViewModel.Email &&
 //				current.IsDeleted == updateUserRequestViewModel.IsDeleted);
 
@@ -1231,9 +1231,9 @@
 //		public async Task TestDeleteUserWithCorrectId()
 //		{
 //			//Arrange
-//			string username = Guid.NewGuid().ToString();
+//			string userName = Guid.NewGuid().ToString();
 
-//			string random = username.Replace("-", "");
+//			string random = userName.Replace("-", "");
 
 //			string random1 = random.Remove(0, 15);
 
@@ -1241,7 +1241,7 @@
 
 //			RegisterRequestViewModel registerRequestViewModel = new RegisterRequestViewModel()
 //			{
-//				Username = username,
+//				UserName = userName,
 //				Password = password,
 //				Email = $"Test{random1}@gmail.com"
 //			};
@@ -1250,7 +1250,7 @@
 //				await UserServices.RegisterAsync(registerRequestViewModel: registerRequestViewModel);
 
 //			var createdUser =
-//				await UserServices.GetByUsernameAsync(username: username);
+//				await UserServices.GetByUserNameAsync(userName: userName);
 
 //			var deleteUserRequestViewModel = new DeleteUserRequestViewModel()
 //			{
@@ -1268,7 +1268,7 @@
 //				result2.Successes.Where(current => current == successMessage).FirstOrDefault();
 
 //			var deletedUser =
-//				await UserServices.GetByUsernameAsync(username: username);
+//				await UserServices.GetByUserNameAsync(userName: userName);
 
 //			var isUserDeleted = deletedUser.IsDeleted == true;
 

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Net.Mail;
-using System.Text.RegularExpressions;
+﻿using System.Net.Mail;
 
 namespace Dtat.Utilities
 {
@@ -13,7 +11,7 @@ namespace Dtat.Utilities
 
 			if (email.Trim().EndsWith("."))
 			{
-				return false; // suggested by @TK-421
+				return false;
 			}
 			try
 			{

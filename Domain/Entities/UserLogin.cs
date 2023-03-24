@@ -5,8 +5,9 @@ namespace Domain.Entities
 {
 	public class UserLogin : Base.Entity
 	{
-		public UserLogin() : base()
+		public UserLogin(Guid refreshToken) : base()
 		{
+			RefreshToken = refreshToken;
 		}
 
 
