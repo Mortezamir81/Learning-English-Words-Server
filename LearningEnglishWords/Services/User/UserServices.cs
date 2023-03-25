@@ -985,6 +985,7 @@ namespace Services
 		{
 			var expiredTime =
 				DateTime.UtcNow.AddMinutes(ApplicationSettings.JwtSettings?.TokenExpiresTime ?? 15);
+
 			var accessToken =
 			TokenUtility.GenerateJwtToken
 					(securityKey: ApplicationSettings.JwtSettings!.SecretKeyForToken,
