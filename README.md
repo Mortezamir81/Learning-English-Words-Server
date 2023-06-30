@@ -1,31 +1,19 @@
-# LearningEnglishWordsServer (ASP.NET Core Web Api)
+﻿# Learning-English-Words-Server (ASP.NET Core Web API)
 
 <h1 align="center">به نام خدا<h1/>
 
   ## نیازمندی ها
-  - .Net 6
+  - .Net 7
   - Visual Studio 2022
   - Sql Server Database
   
   ## نحوه استفاده
-- در ابتدا در فایل appsettings.json (یا appsettings.develop.json برای حالت دولوپ) در قسمت MySqlServerConnectionString کانکشن استرینگ مربوط به دیتابیس SqlServer خود را قرار دهید.
-<br/>
+  ### تعریف Connection String:
+  ### در حالت توسعه (Development):
+- در فایل appsettings.development.json در قسمت SqlConnectionString کانکشن استرینگ مربوط به دیتابیس SqlServer خود را قرار دهید.
 
-- سپس در Visual Studio وارد مسیر زیر شوید :
-<br/>
-Tools > NuGet Package Manager > Package Manager Console
-
-<br/>
-<br/>
-
-
-- در پنجره کنسول باز شده Defualt Project را روی Persistence قرار داده و دستور زیر را وارد نمایید تا دیتابیس شما ساخته شود :
-
-update-database
-  
-  - حال می توانید در محیط Visual Studio و در مد دیباگ (با کلیک راست روی پروژه Server و انتخاب گزینه Set as startup project) از پروژه استفاده نمایید.
-
-
+ ### در حالت محصول نهایی (Production):
+ - می توانید با تعریف Envrioment Variable با کلید SqlConnectionString در فایل web.config یا روش های دیگر کانکشن استرینگ خود را تعریف نمایید.
 ## امکانات
 - ورود و ثبت نام کاربران
 - مدیریت کلمات افزوه شده (مشاهده جزییات هر کلمه و امکان حذف و ویرایش)
