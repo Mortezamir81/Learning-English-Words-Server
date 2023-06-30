@@ -1,6 +1,15 @@
+using Microsoft.Extensions.Logging;
+
 //******************************
 var builder =
 	WebApplication.CreateBuilder(args);
+
+builder.Logging.ClearProviders();
+
+if (builder.Environment.IsDevelopment())
+	builder.Logging.AddConsole();
+
+builder.Configuration.AddEnvironmentVariables();
 //******************************
 
 
@@ -9,8 +18,14 @@ var builder =
 builder.Services.Configure<ApplicationSettings>
 	(builder.Configuration.GetSection(ApplicationSettings.KeyName));
 
+builder.Services.Configure<AntiDosConfig>
+	(options => builder.Configuration.GetSection("AntiDosConfig").Bind(options));
+
+builder.Services.AddMemoryCacheService();
+builder.Services.AddAntiDosFirewall();
+
 builder.Services.AddCustomDbContext
-	(connectionString: builder.Configuration.GetConnectionString("MySqlServerConnectionString"));
+	(connectionString: builder.Configuration.GetConnectionString("SqlConnectionString"));
 
 builder.Services.AddCustomIdentity
 	(builder.Configuration.GetSection($"{nameof(ApplicationSettings)}:{nameof(IdentitySettings)}").Get<IdentitySettings>());
@@ -49,19 +64,20 @@ var app =
 
 #region Middlewares
 //******************************
-await app.IntializeDatabase();
+await app.IntializeDatabaseAsync();
 
 if (app.Environment.IsProduction())
 {
 	app.UseGlobalExceptionMiddleware();
-	app.UseSwaggerBasicAuthorization();
 }
 else
 {
 	app.UseDeveloperExceptionPage();
+	app.UseSwaggerBasicAuthorization();
+	app.UseCustomSwaggerAndUI();
 }
 
-app.UseCustomSwaggerAndUI();
+app.UseAntiDos();
 
 app.UseCors("DevCorsPolicy");
 
