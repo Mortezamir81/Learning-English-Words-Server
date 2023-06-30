@@ -20,9 +20,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
-    <ProjectReference Include="..\Shared\Shared.csproj" />
-    <ProjectReference Include="..\Softmax Libraries\Softmax.Data.EntityFrameworkCore\Dtat.Data.EntityFrameworkCore.csproj" />
-    <ProjectReference Include="..\Softmax Libraries\Softmax.Data\Dtat.Data.csproj" />
+    <ProjectReference Include="..\Shared\Shared\Shared.csproj" />
+    <ProjectReference Include="..\Shared\Softmax Libraries\Softmax.Data.EntityFrameworkCore\Dtat.Data.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\Shared\Softmax Libraries\Softmax.Data\Dtat.Data.csproj" />
   </ItemGroup>
 
 </Project>
